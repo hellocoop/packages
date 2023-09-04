@@ -1,0 +1,33 @@
+{
+  "name": "@hellocoop/quickstart",
+  "version": "1.0.5",
+  "description": "Provides a CLI to start the Hello Quickstart web app and return a client_id",
+  "module": "quickstart.js",
+  "bin":{
+    "quickstart":"./index.mjs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hellocoop/hello.git"
+  },
+  "keywords": [
+    "hello",
+    "auth",
+    "sso",
+    "quickstart"
+  ],
+  "author": "dick.hardt@hello.coop",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hellocoop/hello/issues"
+  },
+  "homepage": "https://github.com/hellocoop/hello#readme",
+  "dependencies": {
+    "get-port": "^7.0.0",
+    "open": "^9.1.0"
+  },
+  "type": "module"
+}
