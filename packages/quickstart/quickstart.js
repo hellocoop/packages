@@ -18,6 +18,9 @@ const quickstart = async function (params) {
                 return res.end('ok')
             }
             res.writeHead(200);
+
+            // TBD - check for error response from quickstart.hello.coop
+            
             const clientString = `client_id=${u.query.client_id}`
             res.end(clientString, () => {
                 server.closeAllConnections()
