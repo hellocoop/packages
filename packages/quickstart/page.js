@@ -47,13 +47,15 @@ export default function (client_id) {
                 </button>
             </div>
             <div style="margin-top: 24px; display: flex; flex-direction: column; align-items: flex-start;">
-                Update:
+                You can update the:
                 <ul style="margin: 10px 0; list-style-position: inside;">
                     <li>Application Logo</li>
-                    <li>Terms of Service</li>
-                    <li>Privacy Policy</li>
+                    <li>Application Name</li>
+                    <li>Terms of Service URL</li>
+                    <li>Privacy Policy URL</li>
+                    <li>Redirect URIs</li>
                 </ul>
-                <a href="https://console.hello.coop/?client_id=${client_id}" style="font-weight: 500;">Hellō Developer Console</a>
+                <a href="https://console.hello.coop/?client_id=${client_id}" style="font-weight: 500;">at the Hellō Developer Console</a>
             </div>
             <p style="margin: 36px 0; font-size: 20px;">You may now close this window.</p>
             <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
