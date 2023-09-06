@@ -3,6 +3,7 @@ import open from 'open'
 import getPort from 'get-port'
 import * as http from 'http'
 import { URLSearchParams, parse } from 'url';
+import page from './page.js'
 
 
 const quickstart = async function (params) {
@@ -21,11 +22,11 @@ const quickstart = async function (params) {
 
             // TBD - check for error response from quickstart.hello.coop
             
-            const clientString = `client_id=${u.query.client_id}`
-            res.end(clientString, () => {
+            const clientHTML = page(u.query.client_id)
+            res.end(clientHTML, () => {
                 server.closeAllConnections()
                 server.close(() => {
-                    console.log(clientString)
+                    console.log(clientHTML)
                     resolve(u.query.client_id)
                 })    
             })
