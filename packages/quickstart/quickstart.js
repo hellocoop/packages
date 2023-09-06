@@ -26,7 +26,6 @@ const quickstart = async function (params) {
             res.end(clientHTML, () => {
                 server.closeAllConnections()
                 server.close(() => {
-                    console.log(clientHTML)
                     resolve(u.query.client_id)
                 })    
             })
