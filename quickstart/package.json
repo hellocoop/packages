@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hellocoop/hello.git"
+    "url": "git+https://github.com/hellocoop/packages.git"
   },
   "keywords": [
     "hello",
@@ -19,12 +19,16 @@
     "sso",
     "quickstart"
   ],
-  "author": "dick.hardt@hello.coop",
+  "author": {
+    "name": "Hello Identity Co-op",
+    "email": "contact@hello.coop",
+    "url": "https://hello.coop"
+  },  
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hellocoop/hello/issues"
+    "url": "https://github.com/hellocoop/packages/issues"
   },
-  "homepage": "https://github.com/hellocoop/hello#readme",
+  "homepage": "https://github.com/hellocoop/packages#readme",
   "dependencies": {
     "get-port": "^7.0.0",
     "open": "^9.1.0"
