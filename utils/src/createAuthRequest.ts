@@ -14,6 +14,7 @@ export const VALID_SCOPES = [
     'openid', 
     'name', 
     'nickname',
+    'preferred_username',
     'given_name',
     'family_name',
     'email', 
