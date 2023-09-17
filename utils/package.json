@@ -1,0 +1,42 @@
+{
+  "name": "@hellocoop/utils",
+  "version": "1.0.0",
+  "description": "Hellō utility functions",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "watch": "tsc --watch --declaration",
+    "build": "tsc --declaration",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hellocoop/packages.git"
+  },
+  "keywords": [
+    "hello",
+    "Hellō",
+    "PKCE",
+    "OIDC",
+    "OpenID Connect"
+  ],
+  "author": {
+    "name": "Hello Identity Co-op",
+    "email": "contact@hello.coop",
+    "url": "https://hello.coop"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hellocoop/packages/issues"
+  },
+  "homepage": "https://github.com/hellocoop/packages#readme",
+  "devDependencies": {
+    "@types/node": "^20.6.2",
+    "typescript": "^5.2.2"
+  }
+}

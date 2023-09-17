@@ -67,3 +67,6 @@ out
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Apple search
+.DS_Store
