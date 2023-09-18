@@ -1,10 +1,10 @@
 {
   "name": "@hellocoop/quickstart",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Provides a CLI to start the Hello Quickstart web app and return a client_id",
   "module": "quickstart.js",
-  "bin":{
-    "quickstart":"./index.mjs"
+  "bin": {
+    "quickstart": "./index.mjs"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,7 +23,7 @@
     "name": "Hello Identity Co-op",
     "email": "contact@hello.coop",
     "url": "https://hello.coop"
-  },  
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/hellocoop/packages/issues"
