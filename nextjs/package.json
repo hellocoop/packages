@@ -5,7 +5,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hellocoop/packages.git"
-  },  
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -54,6 +54,7 @@
     "node": ">=18"
   },
   "dependencies": {
+    "@hellocoop/utils": "^1.0.9",
     "cors": "^2.8.5",
     "iron-session": "^6.3.1",
     "swr": "^2.2.2"

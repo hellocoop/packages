@@ -7,6 +7,6 @@ declare module 'iron-session' {
     interface IronSessionData {
         user?: User,
         nonce?: string,
-        sourceRoute?: string
+        code_verifier?: string
     }
 }

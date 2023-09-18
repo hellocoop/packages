@@ -11,6 +11,7 @@ const requiredScopes = ['openid']
 const defaultScopes = [...requiredScopes, 'name', 'email']
 
 export interface Config {
+    redirect_uri?: any
     enableQuickstart: boolean,
     baseUrl?: string,
     loginRoute: string,

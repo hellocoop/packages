@@ -16,7 +16,7 @@ interface Handlers {
     handleLogin: NextApiHandler,
     handleLogout: NextApiHandler,
     handleCallback: NextApiHandler,
-    handleUser: NextApiHandler
+    // handleUser: NextApiHandler
 }
 
 const handleAuthFactory = (handlers: Handlers, config: Config) =>
@@ -30,18 +30,19 @@ const handleAuthFactory = (handlers: Handlers, config: Config) =>
             return
         }
 
-        switch (route) {
-            case 'login':
-                return handlers.handleLogin(req, res)
-            case 'logout':
-                return handlers.handleLogout(req, res)
-            case 'callback':
-                return handlers.handleCallback(req, res)
-            case 'me':
-                return handlers.handleUser(req, res)
-            default:
-                res.status(404).end()
+        if (req.method === 'POST') { // authorization response
+            return handlers.handleCallback(req, res)
         }
+
+        if (req.query.logout) {     // logout user
+            return handlers.handleLogout(req, res)
+        }
+
+        if (req.query.iss) {        // IdP (Hellō) initiated login
+            throw new Error('unimplmented')
+        }
+
+        return handlers.handleLogin(req, res)
     })
 
 export default handleAuthFactory

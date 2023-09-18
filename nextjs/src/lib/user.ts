@@ -7,13 +7,13 @@ export type HelloClaims = {
     jti: string,
     sub: string,
     scope: string[],
+    iat: number,
+    exp: number
     name?: string,
     nickname?: string,
     picture?: string,
     email?: string,
-    email_verified: boolean,
-    iat: number,
-    exp: number
+    email_verified?: boolean,
 }
 
 export type User = {

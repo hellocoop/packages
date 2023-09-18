@@ -8,9 +8,8 @@ import type { HelloClaims, User } from '../lib/user'
 
 const handleCallbackFactory = (config: Config): NextApiHandler =>
     withIronSessionApiRoute(async (req: NextApiRequest, res: NextApiResponse) => {
-        await consentCors(req, res)
+        // await consentCors(req, res)
 
-        let sourceRoute = ''
 
         if (!config.baseUrl) {
             res.status(500).end('Missing baseUrl configuration')
@@ -23,8 +22,7 @@ const handleCallbackFactory = (config: Config): NextApiHandler =>
 
         if (!req.session.user?.isLoggedIn) {
             const {
-                id_token: idToken,
-                state,
+                code,
                 error
             } = req.body
 
@@ -33,29 +31,37 @@ const handleCallbackFactory = (config: Config): NextApiHandler =>
                 return
             }
 
-            if (!idToken) {
-                res.status(400).end('Missing id_token parameter')
+            if (!code) {
+                res.status(400).end('Missing code parameter')
                 return
             }
 
-            if (!state) {
-                res.status(400).end('Missing state')
-                return
+            const { code_verifier } = req.session
+            const params: Record<string, any> = {
+                code,
+                code_verifier,
+                client_id: config.helloClientId,
+                redirect_uri: config.redirect_uri
             }
-
-            const unsealedState: Record<string, string> = await unsealData(state, config.sessionOptions)
-            const { nonce } = unsealedState
-            sourceRoute = unsealedState.sourceRoute
+            const body = new URLSearchParams(params).toString()
 
             try {
-                const claims: HelloClaims = await fetch(
-                    new URL('/oauth/introspect', consentBaseUrl).toString(), {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `id_token=${idToken}&nonce=${nonce}&client_id=${config.helloClientId}`
-                }).then((r) => r.json())
+                const r = await fetch ('https://wallet.hello.coop/oauth/token', { // todo - adjust to deal with mock
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                        body
+                    }).then((r) => r.json())
+
+                const claims: HelloClaims ={
+                    iss: '',
+                    aud: '',
+                    nonce: '',
+                    jti: '',
+                    sub: '',
+                    scope: [''],
+                    iat: 0,
+                    exp: 0                    
+                }
 
                 const user: User = {
                     isLoggedIn: true,
@@ -69,19 +75,20 @@ const handleCallbackFactory = (config: Config): NextApiHandler =>
             }
         }
 
-        const baseUrl = new URL(config.baseUrl)
-        const dangerousReturnTo = sourceRoute || config.defaultReturnToRoute
-        let safeReturnTo: URL
-        try {
-            safeReturnTo = new URL(dangerousReturnTo, baseUrl)
-            if (safeReturnTo.origin === baseUrl.origin) {
-                res.redirect(303, safeReturnTo.toString())
-                return
-            }
-        } catch (e) {
-        }
+        // const baseUrl = new URL(config.baseUrl)
+        // const dangerousReturnTo = sourceRoute || config.defaultReturnToRoute
+        // let safeReturnTo: URL
+        // try {
+        //     safeReturnTo = new URL(dangerousReturnTo, baseUrl)
+        //     if (safeReturnTo.origin === baseUrl.origin) {
+        //         res.redirect(303, safeReturnTo.toString())
+        //         return
+        //     }
+        // } catch (e) {
+        // }
+        res.redirect(303, '/')
 
-        res.redirect(303, new URL(config.defaultReturnToRoute, baseUrl).toString())
+        // res.redirect(303, new URL(config.defaultReturnToRoute, baseUrl).toString())
     }, config.sessionOptions)
 
 export default handleCallbackFactory

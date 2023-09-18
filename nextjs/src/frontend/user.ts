@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useRouter } from 'next/dist/client/router.js'
+import { useRouter } from 'next/dist/client/router'
 import useSWR from 'swr'
 
 import { buildLoginRoute } from '../lib/login'
