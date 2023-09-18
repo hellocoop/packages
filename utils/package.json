@@ -12,7 +12,10 @@
   "scripts": {
     "watch": "tsc --watch --declaration",
     "build": "tsc --declaration",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "prepublish": "npm version patch",
+    "publish": "nnpm publish --access public",
+    "postpublish": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
