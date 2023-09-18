@@ -7,8 +7,8 @@ const DEFAULT_RESPONSE_MODE: AuthResponseMode = 'form_post'
 const DEFAULT_HOST: string = 'https://wallet.hello.coop'
 const DEFAULT_PATH: string = '/authorization#' // note the # so we load as a fragment
 
-import PKCE from './pkce.js'
-import { uuid4 } from './pkce.js';
+import PKCE from './pkce'
+import { uuid4 } from './pkce';
 
 export const VALID_SCOPES = [
     'openid', 
