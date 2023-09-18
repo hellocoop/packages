@@ -28,8 +28,7 @@
 //      { url, nonce, code_verifier }
 // 
 
-// export { default as createAuthRequest } from './createAuthRequest'
-// export { default as validScopes } from './scopes'
-// export { isValidScope } from './scopes'
+export { default as createAuthRequest } from './createAuthRequest'
+export * from './createAuthRequest'
 export { default as pkce } from './pkce'
-export { verifyChallenge, generateChallenge } from './pkce'
+export * from './pkce'
