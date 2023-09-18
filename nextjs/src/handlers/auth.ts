@@ -39,6 +39,7 @@ const handleAuthFactory = (handlers: Handlers, config: Config) =>
         }
 
         if (req.query.iss) {        // IdP (Hellō) initiated login
+            // https://openid.net/specs/openid-connect-core-1_0.html#ThirdPartyInitiatedLogin
             throw new Error('unimplmented')
         }
 
