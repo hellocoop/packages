@@ -1,10 +1,10 @@
 
 import open from 'open'
 import getPort from 'get-port'
+import readline from 'readline'
 import * as http from 'http'
 import { URLSearchParams, parse } from 'url';
 import page from './page.js'
-
 
 const quickstart = async function (params) {
     return new Promise(async (resolve) => {
@@ -39,10 +39,18 @@ const quickstart = async function (params) {
         const queryString = new URLSearchParams(queryParams).toString();
         const quickstartURL = `https://quickstart.hello.coop/?${queryString}`
         server.listen(port, host, () => {
-            console.log('Obtaining a client_id from Hellō Quickstart using')
+            console.log('Obtaining a client_id from Hellō Quickstart using:')
             console.log(quickstartURL)
-            console.log('Opening browser...')
-            open(quickstartURL)
+            const rl = readline.createInterface({
+                input: process.stdin,
+                output: process.stdout
+              });
+              
+              rl.question('Press ENTER to open in the browser...', (answer) => {
+                open(quickstartURL)
+                rl.close();
+              });
+
         })
     })
 }
