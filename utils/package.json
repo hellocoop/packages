@@ -1,6 +1,6 @@
 {
   "name": "@hellocoop/utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Hellō utility functions",
   "source": "src/index.ts",
   "main": "dist/index.js",
@@ -14,7 +14,7 @@
     "build": "tsc --declaration",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "prepublish": "npm version patch",
-    "publish": "nnpm publish --access public",
+    "publish": "npm publish --access public",
     "postpublish": "git push && git push --tags"
   },
   "repository": {
