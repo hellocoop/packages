@@ -1,0 +1,24 @@
+{
+  "name": "packages",
+  "version": "0.0.0",
+  "description": "Monorepo package management",
+  "workspaces": [
+    "packages/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hellocoop/packages.git"
+  },
+  "scripts": {
+  },
+  "author": {
+    "name": "Hello Identity Co-op",
+    "email": "contact@hello.coop",
+    "url": "https://hello.coop"
+  },  
+  "bugs": {
+    "url": "https://github.com/hellocoop/packages/issues"
+  },
+  "homepage": "https://github.com/hellocoop/packages#readme",
+  "license": "MIT"
+}
