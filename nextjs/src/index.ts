@@ -33,7 +33,7 @@ export const initHello = (config?: Partial<Config>): HelloInstance => {
         handleLogin,
         handleLogout,
         handleCallback,
-        handleUser
+        // handleUser
     }, mergedConfig)
 
     const withHelloApi = withHelloApiFactory(mergedConfig)
