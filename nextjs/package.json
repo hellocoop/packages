@@ -44,7 +44,7 @@
     "@tsconfig/node18": "^18.2.2",
     "@types/cors": "^2.8.14",
     "@types/react": "^18.2.21",
-    "next": "^13.4.19",
+    "next": "^13.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rimraf": "^5.0.1",
@@ -56,6 +56,7 @@
   "dependencies": {
     "@hellocoop/utils": "^1.0.9",
     "cors": "^2.8.5",
+    "eslint-config-next": "^13.5.1",
     "iron-session": "^6.3.1",
     "swr": "^2.2.2"
   }

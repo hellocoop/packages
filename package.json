@@ -3,22 +3,30 @@
   "version": "0.0.0",
   "description": "Monorepo package management",
   "workspaces": [
-    "utils","quickstart","nextjs","test-app"
+    "utils",
+    "quickstart",
+    "nextjs",
+    "test-app"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hellocoop/packages.git"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "author": {
     "name": "Hello Identity Co-op",
     "email": "contact@hello.coop",
     "url": "https://hello.coop"
-  },  
+  },
   "bugs": {
     "url": "https://github.com/hellocoop/packages/issues"
   },
   "homepage": "https://github.com/hellocoop/packages#readme",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "eslint-config-next": "^13.5.1",
+    "next": "^13.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
 }
