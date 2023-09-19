@@ -7,8 +7,7 @@ const DEFAULT_RESPONSE_MODE: AuthResponseMode = 'form_post'
 const DEFAULT_HOST: string = 'https://wallet.hello.coop'
 const DEFAULT_PATH: string = '/authorization#' // note the # so we load as a fragment
 
-import PKCE from './pkce.js'
-import { uuid4 } from './pkce.js';
+import { pkce, uuid4 } from './pkce';
 
 export const VALID_SCOPES = [
     'openid', 
@@ -86,7 +85,7 @@ export interface AuthenticationResponse {
     code_verifier: string;
 }
 
-export default async function createAuthRequest( 
+export async function createAuthRequest( 
         config: ICreateAuthRequest
     ): Promise<AuthenticationResponse> {
   // Ensure client_id is provided (required)
@@ -127,7 +126,7 @@ export default async function createAuthRequest(
         nonce,
     }
     if (params.response_mode === 'code') {
-        ({ code_verifier, code_challenge } = await PKCE())
+        ({ code_verifier, code_challenge } = await pkce())
         params.code_challenge = code_challenge
         params.code_challenge_method = 'S256'
     }
