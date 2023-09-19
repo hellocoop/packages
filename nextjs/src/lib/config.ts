@@ -1,8 +1,9 @@
 import type { IronSessionOptions } from 'iron-session'
 
-export const defaultLoginRoute = '/api/auth/login'
-export const defaultCallbackRoute = '/api/auth/callback'
-export const defaultQuickstartRoute = '/api/quickstart'
+// TODO - change these to just the one route
+export const defaultLoginRoute = '/api/hellocoop'
+export const defaultCallbackRoute = '/api/hellocoop'
+export const defaultQuickstartRoute = '/api/hellocoop'
 export const defaultReturnToRoute = '/'
 
 export const defaultUserApiRoute = '/api/auth/me'
