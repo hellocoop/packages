@@ -5,9 +5,9 @@ const DEFAULT_SCOPE: Scope[] = ['openid','name','email','picture']
 const DEFAULT_RESPONSE_TYPE: AuthResponseType = 'code'
 const DEFAULT_RESPONSE_MODE: AuthResponseMode = 'form_post'
 const DEFAULT_HOST: string = 'https://wallet.hello.coop'
-const DEFAULT_PATH: string = '/authorization#' // note the # so we load as a fragment
+const DEFAULT_PATH: string = '/authorize?'
 
-import { pkce, uuid4 } from './pkce';
+import { pkce, uuidv4 } from './pkce';
 
 export const VALID_SCOPES = [
     'openid', 
@@ -113,7 +113,7 @@ export async function createAuthRequest(
         if (!VALID_RESPONSE_MODE.includes(config.response_mode))
             throw new Error('Invalid response_mode.');
     }
-    const nonce = config.nonce || uuid4()
+    const nonce = config.nonce || uuidv4()
     let code_verifier: string = '', code_challenge : string
     const scopeArray = config.scope || DEFAULT_SCOPE
     const scope = scopeArray.join(' ')
