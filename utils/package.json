@@ -4,7 +4,7 @@
   "description": "Hellō utility functions",
   "source": "src/index.ts",
   "main": "dist/index.js",
-  "type": "module",
+  "type": "commonjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/"
