@@ -4,9 +4,9 @@ export default function() {
             <head>
                 <script>
                     const baseURL = window.location.href.split("?")[0]
-                    const search = new URLSearchParams(window.location.search)
-                    search.set("redirect_uri", window.location.href)
-                    window.location.href = baseURL + '?' + search.toString()
+                    const searchParams = new URLSearchParams(window.location.search)
+                    searchParams.set("redirect_uri", window.location.href)
+                    window.location.href = baseURL + '?' + searchParams.toString()
                 </script>
             </head>
         </html>
