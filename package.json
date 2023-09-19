@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Monorepo package management",
   "workspaces": [
-    "packages/*"
+    "utils","quickstart","nextjs"
   ],
   "repository": {
     "type": "git",
