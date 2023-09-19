@@ -3,15 +3,10 @@ export default function() {
         <html>
             <head>
                 <script>
-                    let redirect = '/api/hellocoop'
-
-                    if (window.location.search) {
-                        redirect += window.location.search
-                    } else if (window.location.hash) {
-                        redirect += window.location.hash.substring(1) // Remove hash character
-                    }
-
-                    window.location.href = redirect
+                    const baseURL = window.location.href.split("?")[0]
+                    const search = new URLSearchParams(window.location.search)
+                    search.set("redirect_uri", window.location.href)
+                    window.location.href = window.location.href + search.toString()
                 </script>
             </head>
         </html>
