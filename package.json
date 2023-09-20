@@ -24,9 +24,5 @@
   "homepage": "https://github.com/hellocoop/packages#readme",
   "license": "MIT",
   "dependencies": {
-    "eslint-config-next": "^13.5.1",
-    "next": "^13.5.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
   }
 }
