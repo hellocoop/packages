@@ -6,7 +6,7 @@ import type { Config } from '../lib/config'
 
 const handleLoginFactory = (config: Config): NextApiHandler =>
     withIronSessionApiRoute(async (req: NextApiRequest, res: NextApiResponse) => {
-        const { sourceRoute, updateProfile } = req.query
+        const { target_uri, scope } = req.query
 
         if (!config.baseUrl) {
             res.status(500).end('Missing baseUrl configuration')
