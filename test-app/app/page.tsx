@@ -1,10 +1,9 @@
-// import { useUser, UpdateProfileButton, SignInButton } from "@hellocoop/nextjs"
+'use client'
+
+import { useUser, SignInButton, UpdateProfileButton } from "@hellocoop/nextjs"
 
 export default function Home() {
-    // const { user } = useUser()
-    const user = {
-        isLoggedIn: false
-    }
+    const { user } = useUser()
 
     return (
         <main className='max-w-4xl mx-auto p-4'>
@@ -19,23 +18,23 @@ export default function Home() {
                     <ul className='divide-y'>
                         <li className='p-4 flex flex-col justify-center items-center'>
                             {/* Use Image from next/image */}
-                            {/* <img src={user.picture} alt={user.name} className='rounded-full h-32 w-32 object-cover mb-3 bg-gray-300'/> */}
+                            <img src={user.picture} alt={user.name} className='rounded-full h-32 w-32 object-cover mb-3 bg-gray-300'/>
                             {/* TODO: Update UpdateProfileButton Component from hellocoop/nextjs library to accept label prop */}
-                            {/* <UpdateProfileButton/> */}
+                            <UpdateProfileButton/>
                         </li>
                         <li className='p-4'>
                             <div className='flex flex-col'>
                                 <span className='text-xs opacity-60 uppercase'>Name</span>
-                                {/* <span className='text-lg'>{user.name}</span> */}
+                                <span className='text-lg'>{user.name}</span>
                             </div>
                         </li>
                         <li className='p-4'>
                             <div className='flex flex-col mb-2'>
                                 <span className='text-xs uppercase opacity-60'>Email</span>
-                                {/* <span className='text-lg'>{user.email}</span> */}
+                                <span className='text-lg'>{user.email}</span>
                             </div>
                             {/* TODO: Update UpdateProfileButton Component from hellocoop/nextjs library to accept label prop */}
-                            {/* <UpdateProfileButton/> */}
+                            <UpdateProfileButton/>
                         </li>
                         <li className='flex flex-col p-4'>
                             <span className='text-xs uppercase opacity-60'>JSON Payload</span>
@@ -51,7 +50,7 @@ export default function Home() {
                         <li>• Email •</li>
                         <li>Picture</li>
                     </ul>
-                    {/* <SignInButton/> */}
+                    <SignInButton/>
                     <div className='space-x-8 mt-12'>
                         <a href="https://www.hello.coop" className='underline inline-flex items-center'>Learn more about Hellō <svg xmlns="http://www.w3.org/2000/svg" className="h-4 ml-1 mt-0.5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a>
                         <a href="https://www.hello.dev" className='underline inline-flex items-center'>Hellō Developer Docs<svg xmlns="http://www.w3.org/2000/svg" className="h-4 ml-1 mt-0.5 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a>

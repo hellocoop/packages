@@ -16,6 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link href="https://cdn.hello.coop/css/hello-btn.css" rel="stylesheet" />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   )
