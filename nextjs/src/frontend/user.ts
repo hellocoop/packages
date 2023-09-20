@@ -1,5 +1,7 @@
+'use client'
+
 import { useEffect } from 'react'
-import { useRouter } from 'next/dist/client/router'
+import { useRouter, usePathname } from 'next/navigation'
 import useSWR from 'swr'
 
 import { buildLoginRoute } from '../lib/login'
@@ -13,15 +15,16 @@ export default function useUser({
     userRoute = process.env.NEXT_PUBLIC_HELLO_USER_API_ROUTE as string || defaultUserApiRoute
 } = {}) {
     const { data: user, mutate: mutateUser } = useSWR<User>(userRoute, fetcher)
-    const { push, isReady, asPath } = useRouter()
+    const { push } = useRouter()
+    const pathname = usePathname()
 
     useEffect(() => {
-        if (!user || !isReady) return
+        if (!user) return
 
         if (!user.isLoggedIn && redirect) {
-            push(buildLoginRoute({ sourceRoute: asPath }))
+            push(buildLoginRoute({ sourceRoute: pathname }))
         }
-    }, [user, isReady, asPath])
+    }, [user, pathname])
 
     return { user, mutateUser }
 }

@@ -1,5 +1,7 @@
+'use client'
+
 import React, { useState } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter, usePathname } from 'next/navigation'
 
 import { defaultLoginRoute } from '../lib/config'
 
@@ -9,12 +11,13 @@ export interface UpdateProfileButtonProps {
 
 export default function UpdateProfileButton({ loginRoute = defaultLoginRoute }: UpdateProfileButtonProps) {
     const [clicked, setClicked] = useState(false)
-    const { push, asPath } = useRouter()
+    const { push } = useRouter()
+    const pathname = usePathname()
 
     const onSignIn = () => {
         setClicked(true)
         push(loginRoute + '?' + new URLSearchParams({
-            sourceRoute: asPath,
+            sourceRoute: pathname,
             updateProfile: true.toString()
         }))
     }

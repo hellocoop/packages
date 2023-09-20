@@ -1,5 +1,7 @@
+'use client'
+
 import React, { useState } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import { defaultLoginRoute } from '../lib/config'
 
@@ -18,7 +20,7 @@ export default function SignInButton({ loginRoute = defaultLoginRoute }: SignInB
     }
 
     return (
-        <button onClick={onSignIn} disabled={clicked} className={`hello-btn ${clicked ? 'hello-btn-loader' : ''}`}>
+        <button onClick={onSignIn} disabled={clicked} className={`hello-btn-black-and-static ${clicked ? 'hello-btn-loader' : ''}`}>
             ō&nbsp;&nbsp;&nbsp;Continue with Hellō
         </button>
     )
