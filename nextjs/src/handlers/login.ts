@@ -1,5 +1,4 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
-import { sealData } from 'iron-session'
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { createAuthRequest } from '@hellocoop/utils'
 import type { Config } from '../lib/config'
@@ -26,6 +25,7 @@ const handleLoginFactory = (config: Config): NextApiHandler =>
             code_verifier
         }
 
+        console.log('login.ts')
         console.log(JSON.stringify(req.session, null, 4));
 
 
