@@ -3,13 +3,13 @@
 import React, { useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 
-import { defaultLoginRoute } from '../lib/config'
+import { apiRoute } from '../lib/config'
 
 export interface UpdateProfileButtonProps {
     loginRoute?: string
 }
 
-export default function UpdateProfileButton({ loginRoute = defaultLoginRoute }: UpdateProfileButtonProps) {
+export default function UpdateProfileButton({ loginRoute = apiRoute }: UpdateProfileButtonProps) {
     const [clicked, setClicked] = useState(false)
     const { push } = useRouter()
     const pathname = usePathname()

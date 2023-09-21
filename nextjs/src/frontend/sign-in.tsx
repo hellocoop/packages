@@ -3,13 +3,13 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { defaultLoginRoute } from '../lib/config'
+import { apiRoute } from '../lib/config'
 
 export interface SignInButtonProps {
     loginRoute?: string
 }
 
-export default function SignInButton({ loginRoute = defaultLoginRoute }: SignInButtonProps) {
+export default function SignInButton({ loginRoute = apiRoute }: SignInButtonProps) {
     const [clicked, setClicked] = useState(false)
     const { push } = useRouter()
 
