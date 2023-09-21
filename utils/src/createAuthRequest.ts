@@ -10,8 +10,7 @@ const DEFAULT_PATH: string = '/authorize?'
 
 import { pkce, uuidv4 } from './pkce';
 
-export const VALID_SCOPES = [
-    'openid', 
+export const VALID_IDENTITY_CLAIMS = [
     'name', 
     'nickname',
     'preferred_username',
@@ -20,8 +19,15 @@ export const VALID_SCOPES = [
     'email', 
     'phone', 
     'picture',
-// Hellō extensions -- non-standard scopes
+// Hellō extensions -- non-standard claims
     'ethereum',
+] as const;
+
+
+export const VALID_SCOPES = [
+    ...VALID_IDENTITY_CLAIMS,
+    'openid', 
+// Hellō extensions -- non-standard scopes
     'profile_update',
 ] as const;
 export const VALID_RESPONSE_TYPE = ['id_token', 'code'] as const;    // Default: 'code'
@@ -115,7 +121,7 @@ export async function createAuthRequest(
             throw new Error('Invalid response_mode.');
     }
     const nonce = config.nonce || uuidv4()
-    let code_verifier: string = '', code_challenge : string
+    let code_verifier: string = '' 
     const scopeArray = config.scope || DEFAULT_SCOPE
     const scope = scopeArray.join(' ')
     const params: Record<string, any> = {
@@ -126,19 +132,24 @@ export async function createAuthRequest(
         response_mode: config.response_mode || DEFAULT_RESPONSE_MODE,
         nonce,
     }
-    if (params.response_mode === 'code') {
-        ({ code_verifier, code_challenge } = await pkce())
-        params.code_challenge = code_challenge
+    if (params.response_type === 'code') {
+        const pkceMaterial  = await pkce()
+        code_verifier = pkceMaterial.code_verifier
+        params.code_challenge = pkceMaterial.code_challenge
         params.code_challenge_method = 'S256'
     }
     if (config.provider_hint)
         params.provider_hint = config.provider_hint.join(' ')
+
+console.log(JSON.stringify(params, null, 4));
+
+
     const url = config.mock || DEFAULT_HOST 
         + DEFAULT_PATH
         + new URLSearchParams(params).toString()
     return {
         url,
         nonce,
-        code_verifier
+        code_verifier 
     }
 }
