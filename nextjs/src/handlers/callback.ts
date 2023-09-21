@@ -37,7 +37,7 @@ const handleCallbackFactory = (config: Config): NextApiHandler =>
                 code: code.toString(),
                 code_verifier,
                 redirect_uri,
-                client_id: config.clientId    
+                client_id: config.clientId as string 
             })
 
             const { payload } = await parseToken(token)
