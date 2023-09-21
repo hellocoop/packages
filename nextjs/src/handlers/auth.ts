@@ -16,7 +16,7 @@ interface Handlers {
     handleLogin: NextApiHandler,
     handleLogout: NextApiHandler,
     handleCallback: NextApiHandler,
-    // handleUser: NextApiHandler
+    handleUser: NextApiHandler
 }
 
 const handleAuthFactory = (handlers: Handlers, config: Config) =>
@@ -41,6 +41,10 @@ const handleAuthFactory = (handlers: Handlers, config: Config) =>
         if (req.query.iss) {        // IdP (Hellō) initiated login
             // https://openid.net/specs/openid-connect-core-1_0.html#ThirdPartyInitiatedLogin
             throw new Error('unimplmented')
+        }
+
+        if (req.query.profile) {
+            return handlers.handleUser(req, res)
         }
         // looks like a login request
         return handlers.handleLogin(req, res)
