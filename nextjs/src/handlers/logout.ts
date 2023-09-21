@@ -7,13 +7,11 @@ const handleLogoutFactory = (config: Config): NextApiHandler =>
     withIronSessionApiRoute((req: NextApiRequest, res: NextApiResponse) => {
         req.session.destroy()
 
-        if (!config.baseUrl) {
-            res.status(500).end('Missing baseUrl configuration')
-            return
-        }
+        // TODO - look for URL to goto after log out
 
-        const baseUrl = new URL(config.baseUrl)
-        res.redirect(baseUrl.toString())
+console.log('Logout called')
+
+        res.redirect('/')
     }, config.sessionOptions)
 
 export default handleLogoutFactory
