@@ -4,7 +4,7 @@ import { withIronSessionApiRoute } from 'iron-session/next'
 
 import { consentCors, consentBaseUrl } from '../lib/consent'
 import type { Config } from '../lib/config'
-import { fetchToken } from '@hellocoop/utils'
+import { fetchToken, parseToken } from '@hellocoop/utils'
 // import type { HelloClaims, User } from '../lib/user'
 
 const handleCallbackFactory = (config: Config): NextApiHandler =>
@@ -47,22 +47,35 @@ const handleCallbackFactory = (config: Config): NextApiHandler =>
         }
 
         try {
-            const payload = await fetchToken({
+            const token = await fetchToken({
                 code: code.toString(),
                 code_verifier,
                 redirect_uri: config.baseUrl,
                 client_id: config.helloClientId    
             })
-            // save user to session
-            // await req.session.save()
+
+            const { payload } = await parseToken(token)
+
+            if (payload.aud != config.helloClientId) {
+                return res.status(400).end('Wrong ID token audience.')
+            }
+            if (payload.nonce != req.session.oidc?.nonce) {
+                return res.status(400).end('Wrong nonce in ID token.')
+            }
+            
+            const currentTimeInt = Math.floor(Date.now()/1000)
+            if (payload.exp < currentTimeInt) {
+                return res.status(400).end('The ID token has expired.')
+            }
+            if (payload.iat > currentTimeInt+5) { // 5 seconds of clock skew
+                return res.status(400).end('The ID token is not yet valid.')
+            }
+
             req.session.user = {
                 ...payload,
                 isLoggedIn: true 
             }
             await req.session.save()
-
-
-    console.log(JSON.stringify(payload, null, 4));
 
         } catch (error: any) {
             return res.status(500).end(error.message)
