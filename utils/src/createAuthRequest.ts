@@ -138,11 +138,9 @@ export async function createAuthRequest(
         params.code_challenge = pkceMaterial.code_challenge
         params.code_challenge_method = 'S256'
     }
-    if (config.provider_hint)
+    if (config.provider_hint) {
         params.provider_hint = config.provider_hint.join(' ')
-
-console.log(JSON.stringify(params, null, 4));
-
+    }
 
     const url = config.mock || DEFAULT_HOST 
         + DEFAULT_PATH
