@@ -22,7 +22,6 @@ export type Payload = OptionalClaims & {
     exp: number,                   
 }
 
-
 export type FetchConfig = {
     code: string;
     code_verifier: string;
@@ -48,13 +47,13 @@ export async function fetchToken(
 
 // TODO -- fetch is not found -- where is the type declared? review what Thomas did
 
-        // const r = await fetch (tokenEndpoint, { // todo - adjust to deal with mock
+        // const r = await fetch(tokenEndpoint, { // todo - adjust to deal with mock
         //         method: 'POST',
         //         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         //         body
         //     })   // .then((r) => r.json())
 
-        const claims: Payload ={
+        const payload: Payload ={
             iss: '',
             aud: '',
             nonce: '',
@@ -64,7 +63,7 @@ export async function fetchToken(
             iat: 0,
             exp: 0                    
         }
-        return claims
+        return payload
     } catch (error: any) {
         throw new Error (error)
     }
