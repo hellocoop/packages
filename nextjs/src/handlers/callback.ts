@@ -10,36 +10,22 @@ import { fetchToken, parseToken } from '@hellocoop/utils'
 const handleCallbackFactory = (config: Config): NextApiHandler =>
     withIronSessionApiRoute(async (req: NextApiRequest, res: NextApiResponse) => {
         // await consentCors(req, res)
-
-        if (!config.baseUrl) {
-            res.status(500).end('Missing baseUrl configuration')
-            return
-        }
-        if (!config.helloClientId) {
-            res.status(500).end('Missing helloClientId configuration')
-            return
-        }
-
         const {
             code,
             error
         } = req.query
 
 
-        if (error) {
-            res.status(400).end(error)
-            return
-        }
+        if (!req.session.oidc)
+            return res.status(400).end('Session cookie lost')
+        if (error)
+            return res.status(400).end(error)
+        if (!code)
+            return res.status(400).end('Missing code parameter')
+        if (Array.isArray(code))
+            return res.status(400).end('Received more than one code.')
 
-        if (!code) {
-            res.status(400).end('Missing code parameter')
-            return
-        }
-        if (Array.isArray(code)) {
-            res.status(400).end('Received more than one code.')
-        }
-
-        const code_verifier = req.session.oidc?.code_verifier
+        const {code_verifier,nonce,redirect_uri} = req.session.oidc
 
         if (!code_verifier) {
             res.status(400).end('Missing code_verifier from session')
@@ -50,16 +36,16 @@ const handleCallbackFactory = (config: Config): NextApiHandler =>
             const token = await fetchToken({
                 code: code.toString(),
                 code_verifier,
-                redirect_uri: config.baseUrl,
-                client_id: config.helloClientId    
+                redirect_uri,
+                client_id: config.clientId    
             })
 
             const { payload } = await parseToken(token)
 
-            if (payload.aud != config.helloClientId) {
+            if (payload.aud != config.clientId) {
                 return res.status(400).end('Wrong ID token audience.')
             }
-            if (payload.nonce != req.session.oidc?.nonce) {
+            if (payload.nonce != nonce) {
                 return res.status(400).end('Wrong nonce in ID token.')
             }
             
