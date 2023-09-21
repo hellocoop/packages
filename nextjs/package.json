@@ -31,9 +31,10 @@
   },
   "homepage": "https://github.com/hellocoop/packages#readme",
   "scripts": {
+    "watch": "tsc --watch --declaration",
     "build": "npm run build:clean && npm run build:src",
     "build:clean": "rimraf dist/",
-    "build:src": "tsc"
+    "build:src": "tsc --declaration"
   },
   "peerDependencies": {
     "next": ">=10",
