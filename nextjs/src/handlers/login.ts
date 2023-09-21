@@ -21,8 +21,15 @@ const handleLoginFactory = (config: Config): NextApiHandler =>
             client_id: config.helloClientId
             // TODO -- pass in scope from environment / config or passed in call
         })
-        req.session.nonce = nonce
-        req.session.code_verifier = code_verifier
+        req.session.oidc = {
+            nonce,
+            code_verifier
+        }
+
+        console.log(JSON.stringify(req.session, null, 4));
+
+
+        await req.session.save()
         res.redirect(url)
     }, config.sessionOptions)
 
