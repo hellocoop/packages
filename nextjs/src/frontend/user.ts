@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import useSWR from 'swr'
 
-import { buildLoginRoute } from '../lib/login'
+// import { buildLoginRoute } from '../lib/login'
 import { defaultUserApiRoute } from '../lib/config'
 import type { User } from '../lib/user'
 
@@ -21,9 +21,11 @@ export default function useUser({
     useEffect(() => {
         if (!user) return
 
-        if (!user.isLoggedIn && redirect) {
-            push(buildLoginRoute({ sourceRoute: pathname }))
-        }
+// TODO -- not sure what following code does
+
+        // if (!user.isLoggedIn && redirect) {
+        //     push(buildLoginRoute({ sourceRoute: pathname }))
+        // }
     }, [user, pathname])
 
     return { user, mutateUser }
