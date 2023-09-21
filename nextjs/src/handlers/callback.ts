@@ -5,15 +5,11 @@ import { withIronSessionApiRoute } from 'iron-session/next'
 import { consentCors, consentBaseUrl } from '../lib/consent'
 import type { Config } from '../lib/config'
 import { fetchToken } from '@hellocoop/utils'
-import type { HelloClaims, User } from '../lib/user'
+// import type { HelloClaims, User } from '../lib/user'
 
 const handleCallbackFactory = (config: Config): NextApiHandler =>
     withIronSessionApiRoute(async (req: NextApiRequest, res: NextApiResponse) => {
         // await consentCors(req, res)
-
-console.log({query:req.query.toString})
-
-
 
         if (!config.baseUrl) {
             res.status(500).end('Missing baseUrl configuration')
@@ -23,9 +19,6 @@ console.log({query:req.query.toString})
             res.status(500).end('Missing helloClientId configuration')
             return
         }
-
-        // return res.end(req.query)
-
 
         const {
             code,
@@ -46,17 +39,15 @@ console.log({query:req.query.toString})
             res.status(400).end('Received more than one code.')
         }
 
-        const { code_verifier } = req.session
+        const code_verifier = req.session.oidc?.code_verifier
 
         if (!code_verifier) {
             res.status(400).end('Missing code_verifier from session')
             return
         }
 
-        // check we have a code verifier
-
         try {
-            const payload = fetchToken({
+            const payload = await fetchToken({
                 code: code.toString(),
                 code_verifier,
                 redirect_uri: config.baseUrl,
@@ -64,9 +55,17 @@ console.log({query:req.query.toString})
             })
             // save user to session
             // await req.session.save()
-            res.end(payload.toString())
+            req.session.user = {
+                ...payload,
+                isLoggedIn: true 
+            }
+            await req.session.save()
+
+
+    console.log(JSON.stringify(payload, null, 4));
+
         } catch (error: any) {
-            res.status(500).end(error.message)
+            return res.status(500).end(error.message)
         }
 
 
