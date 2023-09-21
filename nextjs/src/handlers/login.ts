@@ -12,7 +12,7 @@ const handleLoginFactory = (config: Config): NextApiHandler =>
             return
         }
         if (!config.helloClientId) {
-            res.status(500).end('Missing helloClientId configuration')
+            res.status(500).end('Missing Hellō ClientId configuration')
             return
         }
         const { url, nonce, code_verifier } = await createAuthRequest({
