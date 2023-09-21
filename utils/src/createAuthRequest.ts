@@ -3,7 +3,7 @@
 
 export const DEFAULT_HOST: string = 'https://wallet.hello.coop'
 
-const DEFAULT_SCOPE: Scope[] = ['openid','name','email','picture']
+export const DEFAULT_SCOPE: Scope[] = ['openid','name','email','picture']
 const DEFAULT_RESPONSE_TYPE: AuthResponseType = 'code'
 const DEFAULT_RESPONSE_MODE: AuthResponseMode = 'query'
 const DEFAULT_PATH: string = '/authorize?'
