@@ -9,7 +9,7 @@ export default function Home() {
         <main className='max-w-4xl mx-auto p-4'>
             <header className='flex justify-between items-center'>
                 <h1 className='text-2xl font-semibold'>Hellō Next.js Example App</h1>
-                {user?.isLoggedIn && <a href="/auth/hellocoop?logout=true" className='mt-1'>Log Out</a>}
+                {user?.isLoggedIn && <a href="/api/hellocoop?logout=true" className='mt-1'>Log Out</a>}
             </header>
             <hr className='my-4'/>
             {user?.isLoggedIn ? 
