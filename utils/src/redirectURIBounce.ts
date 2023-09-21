@@ -1,4 +1,4 @@
-export default function() {
+export function redirectURIBounce() {
     return `
         <html>
             <head>
