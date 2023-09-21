@@ -18,27 +18,27 @@ export default function Home() {
                     <ul className='divide-y'>
                         <li className='p-4 flex flex-col justify-center items-center'>
                             {/* Use Image from next/image */}
-                            <img src={user.picture} alt={user.name} className='rounded-full h-32 w-32 object-cover mb-3 bg-gray-300'/>
+                            {/* <img src={user.picture} alt={user.name} className='rounded-full h-32 w-32 object-cover mb-3 bg-gray-300'/> */}
                             {/* TODO: Update UpdateProfileButton Component from hellocoop/nextjs library to accept label prop */}
                             <UpdateProfileButton/>
                         </li>
                         <li className='p-4'>
                             <div className='flex flex-col'>
                                 <span className='text-xs opacity-60 uppercase'>Name</span>
-                                <span className='text-lg'>{user.name}</span>
+                                {/* <span className='text-lg'>{user.name}</span> */}
                             </div>
                         </li>
                         <li className='p-4'>
                             <div className='flex flex-col mb-2'>
                                 <span className='text-xs uppercase opacity-60'>Email</span>
-                                <span className='text-lg'>{user.email}</span>
+                                {/* <span className='text-lg'>{user.email}</span> */}
                             </div>
                             {/* TODO: Update UpdateProfileButton Component from hellocoop/nextjs library to accept label prop */}
                             <UpdateProfileButton/>
                         </li>
                         <li className='flex flex-col p-4'>
                             <span className='text-xs uppercase opacity-60'>JSON Payload</span>
-                            <pre className='text-sm mt-2 font-mono'>{JSON.stringify(user, null, 2)}</pre>
+                            {/* <pre className='text-sm mt-2 font-mono'>{JSON.stringify(user, null, 2)}</pre> */}
                         </li>
                     </ul>
                 </section> : 
