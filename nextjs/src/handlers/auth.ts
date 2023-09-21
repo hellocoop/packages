@@ -25,10 +25,17 @@ const handleAuthFactory = (handlers: Handlers, config: Config) =>
 
         route = Array.isArray(route) ? route[0] : route
 
+// console.log('config\n',JSON.stringify(config,null,4))        
+
         if (!config.sessionSecret) {
             res.status(500).end('Missing sessionSecret configuration')
             return
         }
+
+        if (!config.clientId) {
+            res.status(500).end('Missing HELLOCOOP_CLIENT_ID configuration')
+            return
+        }        
 
         if (req.query.code || req.query.error) { // authorization response
             return handlers.handleCallback(req, res)
