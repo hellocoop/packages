@@ -6,7 +6,7 @@ export const defaultCallbackRoute = '/api/hellocoop'
 export const defaultQuickstartRoute = '/api/hellocoop'
 export const defaultReturnToRoute = '/'
 
-export const defaultUserApiRoute = '/api/auth/me'
+export const defaultUserApiRoute = '/api/hellocoop?profile=me'
 
 const requiredScopes = ['openid']
 const defaultScopes = [...requiredScopes, 'name', 'email']
