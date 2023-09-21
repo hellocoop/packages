@@ -1,9 +1,17 @@
 // fetches an ID token from Hellō given the code and code_verifier
 
-import { DEFAULT_HOST } from './createAuthRequest'
+import { DEFAULT_HOST, VALID_IDENTITY_CLAIMS } from './createAuthRequest'
 const DEFAULT_ENDPOINT: string = '/oauth/token'
 
-export type Payload = {
+type IdentityClaims = typeof VALID_IDENTITY_CLAIMS[number]
+
+// Create a type with all VALID_IDENTITY_CLAIMS properties as optional
+type OptionalClaims = {
+  [K in IdentityClaims]?: unknown;
+};
+
+
+export type Payload = OptionalClaims & {
     iss: string;
     aud: string;
     nonce: string;
