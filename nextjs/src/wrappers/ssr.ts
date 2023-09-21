@@ -1,7 +1,6 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
 import { withIronSessionSsr } from 'iron-session/next'
 
-import { buildLoginRoute } from '../lib/login'
 import type { Config } from '../lib/config'
 
 export interface SsrOptions {
@@ -19,7 +18,7 @@ const withHelloSsrFactory = (config: Config) =>
             return {
                 redirect: {
                     statusCode: 302,
-                    destination: buildLoginRoute({ loginRoute: config.loginRoute, sourceRoute: options.sourceRoute })
+                    destination: config.defaultReturnToRoute
                 }
             }
         }
