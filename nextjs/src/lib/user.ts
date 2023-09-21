@@ -16,13 +16,13 @@ import { IronSessionData } from 'iron-session'
 //     email_verified?: boolean,
 // }
 
-import { Payload } from '@hellocoop/utils'
+import { TokenPayload } from '@hellocoop/utils'
 
 export type User = {
     isLoggedIn: false
 } | ({
     isLoggedIn: true
-} & Payload)
+} & TokenPayload)
 
 export interface GetUserOptions {
     session: IronSessionData
