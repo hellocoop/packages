@@ -1,10 +1,11 @@
 // creates an authorization request URL for Hellō
 
 
+export const DEFAULT_HOST: string = 'https://wallet.hello.coop'
+
 const DEFAULT_SCOPE: Scope[] = ['openid','name','email','picture']
 const DEFAULT_RESPONSE_TYPE: AuthResponseType = 'code'
-const DEFAULT_RESPONSE_MODE: AuthResponseMode = 'form_post'
-const DEFAULT_HOST: string = 'https://wallet.hello.coop'
+const DEFAULT_RESPONSE_MODE: AuthResponseMode = 'query'
 const DEFAULT_PATH: string = '/authorize?'
 
 import { pkce, uuidv4 } from './pkce';
@@ -24,7 +25,7 @@ export const VALID_SCOPES = [
     'profile_update',
 ] as const;
 export const VALID_RESPONSE_TYPE = ['id_token', 'code'] as const;    // Default: 'code'
-export const VALID_RESPONSE_MODE = ['fragment', 'query', 'form_post'] // Default: 'form_post'
+export const VALID_RESPONSE_MODE = ['fragment', 'query', 'form_post'] // Default: 'query'
 export const VaLID_PROVIDER_HINT = [
     // 'google' and 'email' are always in default
     // 'apple' added if on Apple OS

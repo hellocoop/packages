@@ -18,8 +18,8 @@ const crypto: webcrypto.Crypto =
   // (await import("node:crypto")).webcrypto; // Node.js 16 non-REPL
 
 
-export const uuidv4 = crypto.randomUUID
-// export { randomUUID as uuidv4 } from 'node:crypto';
+// export const uuidv4 = crypto.randomUUID
+export { randomUUID as uuidv4 } from 'crypto';
 
 /** Generate cryptographically strong random string
  * @param size The desired length of the string

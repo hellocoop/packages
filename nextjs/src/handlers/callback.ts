@@ -4,11 +4,15 @@ import { withIronSessionApiRoute } from 'iron-session/next'
 
 import { consentCors, consentBaseUrl } from '../lib/consent'
 import type { Config } from '../lib/config'
+import { fetchToken } from '@hellocoop/utils'
 import type { HelloClaims, User } from '../lib/user'
 
 const handleCallbackFactory = (config: Config): NextApiHandler =>
     withIronSessionApiRoute(async (req: NextApiRequest, res: NextApiResponse) => {
         // await consentCors(req, res)
+
+console.log({query:req.query.toString})
+
 
 
         if (!config.baseUrl) {
@@ -20,60 +24,51 @@ const handleCallbackFactory = (config: Config): NextApiHandler =>
             return
         }
 
-        if (!req.session.user?.isLoggedIn) {
-            const {
-                code,
-                error
-            } = req.body
+        // return res.end(req.query)
 
-            if (error) {
-                res.status(400).end(error)
-                return
-            }
 
-            if (!code) {
-                res.status(400).end('Missing code parameter')
-                return
-            }
+        const {
+            code,
+            error
+        } = req.query
 
-            const { code_verifier } = req.session
-            const params: Record<string, any> = {
-                code,
-                code_verifier,
-                client_id: config.helloClientId,
-                redirect_uri: config.redirect_uri
-            }
-            const body = new URLSearchParams(params).toString()
 
-            try {
-                const r = await fetch ('https://wallet.hello.coop/oauth/token', { // todo - adjust to deal with mock
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                        body
-                    }).then((r) => r.json())
-
-                const claims: HelloClaims ={
-                    iss: '',
-                    aud: '',
-                    nonce: '',
-                    jti: '',
-                    sub: '',
-                    scope: [''],
-                    iat: 0,
-                    exp: 0                    
-                }
-
-                const user: User = {
-                    isLoggedIn: true,
-                    ...claims
-                }
-
-                req.session.user = user
-                await req.session.save()
-            } catch (error: any) {
-                res.status(500).end(error.message)
-            }
+        if (error) {
+            res.status(400).end(error)
+            return
         }
+
+        if (!code) {
+            res.status(400).end('Missing code parameter')
+            return
+        }
+        if (Array.isArray(code)) {
+            res.status(400).end('Received more than one code.')
+        }
+
+        const { code_verifier } = req.session
+
+        if (!code_verifier) {
+            res.status(400).end('Missing code_verifier from session')
+            return
+        }
+
+        // check we have a code verifier
+
+        try {
+            const payload = fetchToken({
+                code: code.toString(),
+                code_verifier,
+                redirect_uri: config.baseUrl,
+                client_id: config.helloClientId    
+            })
+            // save user to session
+            // await req.session.save()
+            res.end(payload.toString())
+        } catch (error: any) {
+            res.status(500).end(error.message)
+        }
+
 
         // const baseUrl = new URL(config.baseUrl)
         // const dangerousReturnTo = sourceRoute || config.defaultReturnToRoute

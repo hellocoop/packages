@@ -30,7 +30,7 @@ const handleAuthFactory = (handlers: Handlers, config: Config) =>
             return
         }
 
-        if (req.method === 'POST') { // authorization response
+        if (req.query.code || req.query.error) { // authorization response
             return handlers.handleCallback(req, res)
         }
 
@@ -42,7 +42,7 @@ const handleAuthFactory = (handlers: Handlers, config: Config) =>
             // https://openid.net/specs/openid-connect-core-1_0.html#ThirdPartyInitiatedLogin
             throw new Error('unimplmented')
         }
-
+        // looks like a login request
         return handlers.handleLogin(req, res)
     })
 
