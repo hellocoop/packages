@@ -25,10 +25,6 @@ const handleLoginFactory = (config: Config): NextApiHandler =>
             code_verifier
         }
 
-        console.log('login.ts')
-        console.log(JSON.stringify(req.session, null, 4));
-
-
         await req.session.save()
         res.redirect(url)
     }, config.sessionOptions)
