@@ -24,6 +24,8 @@ let instance: HelloInstance
 export const initHello = (config?: Partial<Config>): HelloInstance => {
     const mergedConfig = getConfig(config)
 
+console.log(JSON.stringify(mergedConfig,null,4))
+
     const handleLogin = handleLoginFactory(mergedConfig)
     const handleLogout = handleLogoutFactory(mergedConfig)
     const handleCallback = handleCallbackFactory(mergedConfig)
