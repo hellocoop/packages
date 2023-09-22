@@ -21,7 +21,7 @@ const getConfig = (config?: Partial<Config>): Config => {
     const sessionSecret =
         config?.sessionOptions?.password
         || process.env.HELLOCOOP_SESSION_SECRET as string
-        || (process.env.NODE_ENV === 'production') ? '' : 'a non secret for development purposes'
+        || process.env.HELLOCOOP_SESSION_SECRET_DEFAULT as string // from next.config.js
     const scopes = [
         ...new Set(
             [
@@ -43,7 +43,8 @@ const getConfig = (config?: Partial<Config>): Config => {
             || process.env.HELLOCOOP_DEFAULT_RETURN_TO_ROUTE as string
             || defaultReturnToRoute,
         clientId: config?.clientId
-            || process.env.HELLOCOOP_CLIENT_ID as string,
+        || process.env.HELLOCOOP_CLIENT_ID as string
+        || process.env.HELLOCOOP_CLIENT_ID_DEFAULT as string, // from next.config.js
         scopes,
         sessionOptions: {
             cookieName: 'hellocoop-nextjs',
