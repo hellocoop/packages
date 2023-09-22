@@ -1,0 +1,41 @@
+{
+  "name": "@hellocoop/quickstart-nextjs",
+  "version": "1.0.0",
+  "description": "Provides a CLI to run Hellō Quickstart for a Next.js app.",
+  "module": "quickstart-next.js",
+  "bin": {
+    "quickstart-nextjs": "./index.mjs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"No build specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hellocoop/packages.git"
+  },
+  "keywords": [
+    "hello",
+    "oauth",
+    "oauth2",
+    "OIDC",
+    "auth",
+    "sso",
+    "quickstart",
+    "next.js"
+  ],
+  "author": {
+    "name": "Hello Identity Co-op",
+    "email": "contact@hello.coop",
+    "url": "https://hello.coop"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hellocoop/packages/issues"
+  },
+  "homepage": "https://github.com/hellocoop/packages#readme",
+  "dependencies": {
+    "@hellocoop/quickstart": "^1.0.10"
+  },
+  "type": "module"
+}

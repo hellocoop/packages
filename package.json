@@ -5,6 +5,7 @@
   "workspaces": [
     "utils",
     "quickstart",
+    "quickstart-nextjs",
     "nextjs",
     "test-app"
   ],
