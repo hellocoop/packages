@@ -14,14 +14,14 @@ export interface Config {
     defaultReturnToRoute: string,
     clientId?: string,
     scopes: string[],
-    sessionSecret?: string,
     sessionOptions: IronSessionOptions
 }
 
 const getConfig = (config?: Partial<Config>): Config => {
     const sessionSecret =
-        config?.sessionSecret
+        config?.sessionOptions?.password
         || process.env.HELLOCOOP_SESSION_SECRET as string
+        || (process.env.NODE_ENV === 'production') ? '' : 'a non secret for development purposes'
     const scopes = [
         ...new Set(
             [
@@ -45,7 +45,6 @@ const getConfig = (config?: Partial<Config>): Config => {
         clientId: config?.clientId
             || process.env.HELLOCOOP_CLIENT_ID as string,
         scopes,
-        sessionSecret,
         sessionOptions: {
             cookieName: 'hellocoop-nextjs',
             password: sessionSecret,

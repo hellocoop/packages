@@ -27,8 +27,8 @@ const handleAuthFactory = (handlers: Handlers, config: Config) =>
 
 // console.log('config\n',JSON.stringify(config,null,4))        
 
-        if (!config.sessionSecret) {
-            res.status(500).end('Missing sessionSecret configuration')
+        if (!config.sessionOptions.password) {
+            res.status(500).end('Missing HELLOCOOP_SESSION_SECRET configuration')
             return
         }
 
