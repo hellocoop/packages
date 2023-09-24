@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Provides a CLI to run Hellō Quickstart for a Next.js app.",
   "module": "quickstart-next.js",
+  "main": "quickstart-next.js",
   "bin": {
     "quickstart-nextjs": "./index.mjs"
   },
