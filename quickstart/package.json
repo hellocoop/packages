@@ -2,7 +2,7 @@
   "name": "@hellocoop/quickstart",
   "version": "1.0.10",
   "description": "Provides a CLI to start the Hello Quickstart web app and return a client_id",
-  "module": "quickstart.js",
+  "main": "quickstart.js",
   "bin": {
     "quickstart": "./index.mjs"
   },
