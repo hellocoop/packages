@@ -43,7 +43,15 @@ const qs = async function () {
         return error 
     }
 
-    const client_id = await quickstart() // TODO set some defaults
+    let client_id = null
+    try {
+        client_id = await quickstart({
+            suffix:'Next.js Applicationi',
+            integration:'quickstart-nextjs'
+        })
+    } catch(err) {
+        return err
+    }
 
     const session_secret = randomBytes(32).toString('hex')
     const helloConfig = `
