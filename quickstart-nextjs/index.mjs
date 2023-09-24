@@ -3,5 +3,7 @@
 import qs from './quickstart-next.js';
 
 (async () => {
-  await qs();
+  const err = await qs();
+  if (err)
+    exit(1)
 })();
