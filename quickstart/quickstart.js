@@ -9,6 +9,12 @@ import page from './page.js'
 const quickstart = async function (params) {
     return new Promise(async (resolve) => {
 
+        if (!process.stdout.isTTY) {
+            const error = new Error('Not running on interactive terminal. Exiting Quickstart CLI')
+            console.error(error)
+            return error
+        }
+
         const port = await getPort()
         const host = 'localhost'
 
