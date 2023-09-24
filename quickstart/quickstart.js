@@ -6,6 +6,17 @@ import * as http from 'http'
 import { URLSearchParams, parse } from 'url';
 import page from './page.js'
 
+export const validQuickstartParams = [
+    'suffix',
+    'name',
+    'tos_uri',
+    'pp_uri',
+    'image_uri',
+    'dark_image_uri',
+    'redirect_uri',
+    'integration',
+]
+
 const quickstart = async function (params) {
     return new Promise(async (resolve) => {
 
@@ -14,7 +25,12 @@ const quickstart = async function (params) {
             console.error(error)
             return error
         }
-
+        const paramKeys = Object.keys(params)
+        paramKeys || paramKeys.forEach( param => {
+            if (!validQuickstartParams.includes(parm))
+                throw(new Error(`Invalid param:${param}`))            
+        })
+        
         const port = await getPort()
         const host = 'localhost'
 
@@ -39,7 +55,7 @@ const quickstart = async function (params) {
 
         const response_uri = `http://${host}:${port}/`
         const queryParams = {
-            // TODO add in passed parameters
+            ... params,
             response_uri,
         }
         const queryString = new URLSearchParams(queryParams).toString();
