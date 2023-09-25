@@ -7,6 +7,13 @@ import quickstart from '@hellocoop/quickstart'
 
 const qs = async function () {   
 
+
+    if (!process.stdout.isTTY) {
+        const error = new Error('Not running on interactive terminal. Exiting Hellō Quickstart for Next.js')
+        console.error(error)
+        return error
+    }
+    
     console.log('Hellō Quickstart for Next.js ... ')
 
     const nextConfigFile = process.cwd()+'/next.config.js'
