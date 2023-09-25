@@ -6,8 +6,7 @@
     "utils",
     "quickstart",
     "quickstart-nextjs",
-    "nextjs",
-    "test-app"
+    "nextjs"
   ],
   "repository": {
     "type": "git",
