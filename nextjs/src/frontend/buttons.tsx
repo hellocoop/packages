@@ -25,3 +25,26 @@ export default function SignInButton({ loginRoute = apiRoute+'?login=true' }: Si
         </button>
     )
 }
+
+export function LoginButton () {
+    return button(' ō&nbsp;&nbsp;&nbsp;Login with Hellō')
+
+}
+
+export function ContinueButton( providerHints, scopes, loginHint, style ) {
+    return button(' ō&nbsp;&nbsp;&nbsp;Continue with Hellō')
+}
+
+export function UpdateEmailButton() {
+
+}
+
+export function UpdatePictureButton() {
+
+}
+
+export function UpdateProfileButton() {
+
+}
+
+
