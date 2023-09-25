@@ -46,7 +46,7 @@ const qs = async function () {
     let client_id = null
     try {
         client_id = await quickstart({
-            suffix:'Next.js Applicationi',
+            suffix:'Next.js Application',
             integration:'quickstart-nextjs'
         })
     } catch(err) {
