@@ -25,5 +25,5 @@ export default function useUser({
         }
     }, [user, pathname])
 
-    return { user, mutateUser }
+    return user
 }
