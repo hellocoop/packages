@@ -9,7 +9,7 @@ export interface SignInButtonProps {
     loginRoute?: string
 }
 
-export default function SignInButton({ loginRoute = apiRoute }: SignInButtonProps) {
+export default function SignInButton({ loginRoute = apiRoute+'?login=true' }: SignInButtonProps) {
     const [clicked, setClicked] = useState(false)
     const { push } = useRouter()
 

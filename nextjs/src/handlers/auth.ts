@@ -53,8 +53,12 @@ const handleAuthFactory = (handlers: Handlers, config: Config) =>
         if (req.query.profile) {
             return handlers.handleUser(req, res)
         }
-        // looks like a login request
-        return handlers.handleLogin(req, res)
+
+        if (req.query.login) {
+            return handlers.handleLogin(req, res)
+        }
+        res.status(500).end('Invalid hellocoop call:\n'+JSON.stringify(req.query,null,4))
+
     })
 
 export default handleAuthFactory
