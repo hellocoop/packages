@@ -12,7 +12,8 @@ const handleCallbackFactory = (config: Config): NextApiHandler =>
         // await consentCors(req, res)
         const {
             code,
-            error
+            error,
+            wildcard_domain
         } = req.query
 
 
@@ -67,6 +68,11 @@ const handleCallbackFactory = (config: Config): NextApiHandler =>
             return res.status(500).end(error.message)
         }
 
+        if (wildcard_domain) {
+            // TODO - put up interstitual page to prompt going to console
+            console.log('wildcard_domain found')
+            console.log(wildcard_domain)
+        }
 
         // const baseUrl = new URL(config.baseUrl)
         // const dangerousReturnTo = sourceRoute || config.defaultReturnToRoute
