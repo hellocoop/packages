@@ -2,14 +2,14 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import { unsealData, IronSessionOptions } from 'iron-session'
 import { withIronSessionApiRoute } from 'iron-session/next'
 
-import { consentCors, consentBaseUrl } from '../lib/consent'
+import { consentCors } from '../lib/consent'
 import * as config from '../lib/config'
 import { fetchToken, parseToken } from '@hellocoop/utils'
 // import type { HelloClaims, User } from '../lib/user'
 
 
 const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
-    // await consentCors(req, res)
+    await consentCors(req, res)
     const {
         code,
         error,
@@ -90,8 +90,7 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     // res.redirect(303, new URL(config.defaultReturnToRoute, baseUrl).toString())
 }
 
+// wrap handler
+export default withIronSessionApiRoute( handleCallback, config.sessionOptions)
 
 
-const handler = withIronSessionApiRoute( handleCallback, config.sessionOptions as IronSessionOptions)
-
-export default handler

@@ -16,14 +16,7 @@ const translateHandlerErrors = (handler: NextApiHandler): NextApiHandler =>
         }
     }
 
-interface Handlers {
-    handleLogin: NextApiHandler,
-    handleLogout: NextApiHandler,
-    handleCallback: NextApiHandler,
-    handleUser: NextApiHandler
-}
-
-const handleAuth = translateHandlerErrors((req: NextApiRequest, res: NextApiResponse) => {
+export const handleAuth = translateHandlerErrors((req: NextApiRequest, res: NextApiResponse) => {
         let { query: { hello: route } } = req
 
         route = Array.isArray(route) ? route[0] : route
@@ -50,7 +43,7 @@ const handleAuth = translateHandlerErrors((req: NextApiRequest, res: NextApiResp
 
         if (req.query.iss) {        // IdP (Hellō) initiated login
             // https://openid.net/specs/openid-connect-core-1_0.html#ThirdPartyInitiatedLogin
-            throw new Error('unimplmented')
+            throw new Error('unimplemented')
         }
 
         if (req.query.profile) {
@@ -63,5 +56,3 @@ const handleAuth = translateHandlerErrors((req: NextApiRequest, res: NextApiResp
         res.status(500).end('Invalid hellocoop call:\n'+JSON.stringify(req.query,null,4))
 
     })
-
-export default handleAuth

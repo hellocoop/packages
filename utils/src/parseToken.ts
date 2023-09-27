@@ -11,6 +11,7 @@ type OptionalClaims = {
   [K in IdentityClaims]?: unknown;
 };
 
+export type Claims = OptionalClaims & { sub: string }
 
 export type TokenPayload = OptionalClaims & {
     iss: string;
