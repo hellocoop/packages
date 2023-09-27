@@ -55,7 +55,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@hellocoop/utils": "^1.0.9",
+    "@hellocoop/utils": "^1.0.12",
     "cors": "^2.8.5",
     "eslint-config-next": "^13.5.1",
     "iron-session": "^6.3.1",
