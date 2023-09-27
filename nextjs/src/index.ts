@@ -72,7 +72,8 @@ export const {
 
 export { getUser } from './lib/user'
 export { default as useUser } from './frontend/user'
-export { default as SignInButton } from './frontend/buttons'
-export { default as UpdateProfileButton } from './frontend/update-profile'
+export * from './frontend/buttons'
+export * from './frontend/login-status'
+export * from './frontend/logout'
 
 export type { User } from './lib/user'
