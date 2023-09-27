@@ -44,7 +44,6 @@ const qs = async function () {
             console.log(`HELLOCOOP_CLIENT_ID_DEFAULT already configured as ${client_id}`)
             return
         }
-        console.log(JSON.stringify(nextConfig,null,4))
     } catch(err) {
         console.error('Error importing the package:', error);
         return error 
