@@ -61,12 +61,12 @@ const qs = async function () {
 
     const session_secret = randomBytes(32).toString('hex')
     const helloConfig = `
-        // added by @hellocoop/quickstart-nextjs
-        nextConfig.env = {
-            ...nextConfig.env,
-            HELLO_CLIENT_ID_DEFAULT: '${client_id}',
-            HELLO_SESSION_SECRET_DEFAULT: '${session_secret}'
-        }
+// added by @hellocoop/quickstart-nextjs
+nextConfig.env = {
+    ...nextConfig.env,
+    HELLO_CLIENT_ID_DEFAULT: '${client_id}',
+    HELLO_SESSION_SECRET_DEFAULT: '${session_secret}'
+}
     `
     try {
         const err = fs.appendFileSync(nextConfigFile,helloConfig)
