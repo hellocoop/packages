@@ -26,7 +26,7 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     if (Array.isArray(code))
         return res.status(400).end('Received more than one code.')
 
-    const {code_verifier,nonce,redirect_uri} = req.session.oidc
+    const {code_verifier,nonce,redirect_uri,target_uri} = req.session.oidc
 
     if (!code_verifier) {
         res.status(400).end('Missing code_verifier from session')
@@ -62,8 +62,7 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             ...payload,
             isLoggedIn: true 
         }
-        await req.session.save()
-
+        // session saved below
     } catch (error: any) {
         return res.status(500).end(error.message)
     }
@@ -74,20 +73,11 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         console.log(wildcard_domain)
     }
 
-    // const baseUrl = new URL(config.baseUrl)
-    // const dangerousReturnTo = sourceRoute || config.defaultTargetRoute
-    // let safeReturnTo: URL
-    // try {
-    //     safeReturnTo = new URL(dangerousReturnTo, baseUrl)
-    //     if (safeReturnTo.origin === baseUrl.origin) {
-    //         res.redirect(303, safeReturnTo.toString())
-    //         return
-    //     }
-    // } catch (e) {
-    // }
-    res.redirect(303, '/')
-
-    // res.redirect(303, new URL(config.defaultTargetRoute, baseUrl).toString())
+    res.redirect(target_uri 
+                    || '/') // just in case
+    // cleanup
+    delete req.session.oidc
+    await req.session.save()
 }
 
 // wrap handler
