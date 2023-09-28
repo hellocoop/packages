@@ -1,6 +1,10 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 
-import type { Config } from '../lib/config'
+import * as config from '../lib/config'
+import handleCallback from './callback'
+import handleLogin from './login'
+import handleLogout from './logout'
+import handleUser from './user'
 
 const translateHandlerErrors = (handler: NextApiHandler): NextApiHandler =>
     async (req: NextApiRequest, res: NextApiResponse) => {
@@ -12,15 +16,7 @@ const translateHandlerErrors = (handler: NextApiHandler): NextApiHandler =>
         }
     }
 
-interface Handlers {
-    handleLogin: NextApiHandler,
-    handleLogout: NextApiHandler,
-    handleCallback: NextApiHandler,
-    handleUser: NextApiHandler
-}
-
-const handleAuthFactory = (handlers: Handlers, config: Config) =>
-    translateHandlerErrors((req: NextApiRequest, res: NextApiResponse) => {
+export const handleAuth = translateHandlerErrors((req: NextApiRequest, res: NextApiResponse) => {
         let { query: { hello: route } } = req
 
         route = Array.isArray(route) ? route[0] : route
@@ -38,27 +34,25 @@ const handleAuthFactory = (handlers: Handlers, config: Config) =>
         }        
 
         if (req.query.code || req.query.error) { // authorization response
-            return handlers.handleCallback(req, res)
+            return handleCallback(req, res)
         }
 
         if (req.query.logout) {     // logout user
-            return handlers.handleLogout(req, res)
+            return handleLogout(req, res)
         }
 
         if (req.query.iss) {        // IdP (Hellō) initiated login
             // https://openid.net/specs/openid-connect-core-1_0.html#ThirdPartyInitiatedLogin
-            throw new Error('unimplmented')
+            throw new Error('unimplemented')
         }
 
         if (req.query.profile) {
-            return handlers.handleUser(req, res)
+            return handleUser(req, res)
         }
 
         if (req.query.login) {
-            return handlers.handleLogin(req, res)
+            return handleLogin(req, res)
         }
         res.status(500).end('Invalid hellocoop call:\n'+JSON.stringify(req.query,null,4))
 
     })
-
-export default handleAuthFactory

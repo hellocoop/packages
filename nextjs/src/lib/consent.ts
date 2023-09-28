@@ -1,12 +1,11 @@
 import Cors from 'cors'
 
 import initMiddleware from './init-middleware'
-
-export const consentBaseUrl = new URL('https://wallet.hello.coop')
+import { allowedOrigin } from './config'
 
 export const consentCors = initMiddleware(
     Cors({
         methods: ['POST', 'OPTIONS'],
-        origin: consentBaseUrl.origin
+        origin: allowedOrigin
     })
 )
