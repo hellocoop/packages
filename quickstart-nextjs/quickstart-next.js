@@ -39,9 +39,9 @@ const qs = async function () {
     // check that the values have not already been set
     try {
         const nextConfig = await import(nextConfigFile)
-        const client_id = nextConfig?.default?.env?.HELLOCOOP_CLIENT_ID_DEFAULT
+        const client_id = nextConfig?.default?.env?.HELLO_CLIENT_ID_DEFAULT
         if (client_id) {
-            console.log(`HELLOCOOP_CLIENT_ID_DEFAULT already configured as ${client_id}`)
+            console.log(`HELLO_CLIENT_ID_DEFAULT already configured as ${client_id}`)
             return
         }
     } catch(err) {
@@ -64,8 +64,8 @@ const qs = async function () {
         // added by @hellocoop/quickstart-nextjs
         nextConfig.env = {
             ...nextConfig.env,
-            HELLOCOOP_CLIENT_ID_DEFAULT: '${client_id}',
-            HELLOCOOP_SESSION_SECRET_DEFAULT: '${session_secret}'
+            HELLO_CLIENT_ID_DEFAULT: '${client_id}',
+            HELLO_SESSION_SECRET_DEFAULT: '${session_secret}'
         }
     `
     try {
@@ -75,8 +75,8 @@ const qs = async function () {
         return err
     }
     console.log('Updated next.config.js with:')
-    console.log(`HELLOCOOP_CLIENT_ID_DEFAULT:'${client_id}'`)
-    console.log(`HELLOCOOP_SESSION_SECRET_DEFAULT: '${session_secret}'`)
+    console.log(`HELLO_CLIENT_ID_DEFAULT:'${client_id}'`)
+    console.log(`HELLO_SESSION_SECRET_DEFAULT: '${session_secret}'`)
     return
 }
 
