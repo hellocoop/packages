@@ -24,12 +24,12 @@ export const handleAuth = translateHandlerErrors((req: NextApiRequest, res: Next
 // console.log('config\n',JSON.stringify(config,null,4))        
 
         if (!config.sessionOptions.password) {
-            res.status(500).end('Missing HELLOCOOP_SESSION_SECRET configuration')
+            res.status(500).end('Missing HELLO_SESSION_SECRET configuration')
             return
         }
 
         if (!config.clientId) {
-            res.status(500).end('Missing HELLOCOOP_CLIENT_ID configuration')
+            res.status(500).end('Missing HELLO_CLIENT_ID configuration')
             return
         }        
 
