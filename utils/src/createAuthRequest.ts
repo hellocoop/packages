@@ -32,7 +32,7 @@ export const VALID_SCOPES = [
 ] as const;
 export const VALID_RESPONSE_TYPE = ['id_token', 'code'] as const;    // Default: 'code'
 export const VALID_RESPONSE_MODE = ['fragment', 'query', 'form_post'] // Default: 'query'
-export const VaLID_PROVIDER_HINT = [
+export const VALID_PROVIDER_HINT = [
     // 'google' and 'email' are always in default
     // 'apple' added if on Apple OS
     // 'microsoft' added if on Microsoft OS
@@ -63,7 +63,7 @@ export const VaLID_PROVIDER_HINT = [
 export type Scope = typeof VALID_SCOPES[number];
 export type AuthResponseType = typeof VALID_RESPONSE_TYPE[number]; 
 export type AuthResponseMode = typeof VALID_RESPONSE_MODE[number]; 
-export type ProviderHint = typeof VaLID_PROVIDER_HINT[number]; 
+export type ProviderHint = typeof VALID_PROVIDER_HINT[number]; 
 
 export function isValidScope( scope: string ): boolean {
     return VALID_SCOPES.includes(scope as Scope)
