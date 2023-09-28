@@ -18,7 +18,7 @@ const withHelloSsrFactory = (config: Config) =>
             return {
                 redirect: {
                     statusCode: 302,
-                    destination: config.defaultReturnToRoute
+                    destination: config.defaultTargetRoute
                 }
             }
         }

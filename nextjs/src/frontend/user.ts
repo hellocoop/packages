@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import useSWR from 'swr'
 
-import { userApiRoute, defaultReturnToRoute } from '../lib/config'
+import { userApiRoute, defaultTargetRoute } from '../lib/config'
 import type { User } from '../lib/user'
 
 const fetcher = (url: string) => fetch(url).then(r => r.json())
@@ -16,7 +16,7 @@ export default function useUser(): User | undefined {
 
     useEffect(() => {
         if (!user?.isLoggedIn) {
-            push(defaultReturnToRoute)
+            push(defaultTargetRoute)
         }
     }, [user, pathname])
 

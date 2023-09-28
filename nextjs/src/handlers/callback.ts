@@ -75,7 +75,7 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     // const baseUrl = new URL(config.baseUrl)
-    // const dangerousReturnTo = sourceRoute || config.defaultReturnToRoute
+    // const dangerousReturnTo = sourceRoute || config.defaultTargetRoute
     // let safeReturnTo: URL
     // try {
     //     safeReturnTo = new URL(dangerousReturnTo, baseUrl)
@@ -87,7 +87,7 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     // }
     res.redirect(303, '/')
 
-    // res.redirect(303, new URL(config.defaultReturnToRoute, baseUrl).toString())
+    // res.redirect(303, new URL(config.defaultTargetRoute, baseUrl).toString())
 }
 
 // wrap handler
