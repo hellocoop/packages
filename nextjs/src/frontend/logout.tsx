@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { logoutApiRoute } from "lib/config";
+import { logoutApiRoute } from "../lib/config";
 
 export const logOutRoute = logoutApiRoute
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { apiRoute } from '../lib/config'
+import { loginApiRoute } from '../lib/config'
 
 export interface BaseButtonProps {
     label?: string
@@ -9,6 +9,21 @@ export interface BaseButtonProps {
     style?: any //TBD type: any
     disabled?: boolean
     showLoader?: boolean
+}
+
+
+export interface LoginButtonProps {
+    label: string
+    scopes?: string
+    targetURI?: string
+    providerHint?: string
+}
+
+export interface UpdateButtonProps {
+    label: string
+    updateScope?: "email" | "picture"
+    targetURI?: string
+    providerHint: string
 }
 
 function BaseButton({ label, onClick, disabled, showLoader, style } : BaseButtonProps) {
@@ -19,51 +34,65 @@ function BaseButton({ label, onClick, disabled, showLoader, style } : BaseButton
     )
 }
 
-function LoginBaseButton({ label }: { label: string }) {
+function LoginBaseButton({ label, scopes, targetURI, providerHint }: LoginButtonProps) {
     const [clicked, setClicked] = useState(false)
-    // const clicked = false
     const { push } = useRouter()
 
-    const loginRoute = apiRoute + "?login=true"
+    const params = new URLSearchParams()
+    if(scopes)
+        params.set("scopes", scopes)
+    if(targetURI)
+        params.set("target_uri", targetURI)
+    if(providerHint)
+        params.set("provider_hint", providerHint)
+
     const login = (): void => {
         setClicked(true)
-        push(loginRoute)
+        alert(loginApiRoute + "&" + params.toString())
+        // push(loginApiRoute + "&" + params.toString())
     }
 
     return <BaseButton label={label} onClick={login} disabled={clicked} showLoader={clicked} />
 }
 
-export function ContinueButton() {
-    return <LoginBaseButton label="ō&nbsp;&nbsp;&nbsp;Continue with Hellō" />
+export function ContinueButton(props: LoginButtonProps) {
+    return <LoginBaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Continue with Hellō" />
 }
 
-export function LoginButton() {
-    return <LoginBaseButton label="ō&nbsp;&nbsp;&nbsp;Log in with Hellō" />
+export function LoginButton(props: LoginButtonProps) {
+    return <LoginBaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Log in with Hellō" />
 }
 
-export function UpdateBaseButton({ label, scopeToUpdate }: { label: string, scopeToUpdate: string }) {
-    // const [clicked, setClicked] = useState(false)
-    const clicked = false
+function UpdateBaseButton({ label, updateScope, targetURI, providerHint }: UpdateButtonProps) {
+    const [clicked, setClicked] = useState(false)
     const { push } = useRouter()
 
-    const updateRoute = apiRoute + "?scope=openid profile_update " + scopeToUpdate
-    const login = (): void => {
-        // setClicked(true)
-        push(updateRoute)
+    const params = new URLSearchParams()
+    if(updateScope)
+        params.set("scopes", "profile_update " + updateScope)
+    if(targetURI)
+        params.set("target_uri", targetURI)
+    if(providerHint)
+        params.set("provider_hint", providerHint)
+
+    const update = (): void => {
+        setClicked(true)
+        alert(loginApiRoute + "&" + params.toString())
+        // push(loginApiRoute + "&" + params.toString())
     }
 
-    return <BaseButton label={label} onClick={login} disabled={clicked} showLoader={clicked} style={{width: '270px'}} />
+    return <BaseButton label={label} onClick={update} disabled={clicked} showLoader={clicked} style={{width: '270px'}} />
 }
 
-export function UpdateEmailButton() {
-    return <UpdateBaseButton label="ō&nbsp;&nbsp;&nbsp;Update Email with Hellō" scopeToUpdate="email" />
+export function UpdateEmailButton(props: UpdateButtonProps) {
+    return <UpdateBaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Email with Hellō" updateScope="email" />
 }
 
-export function UpdatePictureButton() {
-    return <UpdateBaseButton label="ō&nbsp;&nbsp;&nbsp;Update Picture with Hellō" scopeToUpdate="picture" />
+export function UpdatePictureButton(props: UpdateButtonProps) {
+    return <UpdateBaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Picture with Hellō" updateScope="picture" />
 }
 
 //TBD
 // export function UpdateProfileButton() {
-//     return <UpdateBaseButton label="ō&nbsp;&nbsp;&nbsp;Update Picture with Hellō" scopeToUpdate="profile" />
+//     return <UpdateBaseButton label="ō&nbsp;&nbsp;&nbsp;Update Picture with Hellō" updateScope="profile" />
 // }
