@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { withIronSessionApiRoute } from 'iron-session/next'
-import { createAuthRequest, redirectURIBounce } from '@hellocoop/utils'
+import { createAuthRequest, redirectURIBounce, ICreateAuthRequest, Scope, ProviderHint } from '@hellocoop/utils'
 import * as config from '../lib/config'
 
 var redirectURI:string | null = null // set dynamically if not configured
@@ -8,10 +8,10 @@ var redirectURI:string | null = null // set dynamically if not configured
 var callCount = 0 // DEBUG
 
 const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
-    const { target_uri, scope, redirect_uri } = req.query
+    const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri } = req.query
 
     if (!config.clientId) {
-        res.status(500).end('Missing HELLOCOOP_CLIENT_ID configuration')
+        res.status(500).end('Missing HELLO_CLIENT_ID configuration')
         return
     }
 
@@ -29,17 +29,25 @@ console.log('login called:',callCount)
             redirectURI = redirect_uri as string
             console.log('We have now set redirectURI to:',redirectURI)
         }
-   }
+    }
+    // parse out param strings
+    const targetURIstring = Array.isArray(providerParam) ? providerParam[0] : providerParam
+    const provider_hint = targetURIstring?.split(' ').map((s) => s.trim()) as ProviderHint[] | undefined
+    const scopeString = Array.isArray(scopeParam) ? scopeParam[0] : scopeParam
+    const scope = scopeString?.split(' ').map((s) => s.trim()) as Scope[] | undefined
 
-    const { url, nonce, code_verifier } = await createAuthRequest({
+    const request: ICreateAuthRequest = {
         redirect_uri: redirectURI,
-        client_id: config.clientId
-        // TODO -- pass in scope from environment / config or passed in call
-    })
+        client_id: config.clientId,
+        scope,
+        provider_hint
+    }
+    const { url, nonce, code_verifier } = await createAuthRequest(request)
     req.session.oidc = {
         nonce,
         code_verifier,
-        redirect_uri: redirectURI
+        redirect_uri: redirectURI,
+        target_uri: (Array.isArray(target_uri) ? target_uri[0] : target_uri)|| config.defaultTargetRoute
     }
 
     await req.session.save()
