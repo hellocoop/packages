@@ -17,11 +17,9 @@ const translateHandlerErrors = (handler: NextApiHandler): NextApiHandler =>
     }
 
 export const handleAuth = translateHandlerErrors((req: NextApiRequest, res: NextApiResponse) => {
-        let { query: { hello: route } } = req
+        const { query } = req
 
-        route = Array.isArray(route) ? route[0] : route
-
-// console.log('config\n',JSON.stringify(config,null,4))        
+console.log('config\n',JSON.stringify(config,null,4))        
 
         if (!config.sessionOptions.password) {
             res.status(500).end('Missing HELLO_SESSION_SECRET configuration')
@@ -33,26 +31,26 @@ export const handleAuth = translateHandlerErrors((req: NextApiRequest, res: Next
             return
         }        
 
-        if (req.query.code || req.query.error) { // authorization response
+        if (query.code || query.error) { // authorization response
             return handleCallback(req, res)
         }
 
-        if (req.query.logout) {     // logout user
+        if (query.logout) {     // logout user
             return handleLogout(req, res)
         }
 
-        if (req.query.iss) {        // IdP (Hellō) initiated login
+        if (query.iss) {        // IdP (Hellō) initiated login
             // https://openid.net/specs/openid-connect-core-1_0.html#ThirdPartyInitiatedLogin
             throw new Error('unimplemented')
         }
 
-        if (req.query.profile) {
+        if (query.profile) {
             return handleUser(req, res)
         }
 
-        if (req.query.login) {
+        if (query.login) {
             return handleLogin(req, res)
         }
-        res.status(500).end('Invalid hellocoop call:\n'+JSON.stringify(req.query,null,4))
+        res.status(500).end('Invalid hellocoop call:\n'+JSON.stringify(query,null,4))
 
     })
