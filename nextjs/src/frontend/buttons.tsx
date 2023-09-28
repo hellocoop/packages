@@ -48,8 +48,7 @@ function LoginBaseButton({ label, scopes, targetURI, providerHint }: LoginButton
 
     const login = (): void => {
         setClicked(true)
-        alert(loginApiRoute + "&" + params.toString())
-        // push(loginApiRoute + "&" + params.toString())
+        push(loginApiRoute + "&" + params.toString())
     }
 
     return <BaseButton label={label} onClick={login} disabled={clicked} showLoader={clicked} />
@@ -77,8 +76,7 @@ function UpdateBaseButton({ label, updateScope, targetURI, providerHint }: Updat
 
     const update = (): void => {
         setClicked(true)
-        alert(loginApiRoute + "&" + params.toString())
-        // push(loginApiRoute + "&" + params.toString())
+        push(loginApiRoute + "&" + params.toString())
     }
 
     return <BaseButton label={label} onClick={update} disabled={clicked} showLoader={clicked} style={{width: '270px'}} />
