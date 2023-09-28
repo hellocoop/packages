@@ -1,6 +1,6 @@
 {
   "name": "@hellocoop/nextjs",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Next.js SDK for Hellō https://hello.dev",
   "repository": {
     "type": "git",
@@ -49,6 +49,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rimraf": "^5.0.1",
+    "eslint-config-next": "^13.5.1",
     "typescript": "^5.2.2"
   },
   "engines": {
@@ -57,7 +58,6 @@
   "dependencies": {
     "@hellocoop/utils": "^1.0.12",
     "cors": "^2.8.5",
-    "eslint-config-next": "^13.5.1",
     "iron-session": "^6.3.1",
     "swr": "^2.2.2"
   }
