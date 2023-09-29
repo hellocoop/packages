@@ -12,8 +12,7 @@
   "scripts": {
     "watch": "tsc --watch --declaration",
     "build": "tsc --declaration",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "prepublish": "npm run build && npm version patch && git push && git push --tags"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "repository": {
     "type": "git",
