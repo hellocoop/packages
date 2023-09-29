@@ -56,7 +56,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@hellocoop/utils": "^1.0.12",
+    "@hellocoop/utils": "^1.0.19",
     "cors": "^2.8.5",
     "iron-session": "^6.3.1",
     "swr": "^2.2.2"

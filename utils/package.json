@@ -1,6 +1,6 @@
 {
   "name": "@hellocoop/utils",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Hellō utility functions",
   "source": "src/index.ts",
   "main": "dist/index.js",
@@ -23,6 +23,7 @@
     "Hellō",
     "PKCE",
     "OIDC",
+    "OAuth",
     "OpenID Connect"
   ],
   "author": {
