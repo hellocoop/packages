@@ -27,7 +27,12 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     if (Array.isArray(code))
         return res.status(400).end('Received more than one code.')
 
-    const {code_verifier,nonce,redirect_uri,target_uri} = req.session.oidc
+    const {
+        code_verifier,
+        nonce,
+        redirect_uri,
+        target_uri
+    } = req.session.oidc
 
     if (!code_verifier) {
         res.status(400).end('Missing code_verifier from session')
