@@ -73,11 +73,10 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         console.log(wildcard_domain)
     }
 
-    res.redirect(target_uri 
-                    || '/') // just in case
-    // cleanup
-    delete req.session.oidc
+    delete req.session.oidc     // cleanup
     await req.session.save()
+    res.redirect(target_uri 
+        || '/') // just in case
 }
 
 // wrap handler
