@@ -14,7 +14,7 @@ export interface BaseButtonProps {
 
 export interface LoginButtonProps {
     label: string
-    scopes?: string
+    scope?: string
     targetURI?: string
     providerHint?: string
 }
@@ -34,13 +34,13 @@ function BaseButton({ label, onClick, disabled, showLoader, style } : BaseButton
     )
 }
 
-function LoginBaseButton({ label, scopes, targetURI, providerHint }: LoginButtonProps) {
+function LoginBaseButton({ label, scope, targetURI, providerHint }: LoginButtonProps) {
     const [clicked, setClicked] = useState(false)
     const { push } = useRouter()
 
     const params = new URLSearchParams()
-    if(scopes)
-        params.set("scopes", scopes)
+    if(scope)
+        params.set("scope", scope)
     if(targetURI)
         params.set("target_uri", targetURI)
     if(providerHint)
@@ -68,7 +68,7 @@ function UpdateBaseButton({ label, updateScope, targetURI, providerHint }: Updat
 
     const params = new URLSearchParams()
     if(updateScope)
-        params.set("scopes", "profile_update " + updateScope)
+        params.set("scope", "profile_update " + updateScope)
     if(targetURI)
         params.set("target_uri", targetURI)
     if(providerHint)
