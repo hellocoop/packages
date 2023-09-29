@@ -8,8 +8,11 @@ export function wildcardConsole( { uri, targetURI, appName, redirectURI}: WildCa
     return `
         <html>
             <head>
-                TBD
             </head>
+                The following Redirect URI is not configured for <b/>
+                    ${appName}<b/>
+                    ${redirectURI}<b/>
+                <a href="${uri}">Add to Redirect URIs</> or <a href="${targetURI}">Do this later.</>
         </html>
     `
 }
