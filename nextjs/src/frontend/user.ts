@@ -15,7 +15,7 @@ export default function useUser(): User | undefined {
     const pathname = usePathname()
 
     useEffect(() => {
-        if (!user?.isLoggedIn) {
+        if (user && !user?.isLoggedIn) {
             push(defaultTargetRoute)
         }
     }, [user, pathname])
