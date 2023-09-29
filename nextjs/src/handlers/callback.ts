@@ -4,7 +4,7 @@ import { withIronSessionApiRoute } from 'iron-session/next'
 
 import { consentCors } from '../lib/consent'
 import * as config from '../lib/config'
-import { fetchToken, parseToken } from '@hellocoop/utils'
+import { fetchToken, parseToken, wildcardConsole } from '@hellocoop/utils'
 // import type { HelloClaims, User } from '../lib/user'
 
 
@@ -13,7 +13,8 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     const {
         code,
         error,
-        wildcard_domain
+        wildcard_domain,
+        app_name,
     } = req.query
 
 
@@ -67,10 +68,16 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(500).end(error.message)
     }
 
-    if (wildcard_domain) {
-        // TODO - put up interstitual page to prompt going to console
-        console.log('wildcard_domain found')
-        console.log(wildcard_domain)
+    if (wildcard_domain) { 
+        // the redirect_uri is not registered at Hellō - prompt to add
+        const appName = (Array.isArray(app_name) ? app_name[0] : app_name)  || 'Your App'
+        res.end(wildcardConsole({
+            uri: Array.isArray(wildcard_domain) ? wildcard_domain[0] : wildcard_domain,
+            appName,
+            redirectURI: redirect_uri,
+            targetURI: target_uri
+        }))
+        return
     }
 
     delete req.session.oidc     // cleanup
