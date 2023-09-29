@@ -1,6 +1,6 @@
 {
   "name": "@hellocoop/utils",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Hellō utility functions",
   "source": "src/index.ts",
   "main": "dist/index.js",
