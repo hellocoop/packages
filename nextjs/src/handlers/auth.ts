@@ -19,7 +19,8 @@ const translateHandlerErrors = (handler: NextApiHandler): NextApiHandler =>
 export const handleAuth = translateHandlerErrors((req: NextApiRequest, res: NextApiResponse) => {
         const { query } = req
 
-console.log('config\n',JSON.stringify(config,null,4))        
+// console.log('config\n',JSON.stringify(config,null,4))   
+console.log({query})     
 
         if (!config.sessionOptions.password) {
             res.status(500).end('Missing HELLO_SESSION_SECRET configuration')
