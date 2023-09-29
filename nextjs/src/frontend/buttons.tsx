@@ -23,7 +23,7 @@ export interface UpdateButtonProps {
     label: string
     updateScope?: "email" | "picture"
     targetURI?: string
-    providerHint: string
+    providerHint?: string
 }
 
 function BaseButton({ label, onClick, disabled, showLoader, style } : BaseButtonProps) {
