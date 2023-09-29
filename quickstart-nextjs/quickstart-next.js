@@ -53,7 +53,9 @@ const qs = async function () {
     try {
         client_id = await quickstart({
             suffix:'Next.js Application',
-            integration:'quickstart-nextjs'
+            integration:'quickstart-nextjs',
+            wildcard_domain: true,
+            provider_hint: 'github gitlab email-- apple--'
         })
     } catch(err) {
         return err

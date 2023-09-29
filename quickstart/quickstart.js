@@ -15,6 +15,8 @@ export const validQuickstartParams = [
     'dark_image_uri',
     'redirect_uri',
     'integration',
+    'wildcard_domain',
+    'provider_hint',
 ]
 
 const quickstart = async function (params) {
