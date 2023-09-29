@@ -13,7 +13,9 @@
     "url": "git+https://github.com/hellocoop/packages.git"
   },
   "scripts": {
-    "patch": "node scripts/patch-node_modules.js"
+    "patch": "node scripts/patch-node_modules.js",
+    "build": "npm run build --workspaces",
+    "watch": "npm run watch --workspaces"
   },
   "author": {
     "name": "Hello Identity Co-op",
