@@ -3,9 +3,9 @@
   "version": "1.0.3",
   "description": "Provides a CLI to run Hellō Quickstart for a Next.js app.",
   "module": "quickstart-next.js",
-  "main": "quickstart-next.js",
+  "main": "index.js",
   "bin": {
-    "quickstart-nextjs": "./index.mjs"
+    "quickstart-nextjs": "./quickstart-nextjs.mjs"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

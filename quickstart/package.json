@@ -1,10 +1,10 @@
 {
   "name": "@hellocoop/quickstart",
   "version": "1.0.12",
-  "description": "Provides a CLI to start the Hello Quickstart web app and return a client_id",
-  "main": "quickstart.js",
+  "description": "A CLI and module to start the Hello Quickstart web app and return a client_id",
+  "main": "index.js",
   "bin": {
-    "quickstart": "./index.mjs"
+    "quickstart": "./quickstart.mjs"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
