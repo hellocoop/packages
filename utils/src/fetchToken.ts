@@ -1,6 +1,6 @@
 // fetches an ID token from Hellō given the code and code_verifier
 
-import { DEFAULT_HOST } from './createAuthRequest'
+import { PRODUCTION_WALLET } from './createAuthRequest'
 const DEFAULT_ENDPOINT: string = '/oauth/token'
 
 export type FetchConfig = {
@@ -8,11 +8,11 @@ export type FetchConfig = {
     code_verifier: string;
     client_id: string;
     redirect_uri: string;
-    mock?: string;
+    wallet?: string;
 }
 
 export async function fetchToken(
-        { code, code_verifier, client_id, redirect_uri, mock }: FetchConfig 
+        { code, code_verifier, client_id, redirect_uri, wallet }: FetchConfig 
     ): Promise<string> {
 
     const params: Record<string, any> = {
@@ -23,7 +23,7 @@ export async function fetchToken(
         grant_type: 'authorization_code'
     }
     const body = new URLSearchParams(params).toString()
-    const tokenEndpoint = mock || DEFAULT_HOST + DEFAULT_ENDPOINT
+    const tokenEndpoint = wallet || PRODUCTION_WALLET + DEFAULT_ENDPOINT
 
     try {
 
