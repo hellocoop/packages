@@ -34,6 +34,7 @@
   },
   "homepage": "https://github.com/hellocoop/packages#readme",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "get-port": "^7.0.0",
     "open": "^9.1.0"
   },

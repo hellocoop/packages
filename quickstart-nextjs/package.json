@@ -35,7 +35,8 @@
   },
   "homepage": "https://github.com/hellocoop/packages#readme",
   "dependencies": {
-    "@hellocoop/quickstart": "latest"
+    "@hellocoop/quickstart": "latest",
+    "dotenv": "^16.3.1"
   },
   "type": "module"
 }
