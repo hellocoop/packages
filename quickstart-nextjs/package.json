@@ -4,7 +4,7 @@
   "description": "A CLI andmodule to start the Hellō Quickstart web app for a Next.js app.",
   "main": "index.js",
   "bin": {
-    "quickstart-nextjs": "./quickstart-nextjs.mjs"
+    "quickstart-nextjs": "./quickstart-next.mjs"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
