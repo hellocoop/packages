@@ -87,7 +87,7 @@ HELLO_SESSION_SECRET_DEFAULT='${session_secret}'
         console.err(err)
         return err
     }
-    console.log('Updated next.config.js with:')
+    console.log(`Updated ${envFile} with:`)
     console.log(`HELLO_CLIENT_ID_DEFAULT:'${client_id}'`)
     console.log(`HELLO_SESSION_SECRET_DEFAULT: '${session_secret}'`)
     return
