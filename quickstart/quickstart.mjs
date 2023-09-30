@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import quickstart from './quickstart.js';
+import qs from './index.js';
 
 (async () => {
-  const client_id = await quickstart();
+  const client_id = await qs();
   console.log({ client_id });
 })();

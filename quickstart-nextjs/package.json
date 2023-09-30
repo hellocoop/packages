@@ -1,8 +1,7 @@
 {
   "name": "@hellocoop/quickstart-nextjs",
   "version": "1.0.5",
-  "description": "Provides a CLI to run Hellō Quickstart for a Next.js app.",
-  "module": "quickstart-next.mjs",
+  "description": "A CLI andmodule to start the Hellō Quickstart web app for a Next.js app.",
   "main": "index.js",
   "bin": {
     "quickstart-nextjs": "./quickstart-nextjs.mjs"

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import qs from './quickstart-next.js';
+import qs from './index.js';
 
 (async () => {
   const err = await qs();

@@ -27,11 +27,13 @@ const quickstart = async function (params) {
             console.error(error)
             return error
         }
-        const paramKeys = Object.keys(params)
-        paramKeys || paramKeys.forEach( param => {
-            if (!validQuickstartParams.includes(parm))
-                throw(new Error(`Invalid param:${param}`))            
-        })
+        const paramKeys = Object.keys(params || {})
+        if (paramKeys) {
+            paramKeys.forEach( param => {
+                if (!validQuickstartParams.includes(parm))
+                    throw(new Error(`Invalid param:${param}`))            
+            })
+        }
         
         const port = await getPort()
         const host = 'localhost'

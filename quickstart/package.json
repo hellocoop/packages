@@ -16,6 +16,9 @@
   },
   "keywords": [
     "hello",
+    "oauth",
+    "oauth2",
+    "OIDC",
     "auth",
     "sso",
     "quickstart"
