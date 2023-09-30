@@ -142,7 +142,7 @@ export async function createAuthRequest(
         params.provider_hint = config.provider_hint.join(' ')
     }
 
-    const url = config.wallet || PRODUCTION_WALLET 
+    const url = (config.wallet || PRODUCTION_WALLET) 
         + DEFAULT_PATH
         + new URLSearchParams(params).toString()
     return {

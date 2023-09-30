@@ -5,6 +5,7 @@ import handleCallback from './callback'
 import handleLogin from './login'
 import handleLogout from './logout'
 import handleUser from './user'
+import { User } from '../lib/user'
 
 const translateHandlerErrors = (handler: NextApiHandler): NextApiHandler =>
     async (req: NextApiRequest, res: NextApiResponse) => {
@@ -16,21 +17,33 @@ const translateHandlerErrors = (handler: NextApiHandler): NextApiHandler =>
         }
     }
 
+let configured = true
+if (!config.sessionOptions.password) {
+    console.error('Missing HELLO_SESSION_SECRET configuration')
+    configured = false
+}
+
+if (!config.clientId) {
+    console.error('Missing HELLO_CLIENT_ID configuration')
+    configured = false
+}        
+
+console.log('config\n',JSON.stringify(config,null,4))   
+
 export const handleAuth = translateHandlerErrors((req: NextApiRequest, res: NextApiResponse) => {
         const { query } = req
 
-// console.log('config\n',JSON.stringify(config,null,4))   
 console.log({query})     
 
-        if (!config.sessionOptions.password) {
-            res.status(500).end('Missing HELLO_SESSION_SECRET configuration')
-            return
+        if (query.profile) {
+            if (configured)
+                return handleUser(req, res) 
+            else    // don't blow up buttons
+                return res.end({isLoggedIn:false} as User)    
         }
 
-        if (!config.clientId) {
-            res.status(500).end('Missing HELLO_CLIENT_ID configuration')
-            return
-        }        
+        if (!configured)
+            return res.status(500).end('Missing configuration:\n'+JSON.stringify(config,null,4))
 
         if (query.code || query.error) { // authorization response
             return handleCallback(req, res)
@@ -45,13 +58,9 @@ console.log({query})
             throw new Error('unimplemented')
         }
 
-        if (query.profile) {
-            return handleUser(req, res)
-        }
-
         if (query.login) {
             return handleLogin(req, res)
         }
-        res.status(500).end('Invalid hellocoop call:\n'+JSON.stringify(query,null,4))
 
+        res.status(500).end('Invalid hellocoop call:\n'+JSON.stringify(query,null,4))
     })

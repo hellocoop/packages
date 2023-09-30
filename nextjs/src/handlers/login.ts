@@ -39,6 +39,7 @@ console.log('login called:',callCount)
     const request: ICreateAuthRequest = {
         redirect_uri: redirectURI,
         client_id: config.clientId,
+        wallet: config.helloWallet,
         scope,
         provider_hint
     }
