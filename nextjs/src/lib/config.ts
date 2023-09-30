@@ -51,7 +51,7 @@ export const helloDomain: string
 // for using a mock Hellō server
 export const helloWallet: string
     =  process.env.HELLO_WALLET as string
-    || 'https://wallet'+helloDomain
+    || 'https://wallet.'+helloDomain
 
 export const allowedOrigin: string = (new URL(helloWallet)).origin
 
