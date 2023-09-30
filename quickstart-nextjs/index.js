@@ -88,8 +88,7 @@ HELLO_SESSION_SECRET_DEFAULT='${session_secret}'
         return err
     }
     console.log(`Updated ${envFile} with:`)
-    console.log(`HELLO_CLIENT_ID_DEFAULT:'${client_id}'`)
-    console.log(`HELLO_SESSION_SECRET_DEFAULT: '${session_secret}'`)
+    console.log(helloConfig)
     return
 }
 
