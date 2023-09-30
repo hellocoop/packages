@@ -43,7 +43,17 @@ export const userApiRoute: string =         `${apiRoute}?profile=me`
 export const loginApiRoute: string =        `${apiRoute}?login=true`
 export const logoutApiRoute: string =       `${apiRoute}?logout=true`
 
-export const allowedOrigin: string = (new URL('https://wallet.hello.coop')).origin
+// for internal testing
+export const helloDomain: string 
+    = process.env.HELLO_DOMAIN as string
+    || 'hello.coop'
+
+// for using a mock Hellō server
+export const helloWallet: string
+    =  process.env.HELLO_WALLET as string
+    || 'https://wallet'+helloDomain
+
+export const allowedOrigin: string = (new URL(helloWallet)).origin
 
 
 // const requiredScopes = ['openid']

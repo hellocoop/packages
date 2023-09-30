@@ -1,9 +1,7 @@
 #!/usr/bin/env node
+import 'dotenv/config'
+import qs from './index.js'
 
-import qs from './index.js';
-
-(async () => {
-  const err = await qs();
-  if (err)
+const err = await qs();
+if (err)
     exit(1)
-})();

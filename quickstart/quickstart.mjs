@@ -1,8 +1,6 @@
 #!/usr/bin/env node
-
+import 'dotenv/config'
 import qs from './index.js';
 
-(async () => {
-  const client_id = await qs();
-  console.log({ client_id });
-})();
+const client_id = await qs();
+console.log({ client_id });

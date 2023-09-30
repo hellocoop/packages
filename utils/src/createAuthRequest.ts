@@ -1,7 +1,7 @@
 // creates an authorization request URL for Hellō
 
 
-export const DEFAULT_HOST: string = 'https://wallet.hello.coop'
+export const PRODUCTION_WALLET: string = 'https://wallet.hello.coop'
 
 export const DEFAULT_SCOPE: Scope[] = ['openid','name','email','picture']
 const DEFAULT_RESPONSE_TYPE: AuthResponseType = 'code'
@@ -79,7 +79,7 @@ export interface ICreateAuthRequest {
     scope?: Scope[];
     response_type?: AuthResponseType; 
     response_mode?: AuthResponseMode;
-    mock?: string;
+    wallet?: string;
     nonce?: string;
     state?: string;
     login_hint?: string
@@ -104,7 +104,7 @@ export async function createAuthRequest(
     }
     // TODO check if redirect_uri is a valid URL
 
-    // TODO check if mock is valid host or boolean
+    // TODO check if wallet is valid host or boolean
 
     if (config.scope) {
         if (!areScopesValid(config.scope))
@@ -142,7 +142,7 @@ export async function createAuthRequest(
         params.provider_hint = config.provider_hint.join(' ')
     }
 
-    const url = config.mock || DEFAULT_HOST 
+    const url = config.wallet || PRODUCTION_WALLET 
         + DEFAULT_PATH
         + new URLSearchParams(params).toString()
     return {

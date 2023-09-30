@@ -63,7 +63,8 @@ const quickstart = async function (params) {
             response_uri,
         }
         const queryString = new URLSearchParams(queryParams).toString();
-        const quickstartURL = `https://quickstart.hello.coop/?${queryString}`
+        const hellooDomain = process.env.HELLO_DOMAIN || 'hello.coop'
+        const quickstartURL = `https://quickstart.${hellooDomain}/?${queryString}`
         server.listen(port, host, () => {
             console.log('Obtaining a client_id from Hellō Quickstart using:')
             console.log(quickstartURL)
