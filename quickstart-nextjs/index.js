@@ -74,7 +74,7 @@ const qs = async function () {
 // }
 
 const helloConfig = `
-# added by @hellocoop/quickstart-nextjs
+# added by @hellocoop/quickstart-nextjs on ${(new Date()).toISOString()}
 HELLO_CLIENT_ID_DEFAULT='${client_id}'
 HELLO_SESSION_SECRET_DEFAULT='${session_secret}'
 `
