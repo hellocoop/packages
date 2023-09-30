@@ -42,6 +42,7 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const token = await fetchToken({
             code: code.toString(),
+            wallet: config.helloWallet,
             code_verifier,
             redirect_uri,
             client_id: config.clientId as string 

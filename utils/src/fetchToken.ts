@@ -23,7 +23,7 @@ export async function fetchToken(
         grant_type: 'authorization_code'
     }
     const body = new URLSearchParams(params).toString()
-    const tokenEndpoint = wallet || PRODUCTION_WALLET + DEFAULT_ENDPOINT
+    const tokenEndpoint = (wallet || PRODUCTION_WALLET) + DEFAULT_ENDPOINT
 
     try {
 
