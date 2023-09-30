@@ -30,7 +30,7 @@ const quickstart = async function (params) {
         const paramKeys = Object.keys(params || {})
         if (paramKeys) {
             paramKeys.forEach( param => {
-                if (!validQuickstartParams.includes(parm))
+                if (!validQuickstartParams.includes(param))
                     throw(new Error(`Invalid param:${param}`))            
             })
         }
