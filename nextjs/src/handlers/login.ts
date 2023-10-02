@@ -28,6 +28,7 @@ console.log('login called:',callCount)
                 const redirectUriString =  Array.isArray(redirect_uri) ? redirect_uri[0] : redirect_uri
                 const redirectHost = (new URL(redirectUriString)).host
                 if (redirectHost != host) {
+// TBd -- this might happen if we are behind a proxy where our host and the browser host are different -- look at X-headerrs
                     const err = `host from redirect_uri=${redirectHost}, expected ${host}`
                     console.error(err)
                     return res.status(500).end(err)
