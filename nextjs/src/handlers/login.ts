@@ -26,14 +26,14 @@ console.log('login called:',callCount)
         } else {
             if (redirect_uri) {
                 const redirectUriString =  Array.isArray(redirect_uri) ? redirect_uri[0] : redirect_uri
-                const redirectHost = (new URL(redirectUriString)).hostname
+                const redirectHost = (new URL(redirectUriString)).host
                 if (redirectHost != host) {
                     const err = `host from redirect_uri=${redirectHost}, expected ${host}`
                     console.error(err)
                     return res.status(500).end(err)
                 }
                 redirectURIs[host] = redirectURI = redirect_uri as string
-                console.log(`RedirectURI for ${host} set to:${redirectURI}`)
+                console.log(`RedirectURI for ${host}=${redirectURI}`)
             } else {            
                 console.log('Discovering API RedirectURI route ...')
                 return res.end(redirectURIBounce())        
