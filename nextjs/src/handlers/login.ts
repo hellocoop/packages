@@ -8,7 +8,7 @@ var redirectURIs: Record<string, any> = {}
 var callCount = 0 // DEBUG
 
 const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
-    const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri, redirect_host } = req.query
+    const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri } = req.query
 
     if (!config.clientId) {
         res.status(500).end('Missing HELLO_CLIENT_ID configuration')
@@ -25,8 +25,10 @@ console.log('login called:',callCount)
             redirectURI = redirectURIs[host]
         } else {
             if (redirect_uri) {
-                if (redirect_host != host) {
-                    const err = `redirect_host=${redirect_host}, expected ${host}`
+                const redirectUriString =  Array.isArray(redirect_uri) ? redirect_uri[0] : redirect_uri
+                const redirectHost = (new URL(redirectUriString)).hostname
+                if (redirectHost != host) {
+                    const err = `host from redirect_uri=${redirectHost}, expected ${host}`
                     console.error(err)
                     return res.status(500).end(err)
                 }
