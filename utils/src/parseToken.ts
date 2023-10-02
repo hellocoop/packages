@@ -42,7 +42,7 @@ export async function parseToken( token: string): Promise<{ header: TokenHeader;
 
         // check there is an exp claim
 
-console.log({header,payload})
+// console.log({header,payload})
 
 
         return {

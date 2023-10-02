@@ -4,8 +4,6 @@ import * as fs from 'fs'
 import { randomBytes } from 'crypto'
 import quickstart from '@hellocoop/quickstart'
 
-console.log({inside:process.env})
-
 const qs = async function () {   
 
 
