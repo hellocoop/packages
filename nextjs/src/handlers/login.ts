@@ -3,12 +3,12 @@ import { withIronSessionApiRoute } from 'iron-session/next'
 import { createAuthRequest, redirectURIBounce, ICreateAuthRequest, Scope, ProviderHint } from '@hellocoop/utils'
 import * as config from '../lib/config'
 
-var redirectURI:string | null = null // set dynamically if not configured
+var redirectURIs: Record<string, any> = {}
 
 var callCount = 0 // DEBUG
 
 const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
-    const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri } = req.query
+    const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri, redirect_host } = req.query
 
     if (!config.clientId) {
         res.status(500).end('Missing HELLO_CLIENT_ID configuration')
@@ -18,16 +18,24 @@ const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
 callCount++
 console.log('login called:',callCount)
 
-    if (config.redirectURI)
-        redirectURI = config.redirectURI
-
+    let redirectURI = config.redirectURI as string
+    let host = req.headers?.host as string
     if (!redirectURI) {
-        if (!redirect_uri) {
-            console.log('Discovering API route ...')
-            return res.end(redirectURIBounce())        
+        if (redirectURIs[host]) {
+            redirectURI = redirectURIs[host]
         } else {
-            redirectURI = redirect_uri as string
-            console.log('We have now set redirectURI to:',redirectURI)
+            if (redirect_uri) {
+                if (redirect_host != host) {
+                    const err = `redirect_host=${redirect_host}, expected ${host}`
+                    console.error(err)
+                    return res.status(500).end(err)
+                }
+                redirectURIs[host] = redirectURI = redirect_uri as string
+                console.log(`RedirectURI for ${host} set to:${redirectURI}`)
+            } else {            
+                console.log('Discovering API RedirectURI route ...')
+                return res.end(redirectURIBounce())        
+            }
         }
     }
     // parse out param strings
