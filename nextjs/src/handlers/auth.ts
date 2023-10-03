@@ -17,16 +17,7 @@ const translateHandlerErrors = (handler: NextApiHandler): NextApiHandler =>
         }
     }
 
-let configured = true
-if (!config.sessionOptions.password) {
-    console.error('Missing HELLO_SESSION_SECRET configuration')
-    configured = false
-}
-
-if (!config.clientId) {
-    console.error('Missing HELLO_CLIENT_ID configuration')
-    configured = false
-}        
+      
 
 // console.log('config\n',JSON.stringify(config,null,4))   
 
@@ -34,7 +25,16 @@ export const handleAuth = translateHandlerErrors((req: NextApiRequest, res: Next
         const { query } = req
 
 console.log({query})     
+        let configured = true
+        if (!config.sessionOptions.password) {
+            console.error('Missing HELLO_SESSION_SECRET configuration')
+            configured = false
+        }
 
+        if (!config.clientId) {
+            console.error('Missing HELLO_CLIENT_ID configuration')
+            configured = false
+        }  
         if (query.profile) {
             if (configured)
                 return handleUser(req, res) 
