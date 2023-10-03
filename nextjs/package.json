@@ -1,6 +1,6 @@
 {
   "name": "@hellocoop/nextjs",
-  "version": "1.0.21",
+  "version": "1.0.24",
   "description": "Next.js SDK for Hellō https://hello.dev",
   "repository": {
     "type": "git",
