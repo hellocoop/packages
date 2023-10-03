@@ -42,13 +42,13 @@ import { // only import buttons used
 
 `<LoginButton/>` - provides \[ ō Login with Hellō \]
 
-`<UpdateEmailButton/>` - provides \[ ō Update email with Hellō \]
+`<UpdateEmailButton/>` - provides \[ ō Update Email with Hellō \]
 
-`<UpdatePictureButton/>` - provides \[ ō Update picture with Hellō \]
+`<UpdatePictureButton/>` - provides \[ ō Update Picture with Hellō \]
 
 ### 5) Add Log out
 ```typescript
-import { LogOut, LogOutRoute } from '@hellocoop/nextjs'
+import { logOut, logOutRoute } from '@hellocoop/nextjs'
 ```
 
 
