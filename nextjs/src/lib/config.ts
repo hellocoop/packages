@@ -1,5 +1,5 @@
 import type { IronSessionOptions } from 'iron-session'
-import { DEFAULT_SCOPE } from '@hellocoop/utils'
+import { DEFAULT_SCOPE, ProviderHint } from '@hellocoop/utils'
 
 export const apiRoute: string        
     = process.env.HELLO_API_ROUTE
@@ -55,6 +55,8 @@ export const helloWallet: string
 
 export const allowedOrigin: string = (new URL(helloWallet)).origin
 
+export const providerHint: ProviderHint[] | undefined
+    = process.env.HELLO_PROVIDER_HINT?.split(' ').map((s) => s.trim()) as ProviderHint[] || undefined
 
 // const requiredScopes = ['openid']
 

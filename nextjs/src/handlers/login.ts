@@ -42,17 +42,18 @@ console.log('login called:',callCount)
         }
     }
     // parse out param strings
-    const targetURIstring = Array.isArray(providerParam) ? providerParam[0] : providerParam
-    const provider_hint = targetURIstring?.split(' ').map((s) => s.trim()) as ProviderHint[] | undefined
+    const providerParamString = Array.isArray(providerParam) ? providerParam[0] : providerParam
+    const provider_hint = (providerParamString?.split(' ').map((s) => s.trim()) || config.providerHint) as ProviderHint[] | undefined
+    
     const scopeString = Array.isArray(scopeParam) ? scopeParam[0] : scopeParam
-    const scope = scopeString?.split(' ').map((s) => s.trim()) as Scope[] | undefined
+    const scope = (scopeString?.split(' ').map((s) => s.trim()) || config.defaultScope) as Scope[] | undefined
 
     const request: ICreateAuthRequest = {
         redirect_uri: redirectURI,
         client_id: config.clientId,
         wallet: config.helloWallet,
+        provider_hint,
         scope,
-        provider_hint
     }
     const { url, nonce, code_verifier } = await createAuthRequest(request)
     req.session.oidc = {
