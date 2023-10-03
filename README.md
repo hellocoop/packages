@@ -1,25 +1,31 @@
 # Hellō Packages
 
-This is a monorepo for packages that accelerate developers integrating Hellō
+This is a monorepo of packages for developing and integrating [Hellō](https://hello.dev)
 
-## nextjs-quickstart
+## [quickstart-nextjs](./quickstart-nextjs/)
 
-A CLI and nodejs module for adding Hellō to a Next.js app
+A CLI and nodejs module for adding Hellō to a Next.js app.
 
-`npx @hellocoop/nextjs-quickstart` will:
-- add the `@hellocoop/nextjs` package to the app
-- run `@hellocoop/quickstart` to retreive a `client_id`
-- add a `/profile` page
-- add a `/api/hellocoop` route for login and logout
+```sh
+npx @hellocoop/quickstart-nextjs
+```
+## [nextjs](./nextjs/)
 
-See README.md for [details](./nextjs-quickstart/)
+A Next.js package for login and registration with Hellō.
+```sh
+npm i @hellocoop/nextjs
+```
+## [quickstart](./quickstart/)
 
-## nextjs
+A CLI and nodejs module to create or retrieve a Hellō `client_id`. [Quickstart API Documentation](https://www.hello.dev/documentation/management-apis.html#quickstart-api)
+```sh
+npx @hellocoop/quickstart
+```
 
-A Next.js package for login and registration with Hellō. Details in [nextjs](./nextjs/)
+## [utils](./utils/)
 
-## quickstart
-
-A CLI and nodejs module to create or retrieve a Hellō `client_id` Details in [nextjs](./nextjs/)
-
+A set of utility functions to create an authorization request and retrieve a token payload with the authorization code. Defaults to using a code flow with PKCE and no client secret. 
+```sh
+npm i @hellocoop/utils
+```
 
