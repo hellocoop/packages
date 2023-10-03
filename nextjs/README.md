@@ -16,7 +16,9 @@ npm install @hellocoop/nextjs
 npx @hellocoop/quickstart-nextjs
 ```
 
-This will launch the Hellō Quickstart web app. After logging into Hellō you will create or select an application, and the `client_id` and a generated session secret will be added to your `.env` file as `HELLO_CLIENT_ID_DEFAULT` and `HELLO_SESSION_SECRET_DEFAULT`. Include this `.env` file in your deployments.
+This will launch the Hellō Quickstart web app. After logging into Hellō you will create or select an application, and the `client_id` and a generated session secret will be added to your `.env` file as `HELLO_CLIENT_ID_DEFAULT` and `HELLO_SESSION_SECRET_DEFAULT`. 
+
+Include this `.env` file in your deployments.
 
 ### 3) Create API route
 
@@ -27,6 +29,9 @@ export { handleAuth as default } from '@hellocoop/nextjs'
 ```
 
 ### 4) Add Hellō buttons
+```typescript
+import { ContinueButton, LoginButton, UpdateEmailButton, UpdatePictureButton, LogOut, LogOutRoute } from '@hellocoop/nextjs'
+```
 
 `<ContinueButton/>` - provides \[ ō Continue with Hellō \]
 
@@ -34,14 +39,16 @@ export { handleAuth as default } from '@hellocoop/nextjs'
 
 `<UpdateEmailButton/>` - provides \[ ō Update email with Hellō \]
 
-`UpdatePictureButton>` - provides \[ ō Update picture with Hellō \]
+`<UpdatePictureButton/>` - provides \[ ō Update picture with Hellō \]
 
 `logOut()` - function to logout user
 
 `logOutRoute` - provides route to logout
 
 ### 5) Logged In State
-
+```tsx
+import { LoggedIn, LoggedOut } from '@hellocoop/nextjs'
+```
 ```html
 <LoggedIn>
     <b>content displayed if logged in</b>
