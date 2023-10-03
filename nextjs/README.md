@@ -6,57 +6,59 @@ To add Hellō to your Next.js application, in your project directory:
 
 ### 1) Install the package:
 
-```
+```sh
 npm install @hellocoop/nextjs
 ```
 
-### 2) Update your `next.config.js` with:
+### 2) Update your `.env` with:
 
-```
+```sh
 npx @hellocoop/quickstart-nextjs
 ```
 
-This will launch the Hellō Quickstart web app. After logging into Hellō you will create or select an application, and the `client_id` will be returned and added to your config along with a locally generated session secret.
+This will launch the Hellō Quickstart web app. After logging into Hellō you will create or select an application, and the `client_id` and a generated session secret will be added to your `.env` file as `HELLO_CLIENT_ID_DEFAULT` and `HELLO_SESSION_SECRET_DEFAULT`. Include this `.env` file in your deployments.
 
 ### 3) Create API route
 
 ### Create a `hellocoop.js` file in the `/pages/api` directory that contains:
 
-```
+```typescript
 export { handleAuth as default } from '@hellocoop/nextjs'
 ```
 
-### 4) Add log in button
+### 4) Add Hellō buttons
 
-TBD
+`<ContinueButton/>` - provides \[ ō Continue with Hellō \]
 
-ContinueButton - provides \[ ō Continue with Hellō \]
+`<LoginButton/>` - provides \[ ō Login with Hellō \]
 
-LoginButton
+`<UpdateEmailButton/>` - provides \[ ō Update email with Hellō \]
 
-UpdateEmailButton
+`UpdatePictureButton>` - provides \[ ō Update picture with Hellō \]
 
-UpdatePictureButton
+`logOut()` - function to logout user
 
-UpdateProfileButton // future
+`logOutRoute` - provides route to logout
 
-logOut - function to logout
+### 5) Logged In State
 
-logOutRoute - string
+```html
+<LoggedIn>
+    <b>content displayed if logged in</b>
+</LoggedIn>
+```
+```html
+<LoggedOut>
+    <i>content displayed if logged out</i>
+</LoggedOut>
+```
 
-### State
+### User Data (Client Side Rendering)
 
-&lt;LoggedIn - display what is enclosed if logged in
+```typescript
+import { useUser } from '@hellocoop/nextjs'
 
-&lt;LoggedOut - display what is enclosed if logged out
-
-### User Data
-
-useUser -
-
-`const user = useUser()` or if you want to get certain props\
-`const { name, email } = newUser()`
-
-### Protected Routes
-
-How will we do this?
+const user = useUser()  
+// or if you want specific properties
+const { name, email } = newUser()
+```
