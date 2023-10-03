@@ -22,7 +22,7 @@ Include this `.env` file in your deployments.
 
 ### 3) Create API route
 
-### Create a `hellocoop.js` file in the `/pages/api` directory that contains:
+Create a `hellocoop.js` file in the `/pages/api` directory that contains:
 
 ```typescript
 export { handleAuth as default } from '@hellocoop/nextjs'
@@ -30,7 +30,12 @@ export { handleAuth as default } from '@hellocoop/nextjs'
 
 ### 4) Add Hellō buttons
 ```typescript
-import { ContinueButton, LoginButton, UpdateEmailButton, UpdatePictureButton, LogOut, LogOutRoute } from '@hellocoop/nextjs'
+import { // only import buttons used
+    ContinueButton, 
+    LoginButton, 
+    UpdateEmailButton, 
+    UpdatePictureButton 
+} from '@hellocoop/nextjs'
 ```
 
 `<ContinueButton/>` - provides \[ ō Continue with Hellō \]
@@ -41,11 +46,17 @@ import { ContinueButton, LoginButton, UpdateEmailButton, UpdatePictureButton, Lo
 
 `<UpdatePictureButton/>` - provides \[ ō Update picture with Hellō \]
 
+### 5) Add Log out
+```typescript
+import { LogOut, LogOutRoute } from '@hellocoop/nextjs'
+```
+
+
 `logOut()` - function to logout user
 
 `logOutRoute` - provides route to logout
 
-### 5) Logged In State
+### 6) Use Logged In State to Select Content
 ```tsx
 import { LoggedIn, LoggedOut } from '@hellocoop/nextjs'
 ```
