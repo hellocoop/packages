@@ -16,7 +16,7 @@ npm install @hellocoop/nextjs
 npx @hellocoop/quickstart-nextjs
 ```
 
-This will launch the Hellō Quickstart web app. After logging into Hellō you will create or select an application, and the `client_id` and a generated session secret will be added to your `.env` file as `HELLO_CLIENT_ID_DEFAULT` and `HELLO_SESSION_SECRET_DEFAULT`. 
+This will launch the Hellō Quickstart web app. After logging into Hellō you will create or select an application, and the `client_id` and a generated session secret will be added to your `.env` file as `HELLO_CLIENT_ID_DEFAULT` and `HELLO_SESSION_SECRET_DEFAULT`.
 
 Include this `.env` file in your deployments.
 
@@ -29,6 +29,7 @@ export { handleAuth as default } from '@hellocoop/nextjs'
 ```
 
 ### 4) Add Hellō buttons
+
 ```typescript
 import { // only import buttons used
     ContinueButton, 
@@ -43,38 +44,42 @@ import { // only import buttons used
 `<LoginButton/>` - provides \[ ō Login with Hellō \]
 
 #### Optional properties:
+
 - `scope` - space separated list of [Hellō scope values](https://www.hello.dev/documentation/hello-claims.html#current-scopes). Default 'openid email name picture'.
 - `targetURI` - defaults to `HELLO_DEFAULT_TARGET_ROUTE` or '/'
-- `providerHint` - overrides the [recommended providers](https://www.hello.dev/documentation/provider-hint.html#recommended-provider-defaults)  
+- `providerHint` - overrides the [recommended providers](https://www.hello.dev/documentation/provider-hint.html#recommended-provider-defaults)
 
 `<UpdateEmailButton/>` - provides \[ ō Update Email with Hellō \]
 
 `<UpdatePictureButton/>` - provides \[ ō Update Picture with Hellō \]
 
 #### Optional properties:
-- `targetURI` - defaults to current page.
-- `providerHint` - overrides the [recommended providers](https://www.hello.dev/documentation/provider-hint.html#recommended-provider-defaults)  
 
+- `targetURI` - defaults to current page.
+- `providerHint` - overrides the [recommended providers](https://www.hello.dev/documentation/provider-hint.html#recommended-provider-defaults)
 
 ### 5) Add Log out
+
 ```typescript
 import { logOut, logOutRoute } from '@hellocoop/nextjs'
 ```
-
 
 `logOut()` - function to logout user
 
 `logOutRoute` - provides route to logout
 
 ### 6) Use Logged In State to Select Content
+
 ```tsx
 import { LoggedIn, LoggedOut } from '@hellocoop/nextjs'
 ```
+
 ```html
 <LoggedIn>
     <b>content displayed if logged in</b>
 </LoggedIn>
 ```
+
 ```html
 <LoggedOut>
     <i>content displayed if logged out</i>
@@ -107,6 +112,9 @@ const {
 - `HELLO_PROVIDER_HINT` overrides the default [recommended providers](https://www.hello.dev/documentation/provider-hint.html) presented to your users
 
 #### Variables that may be needed
+
+- `HELLO_API_ROUTE` overrides the default `'/api/hellocoop'` route (see (3) above)
+
 
 - `HELLO_DEFAULT_TARGET_ROUTE` overrides default route '/' after login
 - `HELLO_DEFAULT_LOGGED_OUT_ROUTE` overrides default route '/' after logout
