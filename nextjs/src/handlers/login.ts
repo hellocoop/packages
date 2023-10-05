@@ -5,7 +5,7 @@ import * as config from '../lib/config'
 
 var redirectURIs: Record<string, any> = {}
 
-var callCount = 0 // DEBUG
+// var callCount = 0 // DEBUG
 
 const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
     const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri } = req.query
@@ -15,8 +15,8 @@ const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
         return
     }
 
-callCount++
-console.log('login called:',callCount)
+// callCount++
+// console.log('login called:',callCount)
 
     let redirectURI = config.redirectURI as string
     let host = req.headers?.host as string
@@ -42,18 +42,17 @@ console.log('login called:',callCount)
         }
     }
     // parse out param strings
-    const providerParamString = Array.isArray(providerParam) ? providerParam[0] : providerParam
-    const provider_hint = (providerParamString?.split(' ').map((s) => s.trim()) || config.providerHint) as ProviderHint[] | undefined
-    
+    const targetURIstring = Array.isArray(providerParam) ? providerParam[0] : providerParam
+    const provider_hint = targetURIstring?.split(' ').map((s) => s.trim()) as ProviderHint[] | undefined
     const scopeString = Array.isArray(scopeParam) ? scopeParam[0] : scopeParam
-    const scope = (scopeString?.split(' ').map((s) => s.trim()) || config.defaultScope) as Scope[] | undefined
+    const scope = scopeString?.split(' ').map((s) => s.trim()) as Scope[] | undefined
 
     const request: ICreateAuthRequest = {
         redirect_uri: redirectURI,
         client_id: config.clientId,
         wallet: config.helloWallet,
-        provider_hint,
         scope,
+        provider_hint
     }
     const { url, nonce, code_verifier } = await createAuthRequest(request)
     req.session.oidc = {

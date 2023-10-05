@@ -1,17 +1,14 @@
-'use client'
+import { getUser } from "./user"
+import type { User } from '../lib/user'
 
-import useUser from "./user"
-
-export function LoggedIn({ children }: any) { //TBD type: any
-    const user = useUser()
-    if(!user || !user?.isLoggedIn)
-        return
-    return children
+export function LoggedIn({ user, children }: {user:User, children:any}) { //TBD type: any
+    const u = getUser(user)
+    if (u?.isLoggedIn)
+        return children
 }
 
-export function LoggedOut({ children }: any) { //TBD type: any
-    const user = useUser()
-    if(!user || user?.isLoggedIn)
-        return
-    return children
+export function LoggedOut({ user, children }: {user:User, children:any}) { //TBD type: any
+    const u = getUser(user)
+    if (!u?.isLoggedIn)
+        return children
 }
