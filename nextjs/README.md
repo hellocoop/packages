@@ -58,6 +58,12 @@ import { // only import buttons used
 - `targetURI` - defaults to current page.
 - `providerHint` - overrides the [recommended providers](https://www.hello.dev/documentation/provider-hint.html#recommended-provider-defaults)
 
+#### Optional button styling properties:
+- `color` - white | black
+- `theme` - ignore-light | ignore-dark | aware-invert | aware-static
+- `hover` - pop | glow | flare | none
+Explore styling with the [button playground](https://www.hello.dev/documentation/getting-started.html#_2-standard-hello-buttons)
+
 ### 5) Add Log out
 
 ```typescript
