@@ -1,6 +1,6 @@
 {
   "name": "packages",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Monorepo package management",
   "workspaces": [
     "utils",
