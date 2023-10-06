@@ -1,5 +1,7 @@
 # Next.js module for Hellō
 
+##  NOTE - the Next.js SDK API is under development and will change
+
 Check out our [Hellō Next.js Starter](https://github.com/hellocoop/hello-nextjs-starter) where you will be logging in with [Hellō](https://hello.coop/) in less than a minute.
 
 To add Hellō to your Next.js application, in your project directory:
