@@ -6,13 +6,13 @@ Check out our [Hellō Next.js Starter](https://github.com/hellocoop/hello-nextjs
 
 To add Hellō to your Next.js application, in your project directory:
 
-### 1) Install the package:
+## 1) Install the package:
 
 ```sh
 npm install @hellocoop/nextjs
 ```
 
-### 2) Update your `.env` with:
+## 2) Update your `.env` with:
 
 ```sh
 npx @hellocoop/quickstart-nextjs
@@ -22,7 +22,7 @@ This will launch the Hellō Quickstart web app. After logging into Hellō you wi
 
 Include this `.env` file in your deployments.
 
-### 3) Create API route
+## 3) Create API route
 
 Create a `hellocoop.js` file in the `/pages/api` directory that contains:
 
@@ -30,7 +30,7 @@ Create a `hellocoop.js` file in the `/pages/api` directory that contains:
 export { handleAuth as default } from '@hellocoop/nextjs'
 ```
 
-### 4) Add Hellō buttons
+## 4) Add Hellō buttons
 
 ```typescript
 import { // only import buttons used
@@ -45,7 +45,7 @@ import { // only import buttons used
 
 `<LoginButton/>` - provides \[ ō Login with Hellō \]
 
-#### Optional properties:
+### Optional properties:
 
 - `scope` - space separated list of [Hellō scope values](https://www.hello.dev/documentation/hello-claims.html#current-scopes). Default 'openid email name picture'.
 - `targetURI` - defaults to `HELLO_DEFAULT_TARGET_ROUTE` or '/'
@@ -55,18 +55,19 @@ import { // only import buttons used
 
 `<UpdatePictureButton/>` - provides \[ ō Update Picture with Hellō \]
 
-#### Optional properties:
+### Optional properties:
 
 - `targetURI` - defaults to current page.
 - `providerHint` - overrides the [recommended providers](https://www.hello.dev/documentation/provider-hint.html#recommended-provider-defaults)
 
-#### Optional button styling properties:
+### Optional button styling properties:
 - `color` - white | black
 - `theme` - ignore-light | ignore-dark | aware-invert | aware-static
 - `hover` - pop | glow | flare | none
+
 Explore styling with the [button playground](https://www.hello.dev/documentation/getting-started.html#_2-standard-hello-buttons)
 
-### 5) Add Log out
+## 5) Add Log out
 
 ```typescript
 import { logOut, logOutRoute } from '@hellocoop/nextjs'
@@ -76,7 +77,7 @@ import { logOut, logOutRoute } from '@hellocoop/nextjs'
 
 `logOutRoute` - provides route to logout
 
-### 6) Use Logged In State to Select Content
+## 6) Use Logged In State to Select Content
 
 ```tsx
 import { LoggedIn, LoggedOut } from '@hellocoop/nextjs'
@@ -94,7 +95,7 @@ import { LoggedIn, LoggedOut } from '@hellocoop/nextjs'
 </LoggedOut>
 ```
 
-### 7) User Data (Client Side Rendering)
+## 7) User Data (Client Side Rendering)
 
 ```typescript
 import { useUser } from '@hellocoop/nextjs'
@@ -112,25 +113,18 @@ const {
 } = useUser()
 ```
 
-### 8) Environment Variables
+## 8) Environment Variables
 
-#### Customize these variables as desired
+### Production variable to be set
 
-- `HELLO_DEFAULT_SCOPE` overrides the default `'openid name email picture'` scope for login. [Possible values.](https://www.hello.dev/documentation/hello-claims.htm)
-- `HELLO_PROVIDER_HINT` overrides the default [recommended providers](https://www.hello.dev/documentation/provider-hint.html) presented to your users
+- `HELLO_SESSION_SECRET` overrides `HELLO_SESSION_SECRET_DEFAULT` in `.env` set by Quickstart. This variable should be different from development. 
 
-#### Variables that may be needed
+### Variables that may be needed
 
-- `HELLO_API_ROUTE` overrides the default `'/api/hellocoop'` route (see (3) above)
-
-
-- `HELLO_DEFAULT_TARGET_ROUTE` overrides default route '/' after login
-- `HELLO_DEFAULT_LOGGED_OUT_ROUTE` overrides default route '/' after logout
 - `HELLO_REDIRECT_URI` overrides dynamic redirect_uri discovery
 - `HELLO_CLIENT_ID` overrides `HELLO_CLIENT_ID_DEFAULT` in `.env` set by Quickstart
-- `HELLO_SESSION_SECRET` overrides `HELLO_SESSION_SECRET_DEFAULT` in `.env` set by Quickstart
 
-#### Testing Variables
+### Testing Variables
 
 - `HELLO_DOMAIN` - overrides 'hello.coop' - used for testing by Hellō team
 - `HELLO_WALLET` - overrides default 'https://wallet.hello.coop' - used if mocking Hellō server
