@@ -1,6 +1,6 @@
+import Head from 'next/head'
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-import styles from './buttons.module.css'
 
 import { loginApiRoute } from '../lib/config'
 
@@ -55,9 +55,14 @@ const HOVER_MAPPING = {
 function BaseButton({ label, onClick, disabled, showLoader, style, color = "black", theme = "ignore-light", hover = "pop" } : BaseButtonProps) {
     const helloBtnClass = CLASS_MAPPING[color]?.[theme]
     return (
-        <button onClick={onClick} disabled={disabled} style={style} className={`${styles['hello-btn']} ${styles[helloBtnClass]} ${styles[HOVER_MAPPING[hover]]} ${showLoader ? styles['hello-btn-loader'] : ''}`}>
-           {label}
-        </button>
+        <>
+            <Head>
+                <link rel="stylesheet" href="https://cdn.hello.coop/css/hello-btn.css"/>
+            </Head>
+            <button onClick={onClick} disabled={disabled} style={style} className={`hello-btn ${helloBtnClass} ${HOVER_MAPPING[hover]} ${showLoader ? 'hello-btn-loader' : ''}`}>
+                {label}
+            </button>
+        </>
     )
 }
 
