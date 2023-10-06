@@ -13,7 +13,7 @@
     "url": "git+https://github.com/hellocoop/packages.git"
   },
   "scripts": {
-    "patch": "node scripts/patch-node_modules.js",
+    "patch-starter": "cp -r nextjs ../hello-nextjs-starter/node_modules/@hellocoop/ && cp -r utils ../hello-nextjs-starter/node_modules/@hellocoop/",
     "build": "npm run build --workspaces",
     "watch:utils": "npm run watch --workspace utils",
     "watch:nextjs": "npm run watch --workspace nextjs",
