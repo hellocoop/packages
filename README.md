@@ -12,6 +12,8 @@ npx @hellocoop/quickstart-nextjs
 ## [nextjs](./nextjs/)
 
 A Next.js package for login and registration with Hellō.
+
+NOTE - the Next.js SDK API is under development and will change
 ```sh
 npm i @hellocoop/nextjs
 ```
