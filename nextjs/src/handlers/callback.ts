@@ -77,6 +77,8 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     if (wildcard_domain) { 
         // the redirect_uri is not registered at Hellō - prompt to add
         const appName = (Array.isArray(app_name) ? app_name[0] : app_name)  || 'Your App'
+        delete req.session.oidc     // cleanup
+        await req.session.save()        
         res.end(wildcardConsole({
             uri: Array.isArray(wildcard_domain) ? wildcard_domain[0] : wildcard_domain,
             appName,
