@@ -184,7 +184,7 @@ export default async loggedin ({ token, payload, req, res }:LoggedInParams): Pro
     // store ID Token for audit
     await save(token)
     //
-    { sub: id } = payload
+    const { sub: id } = payload
     const user = async readDB(id)
     // Decide not to login user - no auth cookie set - redirected to error page
     if (payload.sub != allowedUser) 
