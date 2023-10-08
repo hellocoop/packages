@@ -46,7 +46,7 @@ const _configuration: IConfig = {
     apiRoute: HELLO_API_ROUTE,
     authApiRoute: HELLO_API_ROUTE+'?auth=true',
     loginApiRoute: HELLO_API_ROUTE+'?login=true',
-    logoutApiRoute: HELLO_API_ROUTE+'logout=true',
+    logoutApiRoute: HELLO_API_ROUTE+'?logout=true',
 
 
     // configured only by process.env or .env
@@ -103,8 +103,8 @@ export const configure = function ( config: Config ) {
     } else {
         configured = true
     }
-console.log({configured})
-console.log({_configuration})
+// console.log({configured})
+// console.log({_configuration})
     // not sure this will work
     // deepFreeze(_configuration)
 }
