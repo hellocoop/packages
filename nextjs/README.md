@@ -178,8 +178,6 @@ export default HelloAuth({
 ```typescript
 import type { LoggedInParams, LoggedInResponse } from '@hellocoop/nextjs'
 
-interface LoggedInParams
-
 export default async loggedin ({ token, payload, req, res }:LoggedInParams): Promise<LoggedInResponse> {
     // store ID Token for audit
     await save(token)
