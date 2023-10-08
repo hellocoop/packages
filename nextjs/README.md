@@ -27,7 +27,7 @@ Include this `.env` file in your deployments.
 Create a `hellocoop.js` file in the `/pages/api` directory that contains:
 
 ```typescript
-import HelloAuth from '@hellocoop/nextjs'
+import { HelloAuth } from '@hellocoop/nextjs'
 export default HelloAuth({})
 ```
 
