@@ -116,7 +116,7 @@ const {
 
 ```typescript
 import { getServerAuth } from '@hellocoop/nextjs'
-s
+
 // returns same shape as getAuth()
 const { 
     isLoggedIn, // always returned
