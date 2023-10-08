@@ -4,6 +4,10 @@ import { useRouter } from 'next/router'
 
 import config from '../lib/config'
 const { loginApiRoute } = config
+
+console.log({loginApiRoute})
+console.log(JSON.stringify(config,null,4))
+
 export type Color = "black" | "white"
 export type Theme = "ignore-light" | "ignore-dark" | "aware-invert" | "aware-static"
 export type Hover = "pop" | "glow" | "flare" | "none"
@@ -82,7 +86,13 @@ function LoginBaseButton(props: LoginButtonProps) {
 
     const login = (): void => {
         setClicked(true)
-        push(loginApiRoute + "&" + params.toString())
+
+const route = loginApiRoute + "&" + params.toString()
+console.log({route})
+console.log({loginApiRoute})
+console.log(JSON.stringify(config,null,4))
+
+        push(route)
     }
 
     return <BaseButton {...props} onClick={login} disabled={clicked} showLoader={clicked} />
