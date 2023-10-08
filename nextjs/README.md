@@ -103,8 +103,8 @@ import { getAuth } from '@hellocoop/nextjs'
 
 const { 
     isLoggedIn, // always returned
-    iat,        // returned if isLogedIn == true
-    sub,        // use as user identifier - returned if isLogedIn == true
+    iat,        // returned if isLoggedIn == true
+    sub,        // use as user identifier - returned if isLoggedIn == true
     // additional properties set in auth cookie - following are defaults
     name, 
     email,
@@ -120,8 +120,8 @@ s
 // returns same shape as getAuth()
 const { 
     isLoggedIn, // always returned
-    iat,        // returned if isLogedIn == true
-    sub,        // use as user identifier - returned if isLogedIn == true
+    iat,        // returned if isLoggedIn == true
+    sub,        // use as user identifier - returned if isLoggedIn == true
     // additional properties set in auth cookie - following are defaults
     name, 
     email,
