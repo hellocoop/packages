@@ -139,7 +139,7 @@ export default function MyPage = ({auth}) {
     return(
         <HelloProvider>
           <LoggedIn>
-            Hellō name={name}
+            Hellō {name}
           </LoggedIn>
           <LoggedOut>
             <ContinueButton/>
