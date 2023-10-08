@@ -12,7 +12,7 @@ export interface IConfig {
     },
     cookies: {
         authName: string,
-        oauthName: string,
+        oidcName: string,
     },
     callbacks: {
         loggedIn?: (params: LoggedInParams) => Promise<LoggedInResponse>
@@ -41,7 +41,7 @@ const _configuration: IConfig = {
     },
     cookies: {
         authName: 'hellcoop_auth',
-        oauthName: 'hellcoop_oauth',
+        oidcName: 'hellcoop_oidc',
     },
     callbacks: {},
     authApiRoute:'',

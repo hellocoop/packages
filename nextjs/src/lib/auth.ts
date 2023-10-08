@@ -1,6 +1,12 @@
 import { Claims } from '@hellocoop/utils'
 import { NextApiRequest, NextApiResponse } from 'next'
 
+import config from './config'
+import { serialize } from 'cookie'
+
+const { cookies } = config
+const { authName } = cookies 
+
 export type AuthCookie =
     {
         sub: string,
@@ -18,34 +24,44 @@ export type Auth = {
 } & AuthCookie )
 
 
-const decrypt = async function ( cookie: string ): Promise< {[key: string]: any;}| null> {
-    return null
-}
-
-const encrypt = async function ( payload: {[key: string]: any;} ): Promise<string | null> {
-    return ''
-}
-
 export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth ): Promise<boolean> =>  {
+    const json = JSON.stringify(auth)
+    // TBD encrypt cookie
+    const encCookie = Buffer.from(json).toString('base64')
+    res.setHeader('Set-Cookie',serialize( authName, encCookie, {
+        httpOnly: true,
+        // TBD - expire in 5 minutes
+        path: '/' // TBD restrict to API path
+    }))
     return true
 }
 
 export const clearAuthCookie = async ( res: NextApiResponse) =>  {
-    return
+    res.setHeader('Set-Cookie',serialize(authName, '', {
+        expires: new Date(0), // Set the expiry date to a date in the past
+        path: '/', // Specify the path
+      }))
 }
 
 
 export const getAuthfromCookies = async function 
         ( cookies: Partial<{[key: string]: string;}> )
         : Promise<Auth> {
-    const authCookie = cookies['auth']
+    const authCookie = cookies[authName]
     if (!authCookie)
         return {isLoggedIn:false}
-    const auth = await decrypt(authCookie) as AuthCookie
-    if (auth && auth.sub) {
-        return {
-            isLoggedIn: true, ...auth
+
+    try {
+        // TBD - change to decrypt cookie
+        const json = Buffer.from(authCookie, 'base64').toString()
+        const auth = JSON.parse(json)
+        if (auth && auth.sub) {
+            return {
+                isLoggedIn: true, ...auth
+            }
         }
+    } catch( e ) {
+        console.error(e)
     }
     return {isLoggedIn:false}
 }

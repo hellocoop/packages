@@ -5,6 +5,8 @@ import config from '../lib/config'
 import { getOidc, deleteOidc } from '../lib/oidc'
 import { fetchToken, parseToken, wildcardConsole, Claims } from '@hellocoop/utils'
 import { saveAuthCookie, Auth } from '../lib/auth'
+import { Scope } from '@hellocoop/utils'
+
 // import type { HelloClaims, User } from '../lib/user'
 
 
@@ -68,14 +70,19 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         // TBD == pull out key claims
-    
-    FIX ME
 
         const auth: Auth = {
-            isLoggedIn: false
+            isLoggedIn: true,
+            sub: payload.sub,
+            iat: payload.iat
         }
-
-
+        // hack TypeScript
+        const claims: {[key: string]: any} = payload as {[key: string]: any}
+        payload.scope.forEach( (scope) => {
+            const claim = claims[scope]
+            if (claim)
+                auth[scope] = claim
+        })
         await saveAuthCookie( res, auth)
     } catch (error: any) {
         deleteOidc(res)
