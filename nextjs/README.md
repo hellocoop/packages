@@ -135,7 +135,7 @@ const {
 // MyPage.tsx
 import { HelloProvider, LoggedIn, LoggedOut, ContinueButton } from '@/hellocoop-nextjs'
 export default function MyPage = ({auth}) {
-    { name } = auth
+    const { name } = auth
     return(
         <HelloProvider>
           <LoggedIn>
@@ -159,10 +159,11 @@ import loggedIn from './your-logged-in-logic'
 
 import HelloAuth from '@hellocoop/nextjs'
 export default HelloAuth({
-    scope: ['email','name','picture],
+    scope: ['email','name','picture'],
     callbacks: {
         async loggedIn({ token, payload }) {
             return true
+        }
     },
     pages: {
         loggedIn: '/',
