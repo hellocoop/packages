@@ -8,9 +8,7 @@ var redirectURIs: Record<string, any> = {}
 
 const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
     const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri } = req.query
-
-    // TODO set OIDC cookie
-
+    
     if (!config.clientId) {
         res.status(500).end('Missing HELLO_CLIENT_ID configuration')
         return
