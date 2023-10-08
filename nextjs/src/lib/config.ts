@@ -6,7 +6,6 @@ export interface IConfig {
     error?: string[],
     scope?: Scope[],
     routes: {
-        hellocoop: string,
         loggedIn: string,
         loggedOut: string,
     },
@@ -17,7 +16,8 @@ export interface IConfig {
     callbacks: {
         loggedIn?: (params: LoggedInParams) => Promise<LoggedInResponse>
     },
-    // built from routes.helloop
+    // built from HELLO_API_ROUTE
+    apiRoute: string,
     authApiRoute: string,
     loginApiRoute: string,
     logoutApiRoute: string,
@@ -35,7 +35,6 @@ const HELLO_DOMAIN = process.env.HELLO_DOMAIN as string || 'hello.coop'
 
 const _configuration: IConfig = {
     routes: {
-        hellocoop: HELLO_API_ROUTE,
         loggedIn: '/',
         loggedOut: '/',
     },
@@ -44,9 +43,11 @@ const _configuration: IConfig = {
         oidcName: 'hellcoop_oidc',
     },
     callbacks: {},
-    authApiRoute:'',
-    loginApiRoute:'',
-    logoutApiRoute:'',
+    apiRoute: HELLO_API_ROUTE,
+    authApiRoute: HELLO_API_ROUTE+'?auth=true',
+    loginApiRoute: HELLO_API_ROUTE+'?login=true',
+    logoutApiRoute: HELLO_API_ROUTE+'logout=true',
+
 
     // configured only by process.env or .env
     clientId
@@ -94,16 +95,18 @@ export const configure = function ( config: Config ) {
     }
     _configuration.callbacks = config.callbacks || {}
     _configuration.scope = config.scope
-    const apiRoute = _configuration.routes.hellocoop
-    // set API routes
-    _configuration.authApiRoute = apiRoute+'?auth=true'
-    _configuration.loginApiRoute = apiRoute+'?login=true'
-    _configuration.logoutApiRoute = apiRoute+'logout=true'
+
     if (!_configuration.clientId) {
-        _configuration.error = ['NO CLIENT ID WAS FOUND']
+        const message = 'NO CLIENT ID WAS FOUND'
+        _configuration.error = [message]
+        console.error(message)
+    } else {
+        configured = true
     }
+console.log({configured})
+console.log({_configuration})
     // not sure this will work
-    deepFreeze(_configuration)
+    // deepFreeze(_configuration)
 }
 
 export default _configuration
