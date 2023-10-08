@@ -30,7 +30,7 @@ export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth ): Promis
     const encCookie = Buffer.from(json).toString('base64')
     res.setHeader('Set-Cookie',serialize( authName, encCookie, {
         httpOnly: true,
-        // TBD - expire in 5 minutes
+        // TBD - expire ???
         path: '/' // TBD restrict to API path
     }))
     return true
