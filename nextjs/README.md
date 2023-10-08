@@ -133,7 +133,7 @@ const {
 ## 8) Server Side Properties 
 ```ts
 // MyPage.tsx
-import { HelloProvider, LoggedIn, LoggedOut, ContinueButton } from '@/hellocoop-nextjs'
+import { HelloProvider, LoggedIn, LoggedOut, ContinueButton } from '@hellocoop/nextjs'
 export default function MyPage = ({auth}) {
     const { name } = auth
     return(
@@ -148,7 +148,7 @@ export default function MyPage = ({auth}) {
     )
 }
 // This a convenience wrapper around `getServerAuth()`
-export { getServerSideProps } from '@/hellocoop-nextjs'
+export { getServerSideProps } from '@hellocoop/nextjs'
 ```
 
 ## 8) Configuration
