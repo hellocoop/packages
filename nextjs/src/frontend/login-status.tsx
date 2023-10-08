@@ -1,14 +1,14 @@
-import { getUser } from "./user"
-import type { User } from '../lib/user'
+import { getAuth } from "./auth"
+import type { Auth } from '../lib/auth'
 
-export function LoggedIn({ user, children }: {user:User, children:any}) { //TBD type: any
-    const u = getUser(user)
+export function LoggedIn({ auth, children }: {auth:Auth, children:any}) { //TBD type: any
+    const u = getAuth(auth)
     if (u?.isLoggedIn)
         return children
 }
 
-export function LoggedOut({ user, children }: {user:User, children:any}) { //TBD type: any
-    const u = getUser(user)
+export function LoggedOut({ auth, children }: {auth:Auth, children:any}) { //TBD type: any
+    const u = getAuth(auth)
     if (!u?.isLoggedIn)
         return children
 }

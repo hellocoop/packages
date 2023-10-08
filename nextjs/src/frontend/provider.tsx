@@ -1,10 +1,10 @@
 import React, { createContext, useContext } from 'react'
-import useUser from './user'
+import { useAuth } from './auth'
 
 const HelloContext = createContext(null);
 
-const HelloProvider = ({ user, children } : any) => { //TBD any
-    const u = user || useUser()
+const HelloProvider = ({ auth, children } : any) => { //TBD any
+    const u = auth || useAuth()
     return (
       <HelloContext.Provider value={u}>
         {children}

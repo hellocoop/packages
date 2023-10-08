@@ -1,66 +1,57 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
+import { 
+    GetServerSidePropsContext, 
+    GetServerSidePropsResult, 
+    NextApiRequest, 
+    NextApiResponse 
+} from 'next'
 
-import * as config from '../lib/config'
-import handleCallback from './callback'
-import handleLogin from './login'
-import handleLogout from './logout'
-import handleUser from './user'
-import { User } from '../lib/user'
+import config from '../lib/config'
 
-const translateHandlerErrors = (handler: NextApiHandler): NextApiHandler =>
-    async (req: NextApiRequest, res: NextApiResponse) => {
-        try {
-            await handler(req, res)
-        } catch (error: any) {
-            console.error(error)
-            res.status(error?.status || 500).end(error.message)
+import { Auth, getAuthfromCookies, saveAuthCookie, clearAuthCookie } from '../lib/auth'
+
+// import { clearCookie, setCookie } from '..,/lib/cookie'
+import { Claims } from '@hellocoop/utils'
+
+
+export type AuthUpdates =
+    Claims & {
+        [key: string]: any; // Allow arbitrary optional properties
+    }
+
+
+export const getServerAuth = async function ( req: NextApiRequest): Promise<Auth> {
+    return await getAuthfromCookies(req.cookies)
+}
+
+export const handleAuth = async function (req: NextApiRequest, res: NextApiResponse) {
+    return await getServerAuth(req)
+}
+
+export const getServerSideProps = async function (context:GetServerSidePropsContext)
+    : Promise<GetServerSidePropsResult<{auth:Auth}>> {
+        const auth = await getAuthfromCookies(context.req.cookies)
+        return {
+            props: {auth}
         }
     }
 
-let configured = true
-if (!config.sessionOptions.password) {
-    console.error('Missing HELLO_SESSION_SECRET configuration')
-    configured = false
+export const clearAuth = async function ( res: NextApiResponse) {
+    clearAuthCookie(res)
 }
 
-if (!config.clientId) {
-    console.error('Missing HELLO_CLIENT_ID configuration')
-    configured = false
-}        
-
-// console.log('config\n',JSON.stringify(config,null,4))   
-
-export const handleAuth = translateHandlerErrors((req: NextApiRequest, res: NextApiResponse) => {
-        const { query } = req
-
-// console.log({query})     
-
-        if (query.profile) {
-            if (configured)
-                return handleUser(req, res) 
-            else    // don't blow up buttons
-                return res.end({isLoggedIn:false} as User)    
-        }
-
-        if (!configured)
-            return res.status(500).end('Missing configuration:\n'+JSON.stringify(config,null,4))
-
-        if (query.code || query.error) { // authorization response
-            return handleCallback(req, res)
-        }
-
-        if (query.logout) {     // logout user
-            return handleLogout(req, res)
-        }
-
-        if (query.iss) {        // IdP (Hellō) initiated login
-            // https://openid.net/specs/openid-connect-core-1_0.html#ThirdPartyInitiatedLogin
-            throw new Error('unimplemented')
-        }
-
-        if (query.login) {
-            return handleLogin(req, res)
-        }
-
-        res.status(500).end('Invalid hellocoop call:\n'+JSON.stringify(query,null,4))
-    })
+export const updateAuth = async function ( req: NextApiRequest, res: NextApiResponse, authUpdates: AuthUpdates )
+        : Promise<Auth | null> {
+    const auth = await getAuthfromCookies(req.cookies)
+    if (!auth.isLoggedIn)
+        return auth
+    const newAuth = {
+        ...auth,
+        ...authUpdates,
+        sub: auth.sub,
+        iat: auth.iat
+    }
+    const success = await saveAuthCookie( res, newAuth)
+    if (success)
+        return newAuth
+    return null
+}
