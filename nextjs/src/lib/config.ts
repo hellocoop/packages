@@ -44,7 +44,7 @@ const _configuration: IConfig = {
     },
     callbacks: {},
     apiRoute: HELLO_API_ROUTE,
-    authApiRoute: HELLO_API_ROUTE+'?auth=true',
+    authApiRoute: HELLO_API_ROUTE+'?getAuth=true',
     loginApiRoute: HELLO_API_ROUTE+'?login=true',
     logoutApiRoute: HELLO_API_ROUTE+'?logout=true',
 

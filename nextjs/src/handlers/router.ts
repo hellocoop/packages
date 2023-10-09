@@ -5,7 +5,7 @@ import handleCallback from './callback'
 import handleLogin from './login'
 import handleLogout from './logout'
 import { handleAuth } from './auth'
-import { Auth } from '../lib/auth'
+import { NotLoggedIn } from '../lib/auth'
 
 const  translateHandlerErrors = (handler: NextApiHandler): NextApiHandler =>
     async (req: NextApiRequest, res: NextApiResponse) => {
@@ -24,9 +24,9 @@ const router = translateHandlerErrors((req: NextApiRequest, res: NextApiResponse
 
 // console.log({query})     
 
-        if (query.auth) {
+        if (query.getAuth) {
             if (config.error) // don't blow up buttons if not configured
-                return res.end({isLoggedIn:false} as Auth)    
+                return res.end(NotLoggedIn)    
             else 
                 return handleAuth(req, res) 
         }
