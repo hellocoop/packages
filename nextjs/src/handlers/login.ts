@@ -1,15 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { withIronSessionApiRoute } from 'iron-session/next'
 import { createAuthRequest, redirectURIBounce, ICreateAuthRequest, Scope, ProviderHint } from '@hellocoop/utils'
-import * as config from '../lib/config'
-
+import config from '../lib/config'
+import { saveOidc } from '../lib/oidc'
 var redirectURIs: Record<string, any> = {}
 
 // var callCount = 0 // DEBUG
 
 const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
     const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri } = req.query
-
+    
     if (!config.clientId) {
         res.status(500).end('Missing HELLO_CLIENT_ID configuration')
         return
@@ -55,15 +54,13 @@ const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
         provider_hint
     }
     const { url, nonce, code_verifier } = await createAuthRequest(request)
-    req.session.oidc = {
+    await saveOidc( res, {
         nonce,
         code_verifier,
         redirect_uri: redirectURI,
-        target_uri: (Array.isArray(target_uri) ? target_uri[0] : target_uri)|| config.defaultTargetRoute
-    }
-
-    await req.session.save()
+        target_uri: (Array.isArray(target_uri) ? target_uri[0] : target_uri)|| config.routes.loggedIn
+    })
     res.redirect(url)
 }
-// wrap handler
-export default withIronSessionApiRoute( handleLogin, config.sessionOptions)
+
+export default handleLogin

@@ -27,7 +27,8 @@ Include this `.env` file in your deployments.
 Create a `hellocoop.js` file in the `/pages/api` directory that contains:
 
 ```typescript
-export { handleAuth as default } from '@hellocoop/nextjs'
+import { HelloAuth } from '@hellocoop/nextjs'
+export default HelloAuth({})
 ```
 
 ## 4) Add Hellō buttons
@@ -95,29 +96,128 @@ import { LoggedIn, LoggedOut } from '@hellocoop/nextjs'
 </LoggedOut>
 ```
 
-## 7) User Data (Client Side Rendering)
+## 7) Auth Data - Client Side
+
+COMING SOON
 
 ```typescript
-import { useUser } from '@hellocoop/nextjs'
+import { useAuth } from '@hellocoop/nextjs'
 
-const user = useUser()  
-
-// or if you want specific properties
 const { 
     isLoggedIn, // always returned
-    sub,        // always available isLoggedIn - use as user identifier
-    // claims representing requested scopes - following are defaults
+    iat,        // returned if isLoggedIn == true
+    sub,        // use as user identifier - returned if isLoggedIn == true
+    // additional properties set in auth cookie - following are defaults
     name, 
     email,
     picture 
-} = useUser()
+} = useAuth()
 ```
+
+## 8) Auth Data - Server Side
+
+```typescript
+import { getAuth } from '@hellocoop/nextjs'
+
+// returns same shape as useAuth()
+const { 
+    isLoggedIn, // always returned
+    iat,        // returned if isLoggedIn == true
+    sub,        // use as user identifier - returned if isLoggedIn == true
+    // additional properties set in auth cookie - following are defaults
+    name, 
+    email,
+    picture 
+} = await getAuth( req )
+```
+
+
+## 8) Server Side Properties 
+```ts
+// MyPage.tsx
+import { HelloProvider, LoggedIn, LoggedOut, ContinueButton } from '@hellocoop/nextjs'
+export default function MyPage = ({auth}) {
+    const { name } = auth
+    return(
+        <HelloProvider>
+          <LoggedIn>
+            Hellō {name}
+          </LoggedIn>
+          <LoggedOut>
+            <ContinueButton/>
+          </LoggedOut>
+        </HelloProvider>
+    )
+}
+// This a convenience wrapper around `getAuth()`
+export { getServerSideProps } from '@hellocoop/nextjs'
+```
+
+## 8) Configuration
+
+```typescript
+// /api/hellocoop.ts
+import loggedIn from './your-logged-in-logic' 
+
+import HelloAuth from '@hellocoop/nextjs'
+export default HelloAuth({
+    scope: ['email','name','picture'],
+    callbacks: {
+        async loggedIn({ token, payload }) {
+            return true
+        }
+    },
+    pages: {
+        loggedIn: '/',
+        loggedOut:'/',
+        error:  '/auth/error',       // Error code passed in query string as ?error=
+    }
+})
+```
+
+## 9) Add Server Side loggedIn Logic
+
+```typescript
+import type { LoggedInParams, LoggedInResponse } from '@hellocoop/nextjs'
+
+export default async loggedin ({ token, payload, req, res }:LoggedInParams): Promise<LoggedInResponse> {
+    // store ID Token for audit
+    await save(token)
+    //
+    const { sub: id } = payload
+    const user = async readDB(id)
+    // Decide not to login user - no auth cookie set - redirected to error page
+    if (payload.sub != allowedUser) 
+        return {loggedIn:false}
+    // Decide not to login user - no auth cookie set - process response directly
+    if (payload.sub != allowedUser) {
+        res.end(ErrorResponse)
+        return {
+            loggedIn: false
+            processed: true
+        }
+    }
+
+    // choose what to store in auth cookie
+    return { auth: { email, name, picture }} = payload  // default values
+
+    // process response 
+    res.end(LoggedInPage)
+    return { processed: true,
+        auth: { email, name, picture } = payload
+    }
+} 
+
+```
+
 
 ## 8) Environment Variables
 
 ### Production variable to be set
 
-- `HELLO_SESSION_SECRET` overrides `HELLO_SESSION_SECRET_DEFAULT` in `.env` set by Quickstart. This variable should be different from development. 
+- `HELLO_SESSION_SECRET` overrides `HELLO_SESSION_SECRET_DEFAULT` in `.env` set by Quickstart. 
+
+This variable should be different from development. 
 
 ### Variables that may be needed
 

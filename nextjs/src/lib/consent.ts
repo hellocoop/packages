@@ -1,7 +1,8 @@
 import Cors from 'cors'
 
 import initMiddleware from './init-middleware'
-import { allowedOrigin } from './config'
+import config from './config'
+const allowedOrigin = config.helloWallet
 
 export const consentCors = initMiddleware(
     Cors({

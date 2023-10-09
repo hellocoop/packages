@@ -1,11 +1,14 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
-import { unsealData, IronSessionOptions } from 'iron-session'
-import { withIronSessionApiRoute } from 'iron-session/next'
 
 import { consentCors } from '../lib/consent'
-import * as config from '../lib/config'
-import { fetchToken, parseToken, wildcardConsole } from '@hellocoop/utils'
+import config from '../lib/config'
+import { getOidc, deleteOidc } from '../lib/oidc'
+import { fetchToken, parseToken, wildcardConsole, Claims } from '@hellocoop/utils'
+import { saveAuthCookie, Auth } from '../lib/auth'
+import { Scope } from '@hellocoop/utils'
+
 // import type { HelloClaims, User } from '../lib/user'
+
 
 
 const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -17,8 +20,9 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         app_name,
     } = req.query
 
+    const oidcState = await getOidc(req)
 
-    if (!req.session.oidc)
+    if (!oidcState)
         return res.status(400).end('Session cookie lost')
     if (error)
         return res.status(400).end(error)
@@ -32,7 +36,7 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         nonce,
         redirect_uri,
         target_uri
-    } = req.session.oidc
+    } = oidcState
 
     if (!code_verifier) {
         res.status(400).end('Missing code_verifier from session')
@@ -65,20 +69,29 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             return res.status(400).end('The ID token is not yet valid.')
         }
 
-        req.session.user = {
-            ...payload,
-            isLoggedIn: true 
+        // TBD == pull out key claims
+
+        const auth: Auth = {
+            isLoggedIn: true,
+            sub: payload.sub,
+            iat: payload.iat
         }
-        // session saved below
+        // hack TypeScript
+        const claims: {[key: string]: any} = payload as {[key: string]: any}
+        payload.scope.forEach( (scope) => {
+            const claim = claims[scope]
+            if (claim)
+                auth[scope] = claim
+        })
+        await saveAuthCookie( res, auth)
     } catch (error: any) {
+        deleteOidc(res)
         return res.status(500).end(error.message)
     }
 
     if (wildcard_domain) { 
         // the redirect_uri is not registered at Hellō - prompt to add
         const appName = (Array.isArray(app_name) ? app_name[0] : app_name)  || 'Your App'
-        delete req.session.oidc     // cleanup
-        await req.session.save()        
         res.end(wildcardConsole({
             uri: Array.isArray(wildcard_domain) ? wildcard_domain[0] : wildcard_domain,
             appName,
@@ -88,13 +101,8 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         return
     }
 
-    delete req.session.oidc     // cleanup
-    await req.session.save()
     res.redirect(target_uri 
         || '/') // just in case
 }
 
-// wrap handler
-export default withIronSessionApiRoute( handleCallback, config.sessionOptions)
-
-
+export default handleCallback

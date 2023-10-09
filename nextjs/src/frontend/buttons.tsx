@@ -2,7 +2,10 @@ import Head from 'next/head'
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 
-import { loginApiRoute } from '../lib/config'
+import config from '../lib/config'
+const { loginApiRoute } = config
+
+// console.log(JSON.stringify(config,null,4))
 
 export type Color = "black" | "white"
 export type Theme = "ignore-light" | "ignore-dark" | "aware-invert" | "aware-static"
