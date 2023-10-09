@@ -1,20 +1,20 @@
-// import { useEffect } from 'react'
-// import { useRouter } from 'next/router'
-import useSWR from 'swr'
-import { useHelloProviderContext } from "./provider"
 
+import useSWR from 'swr'
 import config from '../lib/config'
 const { authApiRoute } = config
-import type { Auth } from '../lib/auth'
+import { Auth, NotLoggedIn } from '../lib/auth'
 
-const fetcher = (url: string) => fetch(url).then(r => r.json())
+const fetcher = async (url: string): Promise<Auth> => {
+    const response = await fetch(url)
+    const auth = response.json()
+    return auth
 
-export function useAuth(): Auth | undefined {
-    const { data: auth } = useSWR<Auth>(authApiRoute, fetcher)
+}
+
+export const useAuth = (passedAuth?: Auth): Auth => {
+    const { data: auth } = useSWR(authApiRoute, fetcher, {
+        fallbackData: passedAuth || NotLoggedIn
+    })
     return auth
 }
 
-export function getAuth( passedAuth: Auth): Auth {
-    const auth = passedAuth || useHelloProviderContext() || useAuth()
-    return auth
-}

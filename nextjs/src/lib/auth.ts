@@ -65,3 +65,5 @@ export const getAuthfromCookies = async function
     }
     return {isLoggedIn:false}
 }
+
+export const NotLoggedIn: Auth = { isLoggedIn: false}

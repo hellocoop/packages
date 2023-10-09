@@ -19,7 +19,7 @@ export type AuthUpdates =
     }
 
 
-export const getServerAuth = async function ( req: NextApiRequest, res: NextApiResponse): Promise<undefined> {
+export const geAuth = async function ( req: NextApiRequest, res: NextApiResponse): Promise<undefined> {
     const auth = await getAuthfromCookies(req.cookies)
 
     console.log({auth})
@@ -28,7 +28,7 @@ export const getServerAuth = async function ( req: NextApiRequest, res: NextApiR
 }
 
 export const handleAuth = async function (req: NextApiRequest, res: NextApiResponse) {
-    return await getServerAuth(req,res)
+    return await geAuth(req,res)
 }
 
 export const getServerSideProps = async function (context:GetServerSidePropsContext)

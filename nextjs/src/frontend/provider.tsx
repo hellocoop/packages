@@ -1,13 +1,14 @@
 import React, { createContext, useContext } from 'react'
 import { useAuth } from './auth'
+import { NotLoggedIn } from '../lib/auth'
 
-const HelloContext = createContext(null);
+const HelloContext = createContext(NotLoggedIn);
 
-const HelloProvider = ({ auth, children } : any) => { //TBD any
-    const u = auth || useAuth()
-    return (
-      <HelloContext.Provider value={u}>
-        {children}
+const HelloProvider = ({ children, auth: passedAuth  } : any) => { //TBD any
+  const auth = useAuth(passedAuth)
+  return (
+      <HelloContext.Provider value={auth}>
+          {children}
       </HelloContext.Provider>
     )
 }

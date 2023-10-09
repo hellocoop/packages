@@ -99,7 +99,7 @@ import { LoggedIn, LoggedOut } from '@hellocoop/nextjs'
 ## 7) Auth Data - Client Side
 
 ```typescript
-import { getAuth } from '@hellocoop/nextjs'
+import { useAuth } from '@hellocoop/nextjs'
 
 const { 
     isLoggedIn, // always returned
@@ -109,15 +109,15 @@ const {
     name, 
     email,
     picture 
-} = getAuth()
+} = useAuth()
 ```
 
 ## 8) Auth Data - Server Side
 
 ```typescript
-import { getServerAuth } from '@hellocoop/nextjs'
+import { getAuth } from '@hellocoop/nextjs'
 
-// returns same shape as getAuth()
+// returns same shape as useAuth()
 const { 
     isLoggedIn, // always returned
     iat,        // returned if isLoggedIn == true
@@ -126,7 +126,7 @@ const {
     name, 
     email,
     picture 
-} = await getServerAuth( req )
+} = await getAuth( req )
 ```
 
 
