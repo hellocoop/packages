@@ -98,6 +98,8 @@ import { LoggedIn, LoggedOut } from '@hellocoop/nextjs'
 
 ## 7) Auth Data - Client Side
 
+COMING SOON
+
 ```typescript
 import { useAuth } from '@hellocoop/nextjs'
 
@@ -147,7 +149,7 @@ export default function MyPage = ({auth}) {
         </HelloProvider>
     )
 }
-// This a convenience wrapper around `getServerAuth()`
+// This a convenience wrapper around `getAuth()`
 export { getServerSideProps } from '@hellocoop/nextjs'
 ```
 
@@ -173,7 +175,7 @@ export default HelloAuth({
 })
 ```
 
-## 9) Add loggedIn Logic
+## 9) Add Server Side loggedIn Logic
 
 ```typescript
 import type { LoggedInParams, LoggedInResponse } from '@hellocoop/nextjs'
