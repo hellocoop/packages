@@ -74,11 +74,11 @@ Explore styling with the [button playground](https://www.hello.dev/documentation
 import { logOut, logOutRoute } from '@hellocoop/nextjs'
 ```
 
-`logOut()` - function to logout user
+`logOut()` - function to logout user, loads `logOutRoute`
 
 `logOutRoute` - provides route to logout
 
-## 6) Use Logged In State to Select Content
+## 6) Use Logged In State to Select Content to Display
 
 ```tsx
 import { LoggedIn, LoggedOut } from '@hellocoop/nextjs'
@@ -98,19 +98,22 @@ import { LoggedIn, LoggedOut } from '@hellocoop/nextjs'
 
 ## 7) Auth Data - Client Side
 
-COMING SOON
-
 ```typescript
 import { useAuth } from '@hellocoop/nextjs'
 
-const { 
-    isLoggedIn, // always returned
-    iat,        // returned if isLoggedIn == true
-    sub,        // use as user identifier - returned if isLoggedIn == true
-    // additional properties set in auth cookie - following are defaults
-    name, 
-    email,
-    picture 
+
+const {
+    isLoading,      // useSWR response, true if still loading call to 
+    isLoggedIn,
+    auth: undefined | {
+        isLoggedIn, // always returned
+        iat,        // returned if isLoggedIn == true
+        sub,        // use as user identifier - returned if isLoggedIn == true
+        // additional claims - following are defaults
+        name, 
+        email,
+        picture 
+    }
 } = useAuth()
 ```
 
@@ -119,7 +122,7 @@ const {
 ```typescript
 import { getAuth } from '@hellocoop/nextjs'
 
-// returns same shape as useAuth()
+// returns same shape as useAuth().auth
 const { 
     isLoggedIn, // always returned
     iat,        // returned if isLoggedIn == true
@@ -132,20 +135,22 @@ const {
 ```
 
 
-## 8) Server Side Properties 
+## 9) Get Server Side Properties 
+If you want to show get the auth object from the auth cookie sever side, export `getServerSideProps()` and wrap your content in `<HelloProvider auth=({auth})>`
+
 ```ts
 // MyPage.tsx
 import { HelloProvider, LoggedIn, LoggedOut, ContinueButton } from '@hellocoop/nextjs'
 export default function MyPage = ({auth}) {
     const { name } = auth
     return(
-        <HelloProvider>
-          <LoggedIn>
-            Hellō {name}
-          </LoggedIn>
-          <LoggedOut>
-            <ContinueButton/>
-          </LoggedOut>
+        <HelloProvider auth={auth}> { // auth must be passed to HelloProvider }
+            <LoggedIn>
+                Hellō {name}
+            </LoggedIn>
+            <LoggedOut>
+                <ContinueButton/>
+            </LoggedOut>
         </HelloProvider>
     )
 }
@@ -153,65 +158,9 @@ export default function MyPage = ({auth}) {
 export { getServerSideProps } from '@hellocoop/nextjs'
 ```
 
-## 8) Configuration
+# Advanced Configuration
 
-```typescript
-// /api/hellocoop.ts
-import loggedIn from './your-logged-in-logic' 
-
-import HelloAuth from '@hellocoop/nextjs'
-export default HelloAuth({
-    scope: ['email','name','picture'],
-    callbacks: {
-        async loggedIn({ token, payload }) {
-            return true
-        }
-    },
-    pages: {
-        loggedIn: '/',
-        loggedOut:'/',
-        error:  '/auth/error',       // Error code passed in query string as ?error=
-    }
-})
-```
-
-## 9) Add Server Side loggedIn Logic
-
-```typescript
-import type { LoggedInParams, LoggedInResponse } from '@hellocoop/nextjs'
-
-export default async loggedin ({ token, payload, req, res }:LoggedInParams): Promise<LoggedInResponse> {
-    // store ID Token for audit
-    await save(token)
-    //
-    const { sub: id } = payload
-    const user = async readDB(id)
-    // Decide not to login user - no auth cookie set - redirected to error page
-    if (payload.sub != allowedUser) 
-        return {loggedIn:false}
-    // Decide not to login user - no auth cookie set - process response directly
-    if (payload.sub != allowedUser) {
-        res.end(ErrorResponse)
-        return {
-            loggedIn: false
-            processed: true
-        }
-    }
-
-    // choose what to store in auth cookie
-    return { auth: { email, name, picture }} = payload  // default values
-
-    // process response 
-    res.end(LoggedInPage)
-    return { processed: true,
-        auth: { email, name, picture } = payload
-    }
-} 
-
-```
-
-
-## 8) Environment Variables
+## Environment Variables
 
 ### Production variable to be set
 
@@ -229,6 +178,70 @@ This variable should be different from development.
 - `HELLO_DOMAIN` - overrides 'hello.coop' - used for testing by Hellō team
 - `HELLO_WALLET` - overrides default 'https://wallet.hello.coop' - used if mocking Hellō server
 
-## Server Side Rendering (SSR)
+## HelloAuth configuration
 
-Currently only Client Side Rendering (CSR) is supported. SSR coming soon.
+```typescript
+// /api/hellocoop.ts
+import loggedIn from '@/src/your-logged-in-logic' 
+
+import HelloAuth from '@hellocoop/nextjs'
+export default HelloAuth({
+    scope: ['email','name','picture'],
+    callbacks: {
+        loggedIn
+    },
+    pages: {
+        loggedIn: '/',
+        loggedOut:'/',
+        error:  '/auth/error',       // Error code passed in query string as ?error=
+    }
+})
+```
+
+## Add Server Side isLoggedIn Logic
+
+
+```typescript
+// src/your-logged-in-logic.ts
+import type { LoggedInParams, LoggedInResponse } from '@hellocoop/nextjs'
+
+export default async loggedIn ({ token, payload, req, res }:LoggedInParams)
+        : Promise<LoggedInResponse> => {
+
+
+    // use sub claim as user identifier
+    const { sub: id } = payload
+    const user = async readUserTable(id)
+    const authorizedUser: boolean = isUserAuthorized(user)
+
+    // no auth cookie set - redirected to error page
+    if (!authorizedUser) 
+        return {isLoggedIn:false}
+
+    // no auth cookie set - process response directly
+    if (!authorizedUser) {
+        res.end(ErrorResponse)
+        return {
+            isLoggedIn: false
+            isProcessed: true
+        }
+    }
+
+    // choose what to store in auth cookie
+    return { auth: { email, name, picture }} = payload  // default values
+
+    // process response and set auth cookie
+    const { email, name, picture } = payload
+    res.end(LoggedInPage({ email, name, picture }))
+    return { 
+        processed: true,
+        auth: { email, name, picture }
+    }
+} 
+
+```
+
+
+
+
+

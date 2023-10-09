@@ -19,8 +19,6 @@ export type Auth = {
     isLoggedIn: false
 } | ({
     isLoggedIn: true,
-    sub: string,
-    iat: number
 } & AuthCookie )
 
 

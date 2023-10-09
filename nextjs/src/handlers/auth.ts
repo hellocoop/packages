@@ -21,10 +21,7 @@ export type AuthUpdates =
 
 export const getAuth = async function ( req: NextApiRequest, res: NextApiResponse): Promise<undefined> {
     const auth = await getAuthfromCookies(req.cookies)
-
-    // console.log({auth})
-
-    res.end(auth.toString())  
+    res.json(auth)  
 }
 
 export const handleAuth = async function (req: NextApiRequest, res: NextApiResponse) {

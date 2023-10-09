@@ -1,6 +1,6 @@
-import { useHelloProviderContext } from "./provider"
+import { useAuth } from "./auth"
 
-const isLoggedIn = (): boolean => useHelloProviderContext()?.isLoggedIn || false
+const isLoggedIn = (): boolean => useAuth()?.isLoggedIn || false
 
 export function LoggedIn({ children }: { children:any }) { //TBD type: any
     if (isLoggedIn())
