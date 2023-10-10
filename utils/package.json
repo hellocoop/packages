@@ -12,7 +12,7 @@
   "scripts": {
     "watch": "tsc --watch --declaration",
     "build": "tsc --declaration",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --test"
   },
   "repository": {
     "type": "git",

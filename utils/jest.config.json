@@ -1,9 +1,0 @@
-{
-  "projects": [
-    {
-      "displayName": "ESM",
-      "testMatch": ["**/*.test.js"],
-      "testEnvironment": "node"
-    }
-  ]
-}
