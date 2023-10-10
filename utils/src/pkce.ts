@@ -8,7 +8,7 @@ const VERIFIER_LENGTH = 43
 
 // TODO - fix utils so can be used in browser
 //
-import type { UUID, webcrypto } from 'node:crypto'
+import type { webcrypto } from 'node:crypto'
 const crypto: webcrypto.Crypto =
   // @ts-ignore
   globalThis.crypto?.webcrypto ?? // Node.js 16 REPL has globalThis.crypto as node:crypto
@@ -86,3 +86,32 @@ export async function verifyChallenge(
   const actualChallenge = await generateChallenge(code_verifier);
   return actualChallenge === expectedChallenge;
 }
+
+
+// export const encryptObj = async function ( obj: Record<string, any>, secret: string )
+//     : Promise<string | undefined> {
+//   try {
+//       const plainText = JSON.stringify(obj)
+//       // TBD encrypt cookie
+//       const cryptoText = Buffer.from(plainText).toString('base64')
+//       return cryptoText
+//   } catch(e) {
+//     console.log(e)
+//   }
+//   return undefined
+// }
+
+// export const decryptObj = async function ( cryptoText:string, secret: string )
+//     : Promise< Record<string, any> | undefined> {
+
+//   try {
+//     const json = Buffer.from(cryptoText, 'base64').toString()
+//     const obj = JSON.parse(json)
+//     return obj
+//   } catch(e) {
+//     console.log(e)
+//   }
+//   return undefined
+// }
+
+

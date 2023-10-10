@@ -1,14 +1,14 @@
-import { Claims } from '@hellocoop/utils'
+import { Claims, decryptObj, encryptObj } from '@hellocoop/utils'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import config from './config'
 import { serialize } from 'cookie'
+import { clearOidcCookie } from './oidc'
 
 const { cookies } = config
-const { authName } = cookies 
+const { authName, oidcName } = cookies 
 
-export type AuthCookie =
-    {
+export type AuthCookie = {
         sub: string,
         iat: number
     } & Claims & {
@@ -21,17 +21,25 @@ export type Auth = {
     isLoggedIn: true,
 } & AuthCookie )
 
+const PRODUCTION:boolean = process.env.NODE_ENV == 'production'
 
 export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth ): Promise<boolean> =>  {
-    const json = JSON.stringify(auth)
-    // TBD encrypt cookie
-    const encCookie = Buffer.from(json).toString('base64')
-    res.setHeader('Set-Cookie',serialize( authName, encCookie, {
-        httpOnly: true,
-        // TBD - expire ???
-        path: '/' // TBD restrict to API path
-    }))
-    return true
+    try {
+        const encCookie = await encryptObj(auth, config.secret as string)
+        if (!encCookie)
+            return false
+        res.setHeader('Set-Cookie',serialize( authName, encCookie, {
+            httpOnly: true,
+            secure: PRODUCTION,
+            sameSite: 'strict',
+            path: '/' // TBD restrict to API path
+            // no maxAge => session cooke
+        }))
+        return true    
+    } catch (e) {
+        console.error(e)
+    }
+    return false
 }
 
 export const clearAuthCookie = async ( res: NextApiResponse) =>  {
@@ -43,25 +51,26 @@ export const clearAuthCookie = async ( res: NextApiResponse) =>  {
 
 
 export const getAuthfromCookies = async function 
-        ( cookies: Partial<{[key: string]: string;}> )
+        ( res: NextApiResponse, cookies: Partial<{[key: string]: string;}> )
         : Promise<Auth> {
+
+    // we clear OIDC here so we are not setting / clearing more than one cookie at time
+    if (cookies[oidcName]) // note possible conflict with updateAuth()
+        clearOidcCookie(res)
+
     const authCookie = cookies[authName]
     if (!authCookie)
-        return {isLoggedIn:false}
-
+        return NotLoggedIn
     try {
-        // TBD - change to decrypt cookie
-        const json = Buffer.from(authCookie, 'base64').toString()
-        const auth = JSON.parse(json)
-        if (auth && auth.sub) {
-            return {
-                isLoggedIn: true, ...auth
-            }
+        const auth = await decryptObj( authCookie, config.secret as string) as Auth | undefined 
+        if (auth) {
+            return auth
         }
     } catch( e ) {
+        await clearAuthCookie( res )
         console.error(e)
     }
-    return {isLoggedIn:false}
+    return NotLoggedIn
 }
 
 export const NotLoggedIn: Auth = { isLoggedIn: false}

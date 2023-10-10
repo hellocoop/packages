@@ -1,6 +1,6 @@
 # Hellō Quickstart CLI for Next.js
 
-Launches the [Hellō Quickstart Web App](https://www.hello.dev/documentation/management-apis.html#quickstart-api) and saves the `client_id` and session secret in the `.env` file as `HELLO_CLIENT_ID_DEFAULT` and `HELLO_SESSION_SECRET_DEFAULT`.
+Launches the [Hellō Quickstart Web App](https://www.hello.dev/documentation/management-apis.html#quickstart-api) and saves the `client_id` and session secret in the `.env` file as `HELLO_CLIENT_ID_DEFAULT` and `HELLO_COOKIE_SECRET_DEFAULT`.
 
 ## Usage
 

@@ -1,6 +1,7 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import config from './config'
 import { serialize } from 'cookie'
+import { decryptObj, encryptObj } from '@hellocoop/utils'
 
 const { cookies } = config
 const { oidcName } = cookies 
@@ -12,34 +13,41 @@ export type OIDC = {
     target_uri: string
 }
 
-export const getOidc = async ( req: NextApiRequest): Promise<OIDC | undefined> => {
+export const getOidc = async ( req: NextApiRequest, res: NextApiResponse): Promise<OIDC | undefined> => {
     try {
-        const encCookie = req.cookies[oidcName]
-        if (!encCookie)
+        const oidcCookie = req.cookies[oidcName]
+        if (!oidcCookie)
             return undefined 
-        // TBD - change to decrypt cookie
-        const json = Buffer.from(encCookie, 'base64').toString()
-        const obj = JSON.parse(json)
-        return obj as OIDC
+        const oidc = await decryptObj( oidcCookie, config.secret as string) as OIDC | undefined 
+        if (oidc) {
+            return oidc
+        }
     } catch( e ) {
-        return undefined
+        clearOidcCookie( res )
+        console.error(e)
+    }
+    return undefined
+}
+
+const PRODUCTION:boolean = process.env.NODE_ENV == 'production'
+
+export const saveOidc = async ( res: NextApiResponse, oidc: OIDC) => {
+    try {
+        const encCookie = await encryptObj(oidc, config.secret as string)
+        res.setHeader('Set-Cookie',serialize( oidcName, encCookie, {
+            httpOnly: true,
+            secure: PRODUCTION,
+            maxAge: 5 * 60, // 5 minutes
+            path: config.apiRoute
+        }))
+    } catch (e) {
+        console.log(e)
     }
 }
 
-export const saveOidc = async ( res: NextApiResponse, oidc: OIDC) => {
-    const json = JSON.stringify(oidc)
-    // TBD encrypt cookie
-    const encCookie = Buffer.from(json).toString('base64')
-    res.setHeader('Set-Cookie',serialize( oidcName, encCookie, {
-        httpOnly: true,
-        // TBD - expire in 5 minutes
-        path: '/' // TBD restrict to API path
-    }))
-}
-
-export const deleteOidc = ( res: NextApiResponse) => {
+export const clearOidcCookie = ( res: NextApiResponse) => {    
     res.setHeader('Set-Cookie',serialize(oidcName, '', {
         expires: new Date(0), // Set the expiry date to a date in the past
-        path: '/', // Specify the path
-      }))
+        path: config.apiRoute
+    }))
 }

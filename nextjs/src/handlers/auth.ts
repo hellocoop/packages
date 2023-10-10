@@ -20,7 +20,7 @@ export type AuthUpdates =
 
 
 export const getAuth = async function ( req: NextApiRequest, res: NextApiResponse): Promise<undefined> {
-    const auth = await getAuthfromCookies(req.cookies)
+    const auth = await getAuthfromCookies( res, req.cookies)
     res.json(auth)  
 }
 
@@ -30,7 +30,7 @@ export const handleAuth = async function (req: NextApiRequest, res: NextApiRespo
 
 export const getServerSideProps = async function (context:GetServerSidePropsContext)
     : Promise<GetServerSidePropsResult<{auth:Auth}>> {
-        const auth = await getAuthfromCookies(context.req.cookies)
+        const auth = await getAuthfromCookies( context.res as NextApiResponse, context.req.cookies)
         return {
             props: {auth}
         }
@@ -42,7 +42,7 @@ export const clearAuth = async function ( res: NextApiResponse) {
 
 export const updateAuth = async function ( req: NextApiRequest, res: NextApiResponse, authUpdates: AuthUpdates )
         : Promise<Auth | null> {
-    const auth = await getAuthfromCookies(req.cookies)
+    const auth = await getAuthfromCookies( res, req.cookies)
     if (!auth.isLoggedIn)
         return auth
     const newAuth = {

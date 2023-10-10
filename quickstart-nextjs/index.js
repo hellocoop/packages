@@ -38,13 +38,13 @@ HELLO_CLIENT_ID_DEFAULT='${client_id}'`
     }
 
     let session_secret = null
-    const existingSessionSecret = process.env.HELLO_SESSION_SECRET_DEFAULT
+    const existingSessionSecret = process.env.HELLO_COOKIE_SECRET_DEFAULT
     if (existingSessionSecret) {
-        console.log(`HELLO_SESSION_SECRET_DEFAULT already set to ${existingSessionSecret}`)
+        console.log(`HELLO_COOKIE_SECRET_DEFAULT already set to ${existingSessionSecret}`)
     } else {
         session_secret = randomBytes(32).toString('hex')
         helloConfig += `
-HELLO_SESSION_SECRET_DEFAULT='${session_secret}'`
+HELLO_COOKIE_SECRET_DEFAULT='${session_secret}'`
     }
 
     if (client_id || session_secret) {

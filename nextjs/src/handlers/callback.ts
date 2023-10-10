@@ -2,7 +2,7 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 
 import { consentCors } from '../lib/consent'
 import config from '../lib/config'
-import { getOidc, deleteOidc } from '../lib/oidc'
+import { getOidc, clearOidcCookie } from '../lib/oidc'
 import { fetchToken, parseToken, wildcardConsole, Claims } from '@hellocoop/utils'
 import { saveAuthCookie, Auth } from '../lib/auth'
 import { Scope } from '@hellocoop/utils'
@@ -20,10 +20,10 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         app_name,
     } = req.query
 
-    const oidcState = await getOidc(req)
+    const oidcState = await getOidc(req,res)
 
     if (!oidcState)
-        return res.status(400).end('Session cookie lost')
+        return res.status(400).end('OpenID Connect cookie lost')
     if (error)
         return res.status(400).end(error)
     if (!code)
@@ -85,7 +85,7 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         })
         await saveAuthCookie( res, auth)
     } catch (error: any) {
-        deleteOidc(res)
+        clearOidcCookie(res)
         return res.status(500).end(error.message)
     }
 

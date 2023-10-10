@@ -28,6 +28,7 @@ export interface IConfig {
     // for internal testing
     helloDomain: string,
     helloWallet: string,
+    secret?: string
 }
 
 const HELLO_API_ROUTE = process.env.HELLO_API_ROUTE as string || '/api/hellocoop'
@@ -39,7 +40,7 @@ const _configuration: IConfig = {
         loggedOut: '/',
     },
     cookies: {
-        authName: 'hellcoop_auth',
+        authName: (process.env.NODE_ENV === 'production' ? '__Host-':'')+'hellcoop_auth',
         oidcName: 'hellcoop_oidc',
     },
     callbacks: {},
@@ -63,7 +64,10 @@ const _configuration: IConfig = {
     helloDomain: HELLO_DOMAIN,
     helloWallet
         :  process.env.HELLO_WALLET as string
-        || 'https://wallet.'+HELLO_DOMAIN
+        || 'https://wallet.'+HELLO_DOMAIN,
+    secret
+        :  process.env.HELLO_COOKIE_SECRET 
+        || process.env.HELLO_COOKIE_SECRET_DEFAULT
 }
 
 function deepFreeze(obj: any): any {
@@ -96,15 +100,21 @@ export const configure = function ( config: Config ) {
     _configuration.callbacks = config.callbacks || {}
     _configuration.scope = config.scope
 
+    configured = true
     if (!_configuration.clientId) {
-        const message = 'NO CLIENT ID WAS FOUND'
+        const message = 'No HELLO_CLIENT_ID was in environment'
         _configuration.error = [message]
         console.error(message)
-    } else {
-        configured = true
-    }
-// console.log({configured})
-// console.log({_configuration})
+        configured = false
+    } 
+    if (!_configuration.secret) {
+        const message = 'No HELLO_COOKIE_SECRET was in environment'
+        _configuration.error = [message]
+        console.error(message)
+        configured = false
+    } 
+console.log({configured})
+console.log({_configuration})
     // not sure this will work
     // deepFreeze(_configuration)
 }

@@ -18,7 +18,7 @@ npm install @hellocoop/nextjs
 npx @hellocoop/quickstart-nextjs
 ```
 
-This will launch the Hellō Quickstart web app. After logging into Hellō you will create or select an application, and the `client_id` and a generated session secret will be added to your `.env` file as `HELLO_CLIENT_ID_DEFAULT` and `HELLO_SESSION_SECRET_DEFAULT`.
+This will launch the Hellō Quickstart web app. After logging into Hellō you will create or select an application, and the `client_id` and a generated session secret will be added to your `.env` file as `HELLO_CLIENT_ID_DEFAULT` and `HELLO_COOKIE_SECRET_DEFAULT`.
 
 Include this `.env` file in your deployments.
 
@@ -164,7 +164,7 @@ export { getServerSideProps } from '@hellocoop/nextjs'
 
 ### Production variable to be set
 
-- `HELLO_SESSION_SECRET` overrides `HELLO_SESSION_SECRET_DEFAULT` in `.env` set by Quickstart. 
+- `HELLO_COOKIE_SECRET` overrides `HELLO_COOKIE_SECRET_DEFAULT` in `.env` set by Quickstart. 
 
 This variable should be different from development. 
 
