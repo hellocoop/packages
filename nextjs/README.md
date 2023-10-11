@@ -48,18 +48,13 @@ import { // only import buttons used
 
 ### Optional properties:
 
-- `scope` - space separated list of [Hellō scope values](https://www.hello.dev/documentation/hello-claims.html#current-scopes). Default 'openid email name picture'.
+- `scope` - Array of [Hellō scope values](https://www.hello.dev/documentation/hello-claims.html#current-scopes). Default `['openid', 'email', 'name', 'picture']`.
 - `targetURI` - defaults to `HELLO_DEFAULT_TARGET_ROUTE` or '/'
-- `providerHint` - overrides the [recommended providers](https://www.hello.dev/documentation/provider-hint.html#recommended-provider-defaults)
+- `providerHint` - Array of [provider hints](https://www.hello.dev/documentation/provider-hint.html#recommended-provider-defaults). Example `['github', 'gitlab', 'email--', 'apple--', 'microsoft--']` would always recommend GitHub, GitLab, and Google.
 
 `<UpdateEmailButton/>` - provides \[ ō Update Email with Hellō \]
 
 `<UpdatePictureButton/>` - provides \[ ō Update Picture with Hellō \]
-
-### Optional properties:
-
-- `targetURI` - defaults to current page.
-- `providerHint` - overrides the [recommended providers](https://www.hello.dev/documentation/provider-hint.html#recommended-provider-defaults)
 
 ### Optional button styling properties:
 - `color` - white | black
