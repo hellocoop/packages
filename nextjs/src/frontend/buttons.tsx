@@ -25,11 +25,11 @@ interface CommonButtonProps {
 
 export interface BaseButtonProps extends CommonButtonProps {
     scope?: Scope[] | string
-    updateScope?: string
+    updateScope?: "email" | "picture"
 }
 
 export interface LoginButtonProps extends CommonButtonProps {
-    scope?: string
+    scope?: Scope[] | string
 }
 
 export interface UpdateButtonProps extends CommonButtonProps {
