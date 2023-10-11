@@ -14,16 +14,9 @@ export type LoggedInParams = {
 
 
 export type LoggedInResponse = {
-    loggedIn: boolean,
-} | {
-    processed: boolean,
-} | {
-    loggedIn: boolean,
-    processed: boolean,
-} | {
-    loggedIn?: boolean,
-    processed?: boolean,
-    auth: {[key: string]: any}
+    accessDenied?: boolean,
+    isProcessed?: boolean,
+    updatedAuth?: {[key: string]: any}
 }
 
 
