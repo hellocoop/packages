@@ -41,6 +41,7 @@ export const VALID_PROVIDER_HINT = [
     'facebook',
     'github',
     'gitlab',
+    'google',
     'twitch',
     'twitter',
     'tumblr',
