@@ -1,17 +1,16 @@
 import Head from 'next/head'
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
+import type { ProviderHint, Scope } from '@hellocoop/utils'
 
 import config from '../lib/config'
 const { loginApiRoute } = config
-
-// console.log(JSON.stringify(config,null,4))
 
 export type Color = "black" | "white"
 export type Theme = "ignore-light" | "ignore-dark" | "aware-invert" | "aware-static"
 export type Hover = "pop" | "glow" | "flare" | "none"
 
-export interface BaseButtonProps {
+interface CommonButtonProps {
     label?: string
     onClick?: any //TBD type: any
     style?: any //TBD type: any
@@ -21,15 +20,19 @@ export interface BaseButtonProps {
     theme?: Theme
     hover?: Hover
     targetURI?: string
-    providerHint?: string
+    providerHint?: ProviderHint[] | string
 }
 
-
-export interface LoginButtonProps extends BaseButtonProps {
-    scope?: string
+export interface BaseButtonProps extends CommonButtonProps {
+    scope?: Scope[] | string
+    updateScope?: "email" | "picture"
 }
 
-export interface UpdateButtonProps extends BaseButtonProps {
+export interface LoginButtonProps extends CommonButtonProps {
+    scope?: Scope[] | string
+}
+
+export interface UpdateButtonProps extends CommonButtonProps {
     updateScope?: "email" | "picture"
 }
 
@@ -55,80 +58,65 @@ const HOVER_MAPPING = {
     "none": "hello-btn-hover-none"
 }
 
-function BaseButton({ label, onClick, disabled, showLoader, style, color = "black", theme = "ignore-light", hover = "pop" } : BaseButtonProps) {
+function BaseButton({ scope, updateScope, targetURI, providerHint, label, style, color = "black", theme = "ignore-light", hover = "pop" } : BaseButtonProps) {
     const helloBtnClass = CLASS_MAPPING[color]?.[theme]
+
+    const [clicked, setClicked] = useState(false)
+    const { push } = useRouter()
+
+    const params = new URLSearchParams()
+    if(scope) {
+        if(typeof scope == 'string')
+            params.set("scope", scope)
+        else
+            params.set("scope", scope.join(" "))
+    }
+
+    targetURI = targetURI || (typeof window != 'undefined' && window.location.pathname) || ""
+                             //window can be undefined when running server-side
+    params.set("target_uri", targetURI)
+    
+    if(updateScope)
+        params.set("scope", "profile_update " + updateScope)
+
+    if(providerHint) {
+        if(typeof providerHint == 'string')
+            params.set("provider_hint", providerHint)
+        else
+            params.set("provider_hint", providerHint.join(" "))
+    }
+
+    const onClickHandler = (): void => {
+        setClicked(true)
+        push(loginApiRoute + "&" + params.toString())
+    }
+
     return (
         <>
             <Head>
                 <link rel="stylesheet" href="https://cdn.hello.coop/css/hello-btn.css"/>
             </Head>
-            <button onClick={onClick} disabled={disabled} style={style} className={`hello-btn ${helloBtnClass} ${HOVER_MAPPING[hover]} ${showLoader ? 'hello-btn-loader' : ''}`}>
-                {label}
+            <button onClick={onClickHandler} disabled={clicked} style={style} className={`hello-btn ${helloBtnClass} ${HOVER_MAPPING[hover]} ${clicked ? 'hello-btn-loader' : ''}`}>
+            {label}
             </button>
         </>
     )
 }
 
-function LoginBaseButton(props: LoginButtonProps) {
-    const { scope, targetURI, providerHint } = props
-
-    const [clicked, setClicked] = useState(false)
-    const { push } = useRouter()
-
-    const params = new URLSearchParams()
-    if(scope)
-        params.set("scope", scope)
-    if(targetURI)
-        params.set("target_uri", targetURI)
-    if(providerHint)
-        params.set("provider_hint", providerHint)
-
-    const login = (): void => {
-        setClicked(true)
-        push(loginApiRoute + "&" + params.toString())
-    }
-
-    return <BaseButton {...props} onClick={login} disabled={clicked} showLoader={clicked} />
-}
-
 export function ContinueButton(props: LoginButtonProps) {
-    return <LoginBaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Continue with Hellō" />
+    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Continue with Hellō" />
 }
 
 export function LoginButton(props: LoginButtonProps) {
-    return <LoginBaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Log in with Hellō" />
-}
-
-function UpdateBaseButton(props: UpdateButtonProps) {
-    let { label, updateScope, targetURI, providerHint } = props
-    const [clicked, setClicked] = useState(false)
-    const { push } = useRouter()
-
-    const params = new URLSearchParams()
-    if(updateScope)
-        params.set("scope", "profile_update " + updateScope)
-                            
-                             //window can be undefined when running server-side
-    targetURI = targetURI || (typeof window != 'undefined' && window.location.pathname) || "" //Go back to current page
-    params.set("target_uri", targetURI)
-    
-    if(providerHint)
-        params.set("provider_hint", providerHint)
-
-    const update = (): void => {
-        setClicked(true)
-        push(loginApiRoute + "&" + params.toString())
-    }
-
-    return <BaseButton {...props} onClick={update} disabled={clicked} showLoader={clicked} style={{width: '270px'}} />
+    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Log in with Hellō" />
 }
 
 export function UpdateEmailButton(props: UpdateButtonProps) {
-    return <UpdateBaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Email with Hellō" updateScope="email" />
+    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Email with Hellō" updateScope="email" style={{width: '270px'}} />
 }
 
 export function UpdatePictureButton(props: UpdateButtonProps) {
-    return <UpdateBaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Picture with Hellō" updateScope="picture" />
+    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Picture with Hellō" updateScope="picture" style={{width: '270px'}} />
 }
 
 //TBD
