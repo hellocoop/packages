@@ -1,15 +1,9 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
-
+import { NextApiRequest, NextApiResponse } from 'next'
 import { consentCors } from '../lib/consent'
 import config from '../lib/config'
 import { getOidc, clearOidcCookie } from '../lib/oidc'
-import { fetchToken, parseToken, wildcardConsole, Claims } from '@hellocoop/utils'
-import { saveAuthCookie, Auth } from '../lib/auth'
-import { Scope } from '@hellocoop/utils'
-
-// import type { HelloClaims, User } from '../lib/user'
-
-
+import { fetchToken, parseToken, wildcardConsole, Scope, Claims } from '@hellocoop/utils'
+import { saveAuthCookie, Auth, NotLoggedIn } from '../lib/auth'
 
 const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     await consentCors(req, res)
@@ -69,40 +63,65 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             return res.status(400).end('The ID token is not yet valid.')
         }
 
-        // TBD == pull out key claims
+        // let auth = NotLoggedIn
+        let callbackProcessed = false
 
-        const auth: Auth = {
+        let auth = {
             isLoggedIn: true,
             sub: payload.sub,
             iat: payload.iat
-        }
+        } as Auth
         // hack TypeScript
         const claims: {[key: string]: any} = payload as {[key: string]: any}
         payload.scope.forEach( (scope) => {
             const claim = claims[scope]
             if (claim)
-                auth[scope] = claim
+                auth[scope as keyof Auth] = claim
         })
+
+        if (wildcard_domain) { 
+            // the redirect_uri is not registered at Hellō - prompt to add
+            await saveAuthCookie( res, auth)
+            const appName = (Array.isArray(app_name) ? app_name[0] : app_name)  || 'Your App'
+            res.end(wildcardConsole({
+                uri: Array.isArray(wildcard_domain) ? wildcard_domain[0] : wildcard_domain,
+                appName,
+                redirectURI: redirect_uri,
+                targetURI: target_uri
+            }))
+            return
+            // no callback processing if wild_card
+        }
+
+        if (config.callbacks?.loggedIn) {
+            try {
+                const cb = await config.callbacks.loggedIn({ token, payload, req, res })
+                callbackProcessed = cb?.isProcessed as boolean
+                if (cb?.accessDenied)
+                    auth = NotLoggedIn
+                else if (cb?.updatedAuth) {
+                    auth = {
+                        ...cb.updatedAuth,
+                        isLoggedIn: true,
+                        sub: payload.sub,
+                        iat: payload.iat
+                    }
+                }
+            } catch(e) {
+                console.error(new Error('callback faulted'))
+                console.error(e)
+            }
+        }
         await saveAuthCookie( res, auth)
+        if (!callbackProcessed) {
+            res.redirect(target_uri 
+                || '/') // just in case
+        }
     } catch (error: any) {
         clearOidcCookie(res)
         return res.status(500).end(error.message)
     }
 
-    if (wildcard_domain) { 
-        // the redirect_uri is not registered at Hellō - prompt to add
-        const appName = (Array.isArray(app_name) ? app_name[0] : app_name)  || 'Your App'
-        res.end(wildcardConsole({
-            uri: Array.isArray(wildcard_domain) ? wildcard_domain[0] : wildcard_domain,
-            appName,
-            redirectURI: redirect_uri,
-            targetURI: target_uri
-        }))
-        return
-    }
-
-    res.redirect(target_uri 
-        || '/') // just in case
 }
 
 export default handleCallback

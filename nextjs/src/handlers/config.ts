@@ -4,6 +4,7 @@ import { configured, configure } from '../lib/config'
 import router from './router'
 import { Claims, Scope } from '@hellocoop/utils'
 
+export  { Claims, Scope }
 
 export type LoggedInParams = {
     token: string,
@@ -14,16 +15,9 @@ export type LoggedInParams = {
 
 
 export type LoggedInResponse = {
-    loggedIn: boolean,
-} | {
-    processed: boolean,
-} | {
-    loggedIn: boolean,
-    processed: boolean,
-} | {
-    loggedIn?: boolean,
-    processed?: boolean,
-    auth: {[key: string]: any}
+    accessDenied?: boolean,
+    isProcessed?: boolean,
+    updatedAuth?: {[key: string]: any}
 }
 
 
