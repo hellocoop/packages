@@ -4,6 +4,7 @@ import { configured, configure } from '../lib/config'
 import router from './router'
 import { Claims, Scope } from '@hellocoop/utils'
 
+export  { Claims, Scope }
 
 export type LoggedInParams = {
     token: string,
