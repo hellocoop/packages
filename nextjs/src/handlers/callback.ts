@@ -4,10 +4,6 @@ import config from '../lib/config'
 import { getOidc, clearOidcCookie } from '../lib/oidc'
 import { fetchToken, parseToken, wildcardConsole, Scope, Claims } from '@hellocoop/utils'
 import { saveAuthCookie, Auth, NotLoggedIn } from '../lib/auth'
-import { LoggedInResponse } from '../handlers/config'
-// import type { HelloClaims, User } from '../lib/user'
-
-
 
 const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     await consentCors(req, res)
