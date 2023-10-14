@@ -2,8 +2,32 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { consentCors } from '../lib/consent'
 import config from '../lib/config'
 import { getOidc, clearOidcCookie } from '../lib/oidc'
-import { fetchToken, parseToken, wildcardConsole, Scope, Claims } from '@hellocoop/utils'
+import { fetchToken, parseToken, wildcardConsole, Scope, Claims, errorPage, ErrorPageParams } from '@hellocoop/utils'
 import { saveAuthCookie, Auth, NotLoggedIn } from '../lib/auth'
+
+
+const sendErrorPage = ( error: Record<string, any>, target_uri: string, req:NextApiRequest, res:NextApiResponse ) => {
+
+
+    if (config.routes.error) {
+        const url = new URL(config.routes.error);
+        for (const key in error) {
+            if (key.startsWith('error')) {
+                // Append each error query parameter to the URL
+                url.searchParams.append(key, error[key])
+            }
+        }
+        return res.redirect(url.toString())
+    }
+    const params:ErrorPageParams = { 
+        error: error.error,
+        error_description: error.error_description,
+        error_uri: error.error_uri,
+        target_uri
+    }
+    const page = errorPage(params)
+    res.end(page)
+}
 
 const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     await consentCors(req, res)
@@ -18,12 +42,6 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (!oidcState)
         return res.status(400).end('OpenID Connect cookie lost')
-    if (error)
-        return res.status(400).end(error)
-    if (!code)
-        return res.status(400).end('Missing code parameter')
-    if (Array.isArray(code))
-        return res.status(400).end('Received more than one code.')
 
     const {
         code_verifier,
@@ -31,6 +49,15 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         redirect_uri,
         target_uri
     } = oidcState
+
+    if (error)
+        return sendErrorPage( req.query, target_uri, req, res )
+    if (!code)
+        return res.status(400).end('Missing code parameter')
+    if (Array.isArray(code))
+        return res.status(400).end('Received more than one code.')
+
+
 
     if (!code_verifier) {
         res.status(400).end('Missing code_verifier from session')

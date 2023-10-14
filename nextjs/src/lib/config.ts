@@ -9,6 +9,7 @@ export interface IConfig {
     routes: {
         loggedIn: string,
         loggedOut: string,
+        error?: string
     },
     cookies: {
         authName: string,
