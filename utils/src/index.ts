@@ -1,5 +1,6 @@
-// wrapper for createAuthRequest and pkce modules
+// wrapper all modules
 
+export * from './errorPage'
 export * from './createAuthRequest'
 export * from './fetchToken'
 export * from './parseToken'
