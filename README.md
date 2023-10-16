@@ -2,13 +2,6 @@
 
 This is a monorepo of packages for developing and integrating [Hellō](https://hello.dev)
 
-## [quickstart-nextjs](./quickstart-nextjs/)
-
-A CLI and nodejs module for adding Hellō to a Next.js app.
-
-```sh
-npx @hellocoop/quickstart-nextjs
-```
 ## [nextjs](./nextjs/)
 
 A Next.js package for login and registration with Hellō.
