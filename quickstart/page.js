@@ -57,13 +57,7 @@ export default function (client_id) {
                 </ul>
                 <a href="https://console.hello.coop/?client_id=${client_id}" style="font-weight: 500;">at the Hellō Developer Console</a>
             </div>
-            <p style="margin: 36px 0; font-size: 20px;">You may now close this window.</p>
-            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px;">
-                <p style="display: flex; justify-content: center; align-items: center; gap: 20px;">
-                    <a href="https://www.hello.coop/">Learn more about Hellō</a>
-                    <a href="https://www.hello.dev/">Hellō Developer Docs</a>
-                </p>
-            </div>
+            <p style="margin: 48px 0; font-size: 26px;">You may now close this window.</p>
         </main>
       </body>
     </html>`
