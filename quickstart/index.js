@@ -66,8 +66,8 @@ const quickstart = async function (params) {
         const hellooDomain = process.env.HELLO_DOMAIN || 'hello.coop'
         const quickstartURL = `https://quickstart.${hellooDomain}/?${queryString}`
         server.listen(port, host, () => {
-            console.log('Obtaining a client_id from Hellō Quickstart using:')
-            console.log(quickstartURL)
+            console.log('Obtaining a client_id with Hellō Quickstart')
+            // console.log(quickstartURL)
             const rl = readline.createInterface({
                 input: process.stdin,
                 output: process.stdout

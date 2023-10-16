@@ -9,6 +9,17 @@ npx @hellocoop/quickstart@latest
 
 This will open up a browser window, where you will need to login with Hellō, and then choose to create a new app, or return the `client_id`.
 
+### Options
+
+- --provider_hint (-p) - space separated string of provider_hint 
+- --suffix (-x) - suffix to add to generated app name
+- --integration (-i) - integration name shown in console
+- --file (-f) - file to write out HELLO_CLIENT_ID_DEFAULT
+- --secret (-s) - boolean to generate a HELLO_COOKIE_SECRET_DEFAULT value
+- --wildcard (-w) - boolean to set the wildcard domain Development Redirect URI
+- --debug (-d) - output debug info
+
+
 ## Import Package
 
 This package is useful for platform specific installers such as [Hellō Quickstart for Next.js](https://www.npmjs.com/package/@hellocoop/quickstart-nextjs)
