@@ -10,6 +10,8 @@ export type Color = "black" | "white"
 export type Theme = "ignore-light" | "ignore-dark" | "aware-invert" | "aware-static"
 export type Hover = "pop" | "glow" | "flare" | "none"
 
+const BTN_STYLES = 'https://cdn.hello.coop/css/hello-btn.css'
+
 interface CommonButtonProps {
     label?: string
     onClick?: any //TBD type: any
@@ -91,13 +93,23 @@ function BaseButton({ scope, updateScope, targetURI, providerHint, label, style,
         push(loginApiRoute + "&" + params.toString())
     }
 
+    //check if dev has added css to _document head
+    const isStylesheetInHead = typeof document != 'undefined' && Array.from(document.head.getElementsByTagName('link')).find(
+        (element) =>
+            element.getAttribute('rel') === 'stylesheet' &&
+            element.getAttribute('href') === BTN_STYLES
+    );
+    
+
     return (
         <>
-            <Head>
-                <link rel="stylesheet" href="https://cdn.hello.coop/css/hello-btn.css"/>
-            </Head>
+            {!isStylesheetInHead &&
+                <Head>
+                    <link rel="stylesheet" href={BTN_STYLES} />
+                </Head>
+            }
             <button onClick={onClickHandler} disabled={clicked} style={style} className={`hello-btn ${helloBtnClass} ${HOVER_MAPPING[hover]} ${clicked ? 'hello-btn-loader' : ''}`}>
-            {label}
+                {label}
             </button>
         </>
     )
