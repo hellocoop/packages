@@ -94,16 +94,15 @@ function BaseButton({ scope, updateScope, targetURI, providerHint, label, style,
     }
 
     //check if dev has added css to _document head
-    const isStylesheetInHead = typeof document != 'undefined' && Array.from(document.head.getElementsByTagName('link')).find(
+    const injectStylesheetInHead = typeof document != 'undefined' && !Array.from(document.head.getElementsByTagName('link')).find(
         (element) =>
             element.getAttribute('rel') === 'stylesheet' &&
             element.getAttribute('href') === BTN_STYLES
     );
     
-
     return (
         <>
-            {!isStylesheetInHead &&
+            {injectStylesheetInHead &&
                 <Head>
                     <link rel="stylesheet" href={BTN_STYLES} />
                 </Head>
