@@ -49,7 +49,8 @@ import * as crypto from 'crypto';
       const decryptedText = new TextDecoder().decode(decryptedData);
       return JSON.parse(decryptedText);
     } catch (error) {
-      console.error('Decryption error:', error);
+      console.error('decryption error - old cookie?')
+      // console.error('Decryption error:', error);
       return null;
     }
   }
