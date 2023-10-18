@@ -21,6 +21,10 @@ export const VALID_IDENTITY_CLAIMS = [
     'picture',
 // Hellō extensions -- non-standard claims
     'ethereum',
+    'discord',
+    'twitter',
+    'github',
+    'gitlab'
 ] as const;
 
 

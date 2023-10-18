@@ -9,6 +9,7 @@ const { loginApiRoute } = config
 export type Color = "black" | "white"
 export type Theme = "ignore-light" | "ignore-dark" | "aware-invert" | "aware-static"
 export type Hover = "pop" | "glow" | "flare" | "none"
+export type UpdateScope = "email" | "picture" | "twitter" | "discord" | "github" | "gitlab"
 
 const BTN_STYLES = 'https://cdn.hello.coop/css/hello-btn.css'
 
@@ -27,7 +28,7 @@ interface CommonButtonProps {
 
 export interface BaseButtonProps extends CommonButtonProps {
     scope?: Scope[] | string
-    updateScope?: "email" | "picture"
+    updateScope?: UpdateScope
 }
 
 export interface LoginButtonProps extends CommonButtonProps {
@@ -35,7 +36,7 @@ export interface LoginButtonProps extends CommonButtonProps {
 }
 
 export interface UpdateButtonProps extends CommonButtonProps {
-    updateScope?: "email" | "picture"
+    updateScope?: UpdateScope
 }
 
 const CLASS_MAPPING = {
@@ -123,11 +124,27 @@ export function LoginButton(props: LoginButtonProps) {
 }
 
 export function UpdateEmailButton(props: UpdateButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Email with Hellō" updateScope="email" style={{width: '270px'}} />
+    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Email with Hellō" updateScope="email" style={{width: '275px'}} />
 }
 
 export function UpdatePictureButton(props: UpdateButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Picture with Hellō" updateScope="picture" style={{width: '270px'}} />
+    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Picture with Hellō" updateScope="picture" style={{width: '275px'}} />
+}
+
+export function UpdateDiscordButton(props: UpdateButtonProps) {
+    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Discord with Hellō" updateScope="discord" style={{width: '275px'}} />
+}
+
+export function UpdateTwitterButton(props: UpdateButtonProps) {
+    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Twitter with Hellō" updateScope="twitter" style={{width: '275px'}} />
+}
+
+export function UpdateGitHubButton(props: UpdateButtonProps) {
+    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update GitHub with Hellō" updateScope="github" style={{width: '275px'}} />
+}
+
+export function UpdateGitLabButton(props: UpdateButtonProps) {
+    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update GitLab with Hellō" updateScope="gitlab" style={{width: '275px'}} />
 }
 
 //TBD

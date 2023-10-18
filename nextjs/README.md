@@ -31,14 +31,30 @@ import { HelloAuth } from '@hellocoop/nextjs'
 export default HelloAuth({})
 ```
 
-## 4) Add Hellō buttons
+## 4) Add Hellō stylesheet
+
+To provide the button styling, add the below code to the `<Head>` section of the `_document`:
+
+```html
+<link rel="stylesheet" href="https://cdn.hello.coop/css/hello-btn.css"/>
+```
+
+See [hello-nextjs-starter _document.tsx](https://github.com/hellocoop/hello-nextjs-starter/blob/main/pages/_document.tsx) for reference.
+
+To ensure the button styles are available, client-side rendered buttons check if the stylesheet has been included in the document head, and if not the stylesheet is injected. Injecting into the head is [not recommended](https://nextjs.org/docs/messages/no-stylesheets-in-head-component) and creates a button rendering glitch.
+
+## 5) Add Hellō buttons
 
 ```typescript
 import { // only import buttons used
     ContinueButton, 
     LoginButton, 
     UpdateEmailButton, 
-    UpdatePictureButton 
+    UpdatePictureButton,
+    UpdateDiscordButton,
+    UpdateTwitterButton,
+    UpdateGitHubButton,
+    UpdateGitLabButton
 } from '@hellocoop/nextjs'
 ```
 
@@ -56,6 +72,14 @@ import { // only import buttons used
 
 `<UpdatePictureButton/>` - provides \[ ō Update Picture with Hellō \]
 
+`<UpdateDiscordButton/>` - provides \[ ō Update Discord with Hellō \]
+
+`<UpdateTwitterButton/>` - provides \[ ō Update Twitter with Hellō \]
+
+`<UpdateGitHubButton/>` - provides \[ ō Update GitHub with Hellō \]
+
+`<UpdateGitLabButton/>` - provides \[ ō Update GitLab with Hellō \]
+
 ### Optional button styling properties:
 - `color` - white | black
 - `theme` - ignore-light | ignore-dark | aware-invert | aware-static
@@ -63,7 +87,7 @@ import { // only import buttons used
 
 Explore styling with the [button playground](https://www.hello.dev/documentation/getting-started.html#_2-standard-hello-buttons)
 
-## 5) Add Log out
+## 6) Add Log out
 
 ```typescript
 import { logOut, logOutRoute } from '@hellocoop/nextjs'
@@ -73,7 +97,7 @@ import { logOut, logOutRoute } from '@hellocoop/nextjs'
 
 `logOutRoute` - provides route to logout
 
-## 6) Use Logged In State to Select Content to Display
+## 7) Use Logged In State to Select Content to Display
 
 ```tsx
 import { LoggedIn, LoggedOut } from '@hellocoop/nextjs'
@@ -91,7 +115,7 @@ import { LoggedIn, LoggedOut } from '@hellocoop/nextjs'
 </LoggedOut>
 ```
 
-## 7) Auth Data - Client Side
+## 8) Auth Data - Client Side
 
 ```typescript
 import { useAuth } from '@hellocoop/nextjs'
@@ -112,7 +136,7 @@ const {
 } = useAuth()
 ```
 
-## 8) Auth Data - Server Side
+## 9) Auth Data - Server Side
 
 ```typescript
 import { getAuth } from '@hellocoop/nextjs'
@@ -130,7 +154,7 @@ const {
 ```
 
 
-## 9) Get Server Side Properties 
+## 10) Get Server Side Properties 
 If you want to show get the auth object from the auth cookie sever side, export `getServerSideProps()` and wrap your content in `<HelloProvider auth=({auth})>`
 
 ```ts
@@ -235,8 +259,3 @@ export default async loggedIn ({ token, payload, req, res }:LoggedInParams)
 } 
 
 ```
-
-
-
-
-

@@ -21,6 +21,11 @@ export const VALID_IDENTITY_CLAIMS = [
     'picture',
 // Hellō extensions -- non-standard claims
     'ethereum',
+    'ethereum',
+    'discord',
+    'twitter',
+    'github',
+    'gitlab'
 ] as const;
 
 
@@ -41,6 +46,7 @@ export const VALID_PROVIDER_HINT = [
     'facebook',
     'github',
     'gitlab',
+    'google',
     'twitch',
     'twitter',
     'tumblr',
