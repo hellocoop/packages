@@ -33,16 +33,15 @@ export default HelloAuth({})
 
 ## 4) Add Hellō stylesheet
 
-Currently, we inject the stylesheet into the document's head, which is [not recommended](https://nextjs.org/docs/messages/no-stylesheets-in-head-component).  
-By adding the stylesheet manually, we can avoid this injection.
-
-To do this, go to the `<Head>` section of the `_document` file and include the following code:
+To provide the button styling, add the below code to the `<Head>` section of the `_document`:
 
 ```html
 <link rel="stylesheet" href="https://cdn.hello.coop/css/hello-btn.css"/>
 ```
 
-For a practical example, please refer to the [hello-nextjs-starter app](https://github.com/hellocoop/hello-nextjs-starter/blob/main/pages/_document.tsx).
+See [hello-nextjs-starter _document.tsx](https://github.com/hellocoop/hello-nextjs-starter/blob/main/pages/_document.tsx) for reference.
+
+To ensure the button styles are available, client-side rendered buttons check if the stylesheet has been included in the document head, and if not the stylesheet is injected. Injecting into the head is [not recommended](https://nextjs.org/docs/messages/no-stylesheets-in-head-component) and creates a button rendering glitch.
 
 ## 5) Add Hellō buttons
 
