@@ -73,7 +73,7 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             client_id: config.clientId as string 
         })
 
-        const { payload } = await parseToken(token)
+        const { payload } = parseToken(token)
 
         if (payload.aud != config.clientId) {
             return res.status(400).end('Wrong ID token audience.')

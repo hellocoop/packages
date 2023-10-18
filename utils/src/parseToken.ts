@@ -29,15 +29,14 @@ export type TokenHeader = {
     alg: string;
 }
 
-export async function parseToken( token: string): Promise<{ header: TokenHeader; payload: TokenPayload}> {
+export function parseToken( token: string): { header: TokenHeader; payload: TokenPayload} {
 
     const [headerEncoded,tokenEncoded] = token.split('.')
-    const headerJSON = atob(headerEncoded.replace(/-/g,'+').replace(/_/g,'/'))
-    const payloadJSON = atob(tokenEncoded.replace(/-/g,'+').replace(/_/g,'/'))
+    const headerJSON = Buffer.from(headerEncoded, 'base64url').toString('utf-8')
+    const payloadJSON = Buffer.from(tokenEncoded, 'base64url').toString('utf-8')
     try {
-        const header = await JSON.parse(headerJSON)
-        const payload = await JSON.parse(payloadJSON)
-
+        const header = JSON.parse(headerJSON)
+        const payload = JSON.parse(payloadJSON)
         // TODO - check valid typ header 
 
         // check there is an exp claim
