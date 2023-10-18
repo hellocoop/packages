@@ -32,8 +32,8 @@ export type TokenHeader = {
 export function parseToken( token: string): { header: TokenHeader; payload: TokenPayload} {
 
     const [headerEncoded,tokenEncoded] = token.split('.')
-    const headerJSON = Buffer.from(headerEncoded.replace(/-/g,'+').replace(/_/g,'/'), 'base64').toString('utf-8')
-    const payloadJSON = Buffer.from(tokenEncoded.replace(/-/g,'+').replace(/_/g,'/'), 'base64').toString('utf-8')
+    const headerJSON = Buffer.from(headerEncoded, 'base64url').toString('utf-8')
+    const payloadJSON = Buffer.from(tokenEncoded, 'base64url').toString('utf-8')
     try {
         const header = JSON.parse(headerJSON)
         const payload = JSON.parse(payloadJSON)
