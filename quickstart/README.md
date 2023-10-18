@@ -14,8 +14,8 @@ This will open up a browser window, where you will need to login with Hellō, an
 - --provider_hint (-p) - space separated string of provider_hint 
 - --suffix (-x) - suffix to add to generated app name
 - --integration (-i) - integration name shown in console
-- --file (-f) - file to write out HELLO_CLIENT_ID_DEFAULT
-- --secret (-s) - boolean to generate a HELLO_COOKIE_SECRET_DEFAULT value
+- --file (-f) - file to write out HELLO_CLIENT_ID
+- --secret (-s) - boolean to generate a HELLO_COOKIE_SECRET value
 - --wildcard (-w) - boolean to set the wildcard domain Development Redirect URI
 - --debug (-d) - output debug info
 
