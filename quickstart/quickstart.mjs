@@ -60,9 +60,9 @@ const {
 import 'dotenv/config'
 import quickstart from './index.js';
 
-const existingClientId = process.env.HELLO_CLIENT_ID_DEFAULT
+const existingClientId = process.env.HELLO_CLIENT_ID
 if (existingClientId) {
-    console.error(`HELLO_CLIENT_ID_DEFAULT already set to ${existingClientId}`)
+    console.error(`HELLO_CLIENT_ID already set to ${existingClientId}`)
     process.exit(0);
 } 
 
@@ -102,10 +102,10 @@ if (debug) {
     if (file) {
         let helloConfig = `
 # added by @hellocoop/quickstart-nextjs on ${(new Date()).toISOString()}
-HELLO_CLIENT_ID_DEFAULT='${output.client_id}'`       
+HELLO_CLIENT_ID='${output.client_id}'`       
         if (secret) {
             helloConfig +=`
-HELLO_COOKIE_SECRET_DEFAULT='${output.secret}'
+HELLO_COOKIE_SECRET='${output.secret}'
 `
         }
         const outputFile = process.cwd()+'/'+file

@@ -56,9 +56,8 @@ const _configuration: IConfig = {
 
 
     // configured only by process.env or .env
-    clientId
-        :  process.env.HELLO_CLIENT_ID as string
-        || process.env.HELLO_CLIENT_ID_DEFAULT as string, // from .env
+    clientId:  process.env.HELLO_CLIENT_ID as string,
+    secret:  process.env.HELLO_COOKIE_SECRET as string,
     host: undefined,
     redirectURI
         :  process.env.HELLO_REDIRECT_URI
@@ -70,9 +69,6 @@ const _configuration: IConfig = {
     helloWallet
         :  process.env.HELLO_WALLET as string
         || 'https://wallet.'+HELLO_DOMAIN,
-    secret
-        :  process.env.HELLO_COOKIE_SECRET 
-        || process.env.HELLO_COOKIE_SECRET_DEFAULT
 }
 
 export let configured: boolean = false

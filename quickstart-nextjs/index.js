@@ -19,9 +19,9 @@ const qs = async function () {
 # added by @hellocoop/quickstart-nextjs on ${(new Date()).toISOString()}`
 
     let client_id = null
-    const existingClientId = process.env.HELLO_CLIENT_ID_DEFAULT
+    const existingClientId = process.env.HELLO_CLIENT_ID
     if (existingClientId) {
-        console.log(`HELLO_CLIENT_ID_DEFAULT already set to ${existingClientId}`)
+        console.log(`HELLO_CLIENT_ID already set to ${existingClientId}`)
     } else {
         try {
             client_id = await quickstart({
@@ -34,17 +34,17 @@ const qs = async function () {
             return err
         }
         helloConfig += `
-HELLO_CLIENT_ID_DEFAULT='${client_id}'`
+HELLO_CLIENT_ID='${client_id}'`
     }
 
     let session_secret = null
-    const existingSessionSecret = process.env.HELLO_COOKIE_SECRET_DEFAULT
+    const existingSessionSecret = process.env.HELLO_COOKIE_SECRET
     if (existingSessionSecret) {
-        console.log(`HELLO_COOKIE_SECRET_DEFAULT already set to ${existingSessionSecret}`)
+        console.log(`HELLO_COOKIE_SECRET already set to ${existingSessionSecret}`)
     } else {
         session_secret = randomBytes(32).toString('hex')
         helloConfig += `
-HELLO_COOKIE_SECRET_DEFAULT='${session_secret}'`
+HELLO_COOKIE_SECRET='${session_secret}'`
     }
 
     if (client_id || session_secret) {

@@ -18,9 +18,10 @@ npm install @hellocoop/nextjs
 npx @hellocoop/quickstart-nextjs
 ```
 
-This will launch the Hellō Quickstart web app. After logging into Hellō you will create or select an application, and the `client_id` and a generated session secret will be added to your `.env` file as `HELLO_CLIENT_ID_DEFAULT` and `HELLO_COOKIE_SECRET_DEFAULT`.
+This will launch the Hellō Quickstart web app. After logging into Hellō you will create or select an application, and the application's`client_id` and a generated secret for encrypting cookies will be added to the local `.env` file as `HELLO_CLIENT_ID` and `HELLO_COOKIE_SECRET`. 
 
-Include this `.env` file in your deployments.
+If you don't check in your `.env` file, you will need to add these variables to your deployed environments.
+
 
 ## 3) Create API route
 
@@ -181,16 +182,17 @@ export { getServerSideProps } from '@hellocoop/nextjs'
 
 ## Environment Variables
 
-### Production variable to be set
+### Variables to be set
 
-- `HELLO_COOKIE_SECRET` overrides `HELLO_COOKIE_SECRET_DEFAULT` in `.env` set by Quickstart. 
+These variables are added to the `.env` created by Quickstart for running locally.
+You will need to add them to the environment of a deployed app.
 
-This variable should be different from values checked into a repo. 
+- `HELLO_CLIENT_ID` the client_id from the  in `.env` set by Quickstart
+- `HELLO_COOKIE_SECRET` a random 64 char hex string (32 bytes). should be different for each environment
 
 ### Variables that may be needed
 
 - `HELLO_REDIRECT_URI` overrides dynamic redirect_uri discovery
-- `HELLO_CLIENT_ID` overrides `HELLO_CLIENT_ID_DEFAULT` in `.env` set by Quickstart
 
 ### Testing Variables
 
@@ -212,7 +214,7 @@ export default HelloAuth({
     pages: {
         loggedIn: '/',
         loggedOut:'/',
-        error:  '/auth/error',       // Error code passed in query string as ?error=
+        error:  '/auth/error',       // OAuth error parameters are passed in query string
     }
 })
 ```
