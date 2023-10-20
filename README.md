@@ -16,10 +16,10 @@ A CLI and nodejs module to create or retrieve a Hellō `client_id`. [Quickstart 
 npx @hellocoop/quickstart
 ```
 
-## [utils](./utils/)
+## [core](./core/)
 
-A set of utility functions to create an authorization request and retrieve a token payload with the authorization code. Defaults to using a code flow with PKCE and no client secret. 
+A set of core functions to create an authorization request, retrieve a token with the authorization code, and parse the payload.
 ```sh
-npm i @hellocoop/utils
+npm i @hellocoop/core
 ```
 
