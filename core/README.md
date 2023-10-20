@@ -1,6 +1,6 @@
 # Hellō Core Package
 
-A colletion of conveninience functions for integrating Hellō
+A collection of Node.js helper functions for integrating Hellō
 
 ## Installation
 ```bash
@@ -17,18 +17,18 @@ import { createAuthRequest, fetchToken, parseToken } from '@hellocoop/core'
 
 ### const `{ url, nonce, code_verifier } = await createAuthRequest(config)`
 
-A convenience function to create the url to load in the browser to make the request to Hellō.
+A helper function to create the url to load in the browser to make the request to Hellō.
 
 ```typescript
 config = {
     client_id: OAuth "client_id" parameter - REQUIRED
     redirect_uri: OAuth "redirect_uri" parameter - REQUIRED
-    scope?: Scope[]; zero or more scopes to request - default ['openid','name','email','picture']
+    scope?: array of zero or more scopes to request - default ['openid','name','email','picture']
     response_type?: 'id_token'|'code' - default 'code'
     response_mode?: 'fragment'|'query'|'form_post' - default 'query'
     nonce?: OpenID Connect "nonce" parameter override. 
     state?: OAuth "state" parameter
-    provider_hint?: Update recommended providers (see below)
+    provider_hint?: array of provider hint update values (see below)
     wallet?: alternative mock wallet URL for testing
 }
 ```
@@ -51,7 +51,7 @@ If the request is approved the user, the `redirect_uri` will receive the respons
 ## fetchToken
 ### `token = await fetchToken(config)`
 
-A convenience function to fetch an ID Token after a `code` flow. 
+A helper function to fetch an ID Token after a `code` flow. 
 
 ```typescript
 config = {
@@ -73,20 +73,20 @@ Parses the header and payload from an ID Token. Does not verify the ID Token.
 ### Example usage
 
 ```typescript
-// login page
+// server login endpoint 
 
 const { url, nonce, code_verifier } = await createAuthRequest({
     client_id: CLIENT_ID,
     redirect_uri: REDIRECT_URI // the callback endpoint
 })
 
-// store nonce & code_verifier in session storage
+// store nonce & code_verifier in server session storage
 
 res.redirect(url) // redirect browser to make auth request
 ```
 
 ```typescript
-// callback endpoint
+// server callback endpoint
 
 const { code, error } = res.query
 // process error if returned
