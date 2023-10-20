@@ -1,9 +1,17 @@
 # Hellō Core Package
 
+A colletion of conveninience functions for integrating Hellō
+
+## Installation
+```bash
+npm install @hellocoop/core
+```
+## Usage 
 ```typescript
 import { createAuthRequest, fetchToken, parseToken } from '@hellocoop/core'
 
 ```
+# API
 
 ## createAuthRequest
 
