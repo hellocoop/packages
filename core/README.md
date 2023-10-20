@@ -26,8 +26,8 @@ config = {
     scope?: Scope[]; zero or more scopes to request - default ['openid','name','email','picture']
     response_type?: 'id_token'|'code' - default 'code'
     response_mode?: 'fragment'|'query'|'form_post' - default 'query'
-    nonce?: string; OpenID Connect "nonce" parameter override. 
-    state?: string; OAuth "state" parameter
+    nonce?: OpenID Connect "nonce" parameter override. 
+    state?: OAuth "state" parameter
     provider_hint?: Update recommended providers (see below)
     wallet?: alternative mock wallet URL for testing
 }
