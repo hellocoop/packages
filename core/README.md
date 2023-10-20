@@ -82,7 +82,7 @@ const { url, nonce, code_verifier } = await createAuthRequest({
 
 // store nonce & code_verifier in session storage
 
-window.location.href = url // redirect browser to make auth request
+res.redirect(url) // redirect browser to make auth request
 ```
 
 ```typescript
