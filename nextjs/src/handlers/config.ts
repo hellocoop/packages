@@ -33,7 +33,7 @@ export type Config = {
     }
 }
 
-export const PageAuth = function ( config: Config | {} | undefined 
+export const pageAuth = function ( config: Config | {} | undefined 
         | NextApiRequest, res?: NextApiResponse) // directly used as a NextApiHandler
         : NextApiHandler | undefined {
     if (res) {

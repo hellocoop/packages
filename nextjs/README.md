@@ -28,8 +28,8 @@ If you don't check in your `.env` file, you will need to add these variables to 
 Create a `hellocoop.js` file in the `/pages/api` directory that contains:
 
 ```typescript
-import { PageAuth } from '@hellocoop/nextjs'
-export default PageAuth({})
+import { pageAuth } from '@hellocoop/nextjs'
+export default pageAuth({})
 ```
 
 ## 4) Add Hellō stylesheet
@@ -199,14 +199,14 @@ You will need to add them to the environment of a deployed app.
 - `HELLO_DOMAIN` - overrides 'hello.coop' - used for testing by Hellō team
 - `HELLO_WALLET` - overrides default 'https://wallet.hello.coop' - used if mocking Hellō server
 
-## PageAuth configuration
+## pageAuth configuration
 
 ```typescript
 // /api/hellocoop.ts
 import loggedIn from '@/src/your-logged-in-logic' 
 
-import PageAuth from '@hellocoop/nextjs'
-export default PageAuth({
+import pageAuth from '@hellocoop/nextjs'
+export default pageAuth({
     scope: ['email','name','picture'], // default scopes
     callbacks: {
         loggedIn                // called when logged in
