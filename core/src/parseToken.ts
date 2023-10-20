@@ -37,7 +37,6 @@ export function parseToken( token: string): { header: TokenHeader; payload: Toke
     try {
         const header = JSON.parse(headerJSON)
         const payload = JSON.parse(payloadJSON)
-
         // TODO - check valid typ header 
 
         // check there is an exp claim

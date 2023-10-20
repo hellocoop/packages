@@ -1,12 +1,17 @@
 {
+  "extends": "@tsconfig/node18/tsconfig.json",
+  "include": ["src"],
+  "exclude": ["node_modules", "./**/dist"],
   "compilerOptions": {
-    "target": "es2022",
-    "lib": ["es2022"],
-    "module": "es2022",
-    "esModuleInterop": true,
-    "rootDir": "src/",
-    "outDir": "dist/",
-    "skipLibCheck": true,
-  },
-  "lib": ["dom"]
+      "paths": {
+          "utils": ["./src/index.ts"]
+      },
+      "lib": ["dom"],
+      "declarationMap": true,
+      "declaration": true,
+      "baseUrl": "./src/",
+      "target": "es2019",
+      "strict": true,
+      "outDir": "./dist"
+  }
 }

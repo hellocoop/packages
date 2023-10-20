@@ -1,5 +1,5 @@
 // fetches an ID token from Hellō given the code and code_verifier
-import { fetch } from './fetch'
+
 import { PRODUCTION_WALLET } from './createAuthRequest'
 const DEFAULT_ENDPOINT: string = '/oauth/token'
 
