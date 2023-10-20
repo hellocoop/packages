@@ -1,4 +1,11 @@
-# A collection of utils for Hellō 
+# Hellō Core Package
+
+```typescript
+import { createAuthRequest, fetchToken, parseToken } from '@hellocoop/core'
+
+```
+
+## createAuthRequest
 
 ### `{ url, nonce, code_verifier } = await createAuthRequest(config)`
 
@@ -33,7 +40,7 @@ If the request is approved the the user, the `redirect_uri` will receive the res
 
 
 
-
+## fetchToken
 ### `token = await fetchToken(config)`
 
 A convenience function to fetch an ID Token after a `code` flow. 
@@ -50,6 +57,7 @@ config = {
 
 returns an ID Token in the JWT compact format (a string). Note that the ID Token does not require validation as it came directly from Hellō and is bound to the provided `code_verifier` used in the request
 
+## parseToken
 ### `{ header, payload } = parseToken(token)`
 
 Parses the header and payload from an ID Token. Does not verify the ID Token.
