@@ -15,9 +15,9 @@ import { createAuthRequest, fetchToken, parseToken } from '@hellocoop/core'
 
 ## createAuthRequest
 
-### `{ url, nonce, code_verifier } = await createAuthRequest(config)`
+### const `{ url, nonce, code_verifier } = await createAuthRequest(config)`
 
-A convenience function to creates the url to load in the browser to make the request to Hellō.
+A convenience function to create the url to load in the browser to make the request to Hellō.
 
 ```typescript
 config = {
@@ -44,7 +44,7 @@ Returns
 }
 ```
 
-If the request is approved the the user, the `redirect_uri` will receive the response per the `response_mode` as `'fragment'|'query'|'form_post'` parameters (`query` is default). The response will be per the `response_mode` and either an `id_token` or a `code` (`code` is default).
+If the request is approved the user, the `redirect_uri` will receive the response per the `response_mode` as `'fragment'|'query'|'form_post'` parameters (`query` is default). The response will be per the `response_mode` and either an `id_token` or a `code` (`code` is default).
 
 
 
@@ -66,7 +66,7 @@ config = {
 returns an ID Token in the JWT compact format (a string). Note that the ID Token does not require validation as it came directly from Hellō and is bound to the provided `code_verifier` used in the request
 
 ## parseToken
-### `{ header, payload } = parseToken(token)`
+### `const { header, payload } = parseToken(token)`
 
 Parses the header and payload from an ID Token. Does not verify the ID Token.
 
@@ -82,7 +82,7 @@ const { url, nonce, code_verifier } = await createAuthRequest({
 
 // store nonce & code_verifier in session storage
 
-res.redirect(url) // redirect browser to make auth request
+window.location.href = url // redirect browser to make auth request
 ```
 
 ```typescript
@@ -99,10 +99,10 @@ try {
         code_verifier,
         code
     })
-    const {payload} = parseToken(token)
+    const { payload } = parseToken(token)
     if (payload.nonce !== nonce)
         // process error
-    { sub, name, email, picture } = payload
+    const { sub, name, email, picture } = payload
     // make use of user data
 } catch (err) {
     // deal with error
