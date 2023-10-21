@@ -1,4 +1,4 @@
-import { Claims, decryptObj, encryptObj } from '@hellocoop/utils'
+import { Claims, decryptObj, encryptObj } from '@hellocoop/core'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import config from './config'

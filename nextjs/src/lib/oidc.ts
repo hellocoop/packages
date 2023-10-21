@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import config from './config'
 import { serialize } from 'cookie'
-import { decryptObj, encryptObj } from '@hellocoop/utils'
+import { decryptObj, encryptObj } from '@hellocoop/core'
 
 const { cookies } = config
 const { oidcName } = cookies 

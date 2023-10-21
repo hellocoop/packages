@@ -1,4 +1,4 @@
-import { Scope } from '@hellocoop/utils'
+import { Scope } from '@hellocoop/core'
 import { Config, LoggedInParams, LoggedInResponse } from '../handlers/config'
 
 

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-import type { ProviderHint, Scope } from '@hellocoop/utils'
+import type { ProviderHint, Scope } from '@hellocoop/core'
 
 import config from '../lib/config'
 const { loginApiRoute } = config
