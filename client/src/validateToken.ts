@@ -26,10 +26,10 @@ export async function validateToken( {  token, client_id, nonce, wallet }: Valid
     try {
 
         const r = await fetch(introspectEndpoint, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                body
-            })   
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body
+        })   
         const json =  await r.json()
 
         if (!r.ok) {
