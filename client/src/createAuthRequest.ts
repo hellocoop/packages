@@ -8,7 +8,7 @@ const DEFAULT_RESPONSE_TYPE: AuthResponseType = 'code'
 const DEFAULT_RESPONSE_MODE: AuthResponseMode = 'query'
 const DEFAULT_PATH: string = '/authorize?'
 
-import pkceChallenge from "pkce-challenge";
+import pkceChallenge from "./pkce";
 
 export const VALID_IDENTITY_CLAIMS = [
     'name', 
