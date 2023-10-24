@@ -108,7 +108,7 @@ try {
 ```
 
 ## validateToken
-### `token = await validateToken(config)`
+### `const { active } = await validateToken(config)`
 
 A helper function to validate an ID Token after a `code` flow. 
 
@@ -123,20 +123,20 @@ config = {
 
 that will examine the token, ensure it was from Hellō, has not expired, and return the payload.
 
-No authentication is required to call the introspection endpoint. You MUST pass your client_id, and if you provided a nonce in the request URL, you MUST provide the nonce. The token, client_id, and optional nonce are sent as JSON.
+No authentication is required to call the introspection endpoint. You MUST pass your `client_id`, and if you provided a nonce in the request URL, you MUST provide the nonce. The `token`, `client_id`, and optional `nonce` are sent as JSON.
 
 ### Example usage
 
 ```typescript
 const response = await validateToken({
-    client_id: CLIENT_ID,
-    nonce: sessionStorage.nonce,
-    code_verifier: sessionStorage.code_verifier
+    client_id: OAuth "client_id" parameter used in request - REQUIRED,
+    code_verifier: OAuth "code_verifier" created with `createAuthRequest()` - REQUIRED
+    nonce: OAuth "nonce" created with `createAuthRequest()`
 })
 ```
 
 ### Example response
-If successfully validated, you will receive the ID Token payload with active:true to indicate it is an active token. If unsuccessful, you will receive an Introspection Error.
+If successfully validated, you will receive the ID Token payload with `active: true` to indicate it is an active token. If unsuccessful, you will receive an Introspection Error.
 
 ```json
 {
@@ -164,7 +164,7 @@ If successfully validated, you will receive the ID Token payload with active:tru
 ```
 
 ### Example error response
-If the token is invalid in anyway, the API will return active set to false
+If the token is invalid in anyway, the API will return `active` set to `false`
 ```json
 {
     "active":false
