@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import semver from 'semver';
 import * as fs from 'fs'
+import chalk from 'chalk';
 
 const requiredVersion = '>=18.3.0';
 
@@ -66,28 +67,33 @@ if (existingClientId) {
     process.exit(0);
 } 
 
-if (debug) {
-    console.log('Hellō Quickstart parameters:')
-    if (provider_hint)
-        console.log(`  provider_hint="${provider_hint}"`)
-    if (suffix)
-        console.log(`  suffix="${suffix}"`)
-    if (integration)
-        console.log(`  integration="${integration}"`)
-    if (file)
-        console.log(`  writing output to "${file}"`)
-    console.log(`  generate secret=${secret}`)
-    console.log(`  enable wildcard=${wildcard}\n`);    
+const options = {}
+
+debug && console.log('Hellō Quickstart parameters:')
+if (provider_hint) {
+    options.provider_hint = provider_hint
+    debug && console.log(`  provider_hint="${provider_hint}"`)
 }
+if (suffix) {
+    options.suffix = suffix
+    debug && console.log(`  suffix="${suffix}"`)
+}
+if (integration) {
+    options.integration = integration
+    debug && console.log(`  integration="${integration}"`)
+}
+if (file) {
+    debug && console.log(`  writing output to "${file}"`)
+}
+if (wildcard) {
+    options.wildcard = wildcard
+    debug && console.log(`  enable wildcard=${wildcard}\n`);    
+}    
+
+debug && console.log(`  generate secret=${secret}`);
+
 
 (async () => {
-
-    const options = {
-        suffix,
-        provider_hint,
-        wildcard_domain: wildcard,
-        integration
-    }
 
     const output = {}
     try {
@@ -117,9 +123,16 @@ HELLO_COOKIE_SECRET='${output.secret}'
             process.exit(1)
         }
         console.log(`\nUpdated ${outputFile} with:`)
-        console.log(helloConfig+'\n')    
-    } else {
-        console.log(JSON.stringify(output,null,4))
+        console.log(chalk.blueBright(helloConfig))    
+        console.log(`
+You can update the:
+    - Application Logo
+    - Application Name
+    - Terms of Service URL
+    - Privacy Policy URL
+    - Redirect URIs
+at the Hellō Developer Console https://console.hello.coop
+        `)
     }
 
 })();
