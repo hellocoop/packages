@@ -81,7 +81,7 @@ const {
         isLoggedIn, // always returned
         iat,        // returned if isLoggedIn == true
         sub,        // use as user identifier - returned if isLoggedIn == true
-        // additional claims - following are defaults
+    // additional properties set in auth cookie - following are defaults
         name, 
         email,
         picture 
@@ -99,7 +99,7 @@ const {
     isLoggedIn, // always returned
     iat,        // returned if isLoggedIn == true
     sub,        // use as user identifier - returned if isLoggedIn == true
-    // additional properties set in auth cookie - following are defaults
+// additional properties set in auth cookie - following are defaults
     name, 
     email,
     picture 
