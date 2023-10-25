@@ -3,7 +3,6 @@
 //
 
 import { VALID_IDENTITY_CLAIMS } from './createAuthRequest'
-import jwt_decode from "jwt-decode"
 
 type IdentityClaims = typeof VALID_IDENTITY_CLAIMS[number]
 
@@ -30,10 +29,22 @@ export type TokenHeader = {
     alg: string;
 }
 
+// https://stackoverflow.com/a/38552302/9747630
+function parseJwt (token: string): TokenHeader | TokenPayload {
+    var base64 = token.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    
+    return JSON.parse(jsonPayload)
+}
+
 export function parseToken( token: string): { header: TokenHeader; payload: TokenPayload} {
     try {
-        const header: TokenHeader = jwt_decode(token, { header: true })
-        const payload: TokenPayload = jwt_decode(token)
+        const [headerEncoded, tokenEncoded] = token.split('.')
+
+        const header = parseJwt(headerEncoded) as TokenHeader
+        const payload = parseJwt(tokenEncoded) as TokenPayload
 
         // TODO - check valid typ header 
         // check there is an exp claim

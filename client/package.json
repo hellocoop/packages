@@ -6,40 +6,37 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "files": [
-      "dist/"
+        "dist/"
     ],
     "scripts": {
-      "watch": "tsc --watch --declaration",
-      "build": "tsc --declaration",
-      "test": "node --test"
+        "watch": "tsc --watch --declaration",
+        "build": "esbuild src/index.ts --bundle --minify --outdir=dist",
+        "test": "node --test"
     },
     "repository": {
-      "type": "git",
-      "url": "git+https://github.com/hellocoop/packages.git"
+        "type": "git",
+        "url": "git+https://github.com/hellocoop/packages.git"
     },
     "keywords": [
-      "hello",
-      "Hellō",
-      "PKCE",
-      "OIDC",
-      "OAuth",
-      "OpenID Connect"
+        "hello",
+        "Hellō",
+        "PKCE",
+        "OIDC",
+        "OAuth",
+        "OpenID Connect"
     ],
     "author": {
-      "name": "Hello Identity Co-op",
-      "email": "contact@hello.coop",
-      "url": "https://hello.coop"
+        "name": "Hello Identity Co-op",
+        "email": "contact@hello.coop",
+        "url": "https://hello.coop"
     },
     "license": "MIT",
     "bugs": {
-      "url": "https://github.com/hellocoop/packages/issues"
+        "url": "https://github.com/hellocoop/packages/issues"
     },
     "homepage": "https://github.com/hellocoop/packages#readme",
-    "dependencies": {
-      "jwt-decode": "^3.1.2"
-    },
     "devDependencies": {
-      "typescript": "^5.2.2"
+        "esbuild": "^0.19.5",
+        "typescript": "^5.2.2"
     }
-  }
-  
+}
