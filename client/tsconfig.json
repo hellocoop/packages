@@ -7,7 +7,6 @@
             "utils": ["./src/index.ts"]
         },
         "lib": ["dom"],
-        "declarationMap": true,
         "declaration": true,
         "baseUrl": "./src/",
         "target": "es2019",

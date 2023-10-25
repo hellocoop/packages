@@ -10,7 +10,8 @@
     ],
     "scripts": {
         "watch": "tsc --watch --declaration",
-        "build": "esbuild src/index.ts --bundle --minify --outdir=dist",
+        "prebuild": "rimraf dist/",
+        "build": "esbuild src/index.ts --minify --bundle --outdir=dist --format=esm && tsc --emitDeclarationOnly --outDir dist",
         "test": "node --test"
     },
     "repository": {
@@ -37,6 +38,7 @@
     "homepage": "https://github.com/hellocoop/packages#readme",
     "devDependencies": {
         "esbuild": "^0.19.5",
+        "rimraf": "^5.0.5",
         "typescript": "^5.2.2"
     }
 }
