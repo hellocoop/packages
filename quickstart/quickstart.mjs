@@ -20,10 +20,13 @@ if (!process.stdout.isTTY) {
     process.exit(1);
 }
 
-const {
-  values: { provider_hint, suffix, file, secret, wildcard, integration, debug },
+let {
+  values: { nextjs, provider_hint, suffix, file, secret, wildcard, integration, debug },
 } = parseArgs({
   options: {
+    nextjs: {
+        type: "boolean"
+    },
     provider_hint: {
         type: "string",
         short: "p",
@@ -67,6 +70,14 @@ if (existingClientId) {
     process.exit(0);
 } 
 
+if (nextjs) {
+    wildcard = true
+    secret = true
+    file = '.env'
+    provider_hint = 'github gitlab google email--'
+}
+
+
 const options = {}
 
 debug && console.log('Hellō Quickstart parameters:')
@@ -86,7 +97,7 @@ if (file) {
     debug && console.log(`  writing output to "${file}"`)
 }
 if (wildcard) {
-    options.wildcard = wildcard
+    options.wildcard_domain = wildcard
     debug && console.log(`  enable wildcard=${wildcard}\n`);    
 }    
 
@@ -124,15 +135,14 @@ HELLO_COOKIE_SECRET='${output.secret}'
         }
         console.log(`\nUpdated ${outputFile} with:`)
         console.log(chalk.blueBright(helloConfig))    
-        console.log(`
-You can update the:
+        console.log(
+`You can update the:
     - Application Logo
     - Application Name
     - Terms of Service URL
     - Privacy Policy URL
     - Redirect URIs
-at the Hellō Developer Console https://console.hello.coop
-        `)
+at the Hellō Developer Console https://console.hello.coop`)
     }
 
 })();
