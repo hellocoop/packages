@@ -5,6 +5,7 @@ import readline from 'readline'
 import * as http from 'http'
 import { URLSearchParams, parse } from 'url';
 import page from './page.js'
+import chalk from 'chalk';
 
 export const validQuickstartParams = [
     'suffix',
@@ -66,14 +67,14 @@ const quickstart = async function (params) {
         const hellooDomain = process.env.HELLO_DOMAIN || 'hello.coop'
         const quickstartURL = `https://quickstart.${hellooDomain}/?${queryString}`
         server.listen(port, host, () => {
-            console.log('Obtaining a client_id with Hellō Quickstart')
-            // console.log(quickstartURL)
+            console.log('\nObtaining a client_id with Hellō Quickstart')
+            console.log("\n",chalk.blueBright(quickstartURL))
             const rl = readline.createInterface({
                 input: process.stdin,
                 output: process.stdout
               });
               
-              rl.question('Press ENTER to open in the browser...', (answer) => {
+              rl.question('\nPress ENTER to open in the browser...', (answer) => {
                 open(quickstartURL)
                 rl.close();
               });
