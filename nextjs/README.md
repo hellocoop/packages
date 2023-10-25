@@ -15,10 +15,10 @@ npm install @hellocoop/nextjs
 ## 2) Create or update your `.env` with:
 
 ```sh
-npm run quickstart
+npx @hellcoop/quickstart --nextjs
 ```
 
-This will launch the Hellō Quickstart web app. After logging into Hellō you will create or select an application, and the application's`client_id` and a generated secret for encrypting cookies will be added to the local `.env` file as `HELLO_CLIENT_ID` and `HELLO_COOKIE_SECRET`. 
+This will launch the Hellō Quickstart web app with some preconfigured Next.js parameters. After logging into Hellō you will create or select an application, and the application's`client_id` and a generated secret for encrypting cookies will be added to the local `.env` file as `HELLO_CLIENT_ID` and `HELLO_COOKIE_SECRET`. 
 
 > You will need to add the `HELLO_CLIENT_ID` and a new `HELLO_COOKIE_SECRET` that can be generated with `npm run secret` to your deployed environments.
 
