@@ -63,7 +63,7 @@ const writeHelloCoop = async () => {
 
     const content = `// ${HELLO_COOP_FILE}
 
-import config from '@hello.config'
+import config from '../../hello.config'
 import { pageAuth } from '@hellocoop/nextjs'
 export default pageAuth(config)
 `
