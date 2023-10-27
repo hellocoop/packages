@@ -107,67 +107,55 @@ try {
 
 ```
 
-## validateToken
-### `const { active } = await validateToken(config)`
+## `validateToken()`
 
-A helper function to validate an ID Token after a `code` flow. 
+Useful when:
+- `response_type=id_token`
+- `response_mode=fragment`
+
+This is a helper function for the `https://wallet.hello.coop/oauth/introspection` API as described [here](../Integrating-hello#id-token). 
+
+`const response = await validateToken(params)`
 
 ```typescript
-config = {
-    token: OAuth "client_id" parameter used in request - REQUIRED
-    client_id: OAuth "redirect_uri" parameter used in request - REQUIRED
-    nonce: OAuth "code_verifier" created with `createAuthRequest()`
-    wallet?: string; alternative mock wallet host for testing
+params = {
+    token: `id_token` from fragment
+    client_id: OAuth "client_id" parameter used in request
+    nonce?: OAuth "nonce" provided in authorization request - MUST be provided if in request
+    wallet?: alternative mock wallet host for testing
 } 
 ```
 
-that will examine the token, ensure it was from Hellō, has not expired, and return the payload.
+This will call the wallet's introspection endpoint that will examine the token, ensure it was from Hellō, has not expired, and return the payload.
 
-No authentication is required to call the introspection endpoint. You MUST pass your `client_id`, and if you provided a nonce in the request URL, you MUST provide the nonce. The `token`, `client_id`, and optional `nonce` are sent as JSON.
+If successfully validated, you will receive the full [ID Token payload](../Integrating-hello#introspection-response) with `active: true` to indicate it is an active token. If unsuccessful, you will receive an [Introspection Errors](./errors#introspection).
 
-### Example usage
+## Example usage
+
+Using:
+- `response_type=id_token`
+- `response_mode=fragment`
 
 ```typescript
-const response = await validateToken({
-    client_id: OAuth "client_id" parameter used in request - REQUIRED,
-    code_verifier: OAuth "code_verifier" created with `createAuthRequest()` - REQUIRED
-    nonce: OAuth "nonce" created with `createAuthRequest()`
-})
-```
-
-### Example response
-If successfully validated, you will receive the ID Token payload with `active: true` to indicate it is an active token. If unsuccessful, you will receive an Introspection Error.
-
-```json
-{
-  "iss": "https://issuer.hello.coop",
-  "aud": "3574f001-0874-4b20-bffd-8f3e37634274",
-  "nonce": "b957cea0-f159-4390-ba48-5c5d7e943ea4",
-  "jti": "8ad167d1-d170-46c9-b3c6-47dda735a4e3",
-  "sub": "f9e21f0f-9f0e-41b0-a58b-c2d63bcc7b4f",
-  "scope": [
-      "name",
-      "nickname",
-      "picture",
-      "email",
-      "openid"
-  ],
-  "name": "Dick Hardt",
-  "nickname": "Dick",
-  "picture": "https://cdn.hello.coop/images/default-picture.png",
-  "email": "dick.hardt@hello.coop",
-  "email_verified": true,
-  "iat": 1669399110,
-  "exp": 1669399410,
-  "active": true
+const params = new URLSearchParams(window.location.hash.substring(1))
+const token = params.get('id_token')
+if (!token || params.has('error')) {
+    // process error
 }
-```
-
-### Example error response
-If the token is invalid in anyway, the API will return `active` set to `false`
-```json
-{
-    "active":false
+// get nonce from sessionStorage
+try {
+    const response = validateToken({
+        client_id: HELLO_CLIENT_ID,
+        token, 
+        nonce
+    })
+    if (!response.active) {
+        // process error
+    }
+    const { sub, name, email, picture } = response
+    // make use of user data
+} catch (err) {
+    // deal with error
 }
 ```
 
