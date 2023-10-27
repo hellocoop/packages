@@ -1,6 +1,8 @@
 import { Scope } from '@hellocoop/core'
 import { Config, LoggedInParams, LoggedInResponse } from '../handlers/config'
 
+// try to import 
+
 
 export interface IConfig {
     production: boolean,
@@ -72,9 +74,9 @@ const _configuration: IConfig = {
 }
 
 export let configured: boolean = false
+
 export const configure = function ( config: Config ) {
-    if (!config)
-        config = {}
+    _configuration.clientId = process.env.HELLO_CLIENT_ID || config.client_id
     if (config.routes) {
         _configuration.routes = {
             ..._configuration.routes,
@@ -86,7 +88,7 @@ export const configure = function ( config: Config ) {
 
     configured = true
     if (!_configuration.clientId) {
-        const message = 'No HELLO_CLIENT_ID was in environment'
+        const message = 'No HELLO_CLIENT_ID was in environment or client_id in helllo.config.ts'
         _configuration.error = [message]
         console.error(message)
         configured = false

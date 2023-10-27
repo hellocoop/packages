@@ -22,6 +22,7 @@ export type LoggedInResponse = {
 
 
 export type Config = {
+    client_id: string,
     scope?: Scope[],
     callbacks?: {
         loggedIn?: (params: LoggedInParams) => Promise<LoggedInResponse>
@@ -33,20 +34,9 @@ export type Config = {
     }
 }
 
-export const pageAuth = function ( config: Config | {} | undefined 
-        | NextApiRequest, res?: NextApiResponse) // directly used as a NextApiHandler
-        : NextApiHandler | undefined {
-    if (res) {
-        const req = config as NextApiRequest
-        if (!configured)
-            configure({})
-        router( req, res )
-        return
-    }
-
+export const pageAuth = function ( config: Config): NextApiHandler {
     if (!configured!) {
         configure(config as Config)
     }
     return router
-
 }
