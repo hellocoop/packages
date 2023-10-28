@@ -1,6 +1,6 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 
-import { configured, configure } from '../lib/config'
+import { isConfigured, configure } from '../lib/config'
 import router from './router'
 import { Claims, Scope } from '@hellocoop/core'
 
@@ -35,7 +35,7 @@ export type Config = {
 }
 
 export const pageAuth = function ( config: Config): NextApiHandler {
-    if (!configured!) {
+    if (!isConfigured) {
         configure(config as Config)
     }
     return router

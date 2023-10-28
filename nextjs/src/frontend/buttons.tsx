@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import type { ProviderHint, Scope } from '@hellocoop/core'
 
-import config from '../lib/config'
-const { loginApiRoute } = config
+import { getLoginApiRoute } from '../lib/config'
 
 export type Color = "black" | "white"
 export type Theme = "ignore-light" | "ignore-dark" | "aware-invert" | "aware-static"
@@ -91,7 +90,7 @@ function BaseButton({ scope, updateScope, targetURI, providerHint, label, style,
 
     const onClickHandler = (): void => {
         setClicked(true)
-        push(loginApiRoute + "&" + params.toString())
+        push(getLoginApiRoute() + "&" + params.toString())
     }
 
     //check if dev has added css to _document head

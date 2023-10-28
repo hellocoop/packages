@@ -5,8 +5,7 @@ import config from './config'
 import { serialize } from 'cookie'
 import { clearOidcCookie } from './oidc'
 
-const { cookies } = config
-const { authName, oidcName } = cookies 
+const { cookies: {authName, oidcName} } = config 
 
 export type AuthCookie = {
         sub: string,

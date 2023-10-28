@@ -71,7 +71,10 @@ const _configuration: IConfig = {
         || 'https://wallet.'+HELLO_DOMAIN,
 }
 
-export let configured: boolean = false
+export let isConfigured: boolean = false
+
+
+const pendingConfigurations: ((config: any) => void)[] = [];
 
 export const configure = function ( config: Config ) {
     _configuration.clientId = process.env.HELLO_CLIENT_ID || config.client_id
@@ -84,22 +87,41 @@ export const configure = function ( config: Config ) {
     _configuration.callbacks = config.callbacks || {}
     _configuration.scope = config.scope
 
-    configured = true
+    isConfigured = true
     if (!_configuration.clientId) {
         const message = 'No HELLO_CLIENT_ID was in environment or client_id in helllo.config.ts'
         _configuration.error = [message]
         console.error(message)
-        configured = false
+        isConfigured = false
     } 
     if (!_configuration.secret) {
         const message = 'No HELLO_COOKIE_SECRET was in environment'
         _configuration.error = [message]
         console.error(message)
-        configured = false
+        isConfigured = false
     } 
-// console.log({configured})
+    while (pendingConfigurations.length > 0) {
+        const resolve = pendingConfigurations.pop();
+        if (resolve)
+            resolve(_configuration);
+      }
+// console.log({isConfigured})
 // console.log({_configuration})
 
 }
+
+export const getConfig = function ():Promise<IConfig> {
+    if (!isConfigured) {
+        return new Promise((resolve) => {
+          pendingConfigurations.push(() => resolve(_configuration));
+        });
+      }
+      return Promise.resolve(_configuration);
+}
+
+export const getLoginApiRoute = ():string => {return _configuration.loginApiRoute}
+export const getLogoutApiRoute = ():string => {return _configuration.logoutApiRoute}
+export const getAuthApiRoute = ():string => {return _configuration.authApiRoute}
+export const getApiRoute = ():string => {return _configuration.apiRoute}
 
 export default _configuration

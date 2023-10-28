@@ -1,10 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import config from './config'
+import config, { getApiRoute } from './config'
 import { serialize } from 'cookie'
 import { decryptObj, encryptObj } from '@hellocoop/core'
 
-const { cookies } = config
-const { oidcName } = cookies 
+const { cookies: { oidcName } } = config
 
 export type OIDC = {
     code_verifier: string,

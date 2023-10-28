@@ -1,8 +1,7 @@
 
 import useSWR from 'swr'
-import config from '../lib/config'
-const { authApiRoute } = config
-import { Auth, NotLoggedIn } from '../lib/auth'
+import { getAuthApiRoute } from '../lib/config'
+import { Auth } from '../lib/auth'
 import { useHelloProviderContext } from "./provider"
 
 const fetcher = async (url: string): Promise<Auth | undefined> => {
@@ -24,7 +23,7 @@ export type UseAuth = {
 
 export const useAuth = (): UseAuth => {
     const defaultAuth: Auth | undefined = useHelloProviderContext()
-    const { data: auth, isLoading } = useSWR(authApiRoute, fetcher, {
+    const { data: auth, isLoading } = useSWR(getAuthApiRoute(), fetcher, {
         fallbackData: defaultAuth
     })
     return { 
