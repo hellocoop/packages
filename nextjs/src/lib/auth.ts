@@ -26,7 +26,7 @@ export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth ): Promis
         const encCookie = await encryptObj(auth, config.secret as string)
         if (!encCookie)
             return false
-        res.setHeader('Set-Cookie',serialize( authName, encCookie, {
+        res.appendHeader('Set-Cookie',serialize( authName, encCookie, {
             httpOnly: true,
             secure: config.production,
             sameSite: 'strict',
@@ -41,7 +41,7 @@ export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth ): Promis
 }
 
 export const clearAuthCookie = async ( res: NextApiResponse) =>  {
-    res.setHeader('Set-Cookie',serialize(authName, '', {
+    res.appendHeader('Set-Cookie',serialize(authName, '', {
         expires: new Date(0), // Set the expiry date to a date in the past
         path: '/', // Specify the path
       }))
