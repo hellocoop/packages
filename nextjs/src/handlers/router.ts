@@ -24,7 +24,7 @@ const router = translateHandlerErrors((req: NextApiRequest, res: NextApiResponse
 
 // console.log({query})     
 
-        if (query.getAuth) {
+        if (query.auth || query.getAuth) { // get auth object
             if (config.error) // don't blow up buttons if not configured
                 return res.end(NotLoggedIn)    
             else 
@@ -33,6 +33,10 @@ const router = translateHandlerErrors((req: NextApiRequest, res: NextApiResponse
 
         if (config.error) // not able to process requests
             return res.status(500).end('Missing configuration:\n'+JSON.stringify(config.error,null,4))
+
+        if (query.login) { // start login flow, redirect to Hellō
+            return handleLogin(req, res)
+        }
 
         if (query.code || query.error) { // authorization response
             return handleCallback(req, res)
@@ -47,9 +51,6 @@ const router = translateHandlerErrors((req: NextApiRequest, res: NextApiResponse
             throw new Error('unimplemented')
         }
 
-        if (query.login) {
-            return handleLogin(req, res)
-        }
 
         res.status(500).end('Invalid hellocoop call:\n'+JSON.stringify(query,null,4))
     })
