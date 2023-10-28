@@ -29,7 +29,7 @@ export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth ): Promis
             httpOnly: true,
             secure: config.production,
             sameSite: 'strict',
-            path: '/' // let any server side getAuth
+            path: '/' // let any server side route call getAuth
             // no maxAge => session cooke
         }))
         return true    
