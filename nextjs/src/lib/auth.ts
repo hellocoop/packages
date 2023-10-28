@@ -52,8 +52,7 @@ export const getAuthfromCookies = async function
         ( res: NextApiResponse, cookies: Partial<{[key: string]: string;}> )
         : Promise<Auth> {
 
-    // we clear OIDC here so we are not setting / clearing more than one cookie at time
-    if (cookies[oidcName]) // note possible conflict with updateAuth()
+    if (cookies[oidcName]) // clear OIDC cookie it still there
         clearOidcCookie(res)
 
     const authCookie = cookies[authName]
