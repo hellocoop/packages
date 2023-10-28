@@ -45,8 +45,6 @@ const _configuration: IConfig = {
         loggedOut: '/',
     },
     cookies: {
-        // not working :()
-        // authName: (process.env.NODE_ENV === 'production' ? '__Host-':'')+'hellocoop_auth',
         authName: 'hellocoop_auth',
         oidcName: 'hellocoop_oidc',
     },
