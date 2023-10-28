@@ -1,108 +1,15 @@
-# Next.js module for Hellō
+# Next.js package for Hellō
 
-> This is a summary of how to use this package. See [SDK Reference | Next.js](https://www.hello.dev/documentation/sdk-reference.html#next-js) for details.
+[Hellō](https://hello.dev) is an identity network that provides login and registration using the standard OpenID Connect protocol. Hellō offers your users choice between all popular social login providers.
 
-> Check out our [Hellō Next.js Starter](https://github.com/hellocoop/hello-nextjs-starter) where you will be logging in with [Hellō](https://hello.coop/) in less than a minute.
-
-To add Hellō to your Next.js application, in your project directory:
-
-## 1) Install the package:
-
-```sh
-npm install @hellocoop/nextjs
-```
-
-## 2) Create or update your `.env` with:
-
-```sh
-npx @hellcoop/quickstart --nextjs
-```
-
-This will launch the Hellō Quickstart web app with some preconfigured Next.js parameters. After logging into Hellō you will create or select an application, and the application's`client_id` and a generated secret for encrypting cookies will be added to the local `.env` file as `HELLO_CLIENT_ID` and `HELLO_COOKIE_SECRET`. 
-
-> You will need to add the `HELLO_CLIENT_ID` and a new `HELLO_COOKIE_SECRET` that can be generated with `npm run secret` to your deployed environments.
+This [Next.js](https://nextjs.org/) package provides:
+- an endpoint that handles all protocol interactions and sets an encrypted cookie with the the logged in user's information.
+- convenience functions to retrieve the user's information from the cookie
+- React components for buttons and logged in context
 
 
-## 3) Create API route
+The [Hellō Next.js Starter](https://github.com/hellocoop/hello-nextjs-starter) is a sample app that uses this package and [npx `@hellocoop/quickstart --nextjs`](https://www.hello.dev/docs/sdks/quickstart#nextjs) to be configured in seconds. Check it out deployed on [Vercel](https://hello-netjs-starter.vercel.app) or [Netlify](https://hello-nextjs-starter.netlify.app).
 
-Create a `hellocoop.js` file in the `/pages/api` directory that contains:
-
-```typescript
-import { pageAuth } from '@hellocoop/nextjs'
-export default pageAuth({})
-```
-
-## 4) Add Hellō stylesheet
-
-To provide the button styling, add the below code to the `<Head>` section of the `_document.tsx` file:
-
-```html
-<link rel="stylesheet" href="https://cdn.hello.coop/css/hello-btn.css"/>
-```
-
-See the [hello-nextjs-starter _document.tsx](https://github.com/hellocoop/hello-nextjs-starter/blob/main/pages/_document.tsx) for reference.
-
-> To ensure the button styles are available, client-side rendered buttons check if the stylesheet has been included in the document head, and if not the stylesheet is injected. Injecting into the head is [not recommended](https://nextjs.org/docs/messages/no-stylesheets-in-head-component) and creates a button rendering glitch.
-
-## 5) Add Hellō button and conditional display
-
-```jsx
-// index.jsx
-
-import { ContinueButton, LoggedIn, LoggedOut } from "@hellocoop/nextjs"
-export default function Home() {  
-    return (
-        <Layout>
-          <LoggedIn>
-              <Hero/> {/* logged in content */}
-          </LoggedIn>
-          <LoggedOut>
-              <ContinueButton/>
-          </LoggedOut>
-          <Info/>
-        </Layout>
-    )
-}    
-```
-## 6) Access auth data
-
-The client side `useAuth()` function returns the `isLoading` state in addition to the auth data returned by the server side `getAuth()`
-
-### Client side
-
-```typescript
-import { useAuth } from '@hellocoop/nextjs'
+See the [Next.js Quickstart documentation](https://www.hello.dev/docs/quickstarts/nextjs) for how to add Hellō to your Next.js app in minutes, and the [Next.js SDK documentation](https://www.hello.dev/docs/sdks/nextjs) for details.
 
 
-const {
-    isLoading,      // useSWR response, true if still loading call to 
-    isLoggedIn,     // same as in auth object, replicated for convenience
-    auth: undefined | {
-        isLoggedIn, // always returned
-        iat,        // returned if isLoggedIn == true
-        sub,        // use as user identifier - returned if isLoggedIn == true
-    // additional properties set in auth cookie - following are defaults
-        name, 
-        email,
-        picture 
-    }
-} = useAuth()
-```
-
-### Server side
-
-```typescript
-import { getAuth } from '@hellocoop/nextjs'
-
-// returns same shape as useAuth().auth
-const { 
-    isLoggedIn, // always returned
-    iat,        // returned if isLoggedIn == true
-    sub,        // use as user identifier - returned if isLoggedIn == true
-// additional properties set in auth cookie - following are defaults
-    name, 
-    email,
-    picture 
-} = await getAuth( req )
-```
-*This is a summary of how to use this package. See [SDK Reference | Next.js](https://www.hello.dev/documentation/sdk-reference.html#next-js) for details.*

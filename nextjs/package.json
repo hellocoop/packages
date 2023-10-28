@@ -6,7 +6,7 @@
     "type": "git",
     "url": "git+https://github.com/hellocoop/packages.git"
   },
-  "homepage": "https://www.hello.dev/documentation/sdk-reference.html#next-js",
+  "homepage": "https://www.hello.dev/docs/sdks/nextjs",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
