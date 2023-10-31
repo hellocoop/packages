@@ -3,9 +3,6 @@
   "include": ["src"],
   "exclude": ["node_modules", "./**/dist"],
   "compilerOptions": {
-      "paths": {
-          "@hellocoop/types": ["../../types/types.ts"]
-      },
       "lib": ["dom"],
       "declarationMap": true,
       "declaration": true,
