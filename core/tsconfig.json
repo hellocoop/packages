@@ -4,7 +4,7 @@
   "exclude": ["node_modules", "./**/dist"],
   "compilerOptions": {
       "paths": {
-          "utils": ["./src/index.ts"]
+          "@hellocoop/types": ["../../types/types.ts"]
       },
       "lib": ["dom"],
       "declarationMap": true,

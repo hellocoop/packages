@@ -4,7 +4,10 @@
   "exclude": ["node_modules", "./**/dist"],
   "compilerOptions": {
       "paths": {
-          "nextjs": ["./src/index.ts"]
+        "@hellocoop/types": ["../../types/types.ts"],
+        "handlers": ["./src/handlers"],
+        "frontend": ["./src/frontend"],
+        "lib": ["./src/lib"],
       },
       "declarationMap": true,
       "declaration": true,

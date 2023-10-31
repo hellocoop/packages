@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
-import { getLogoutApiRoute } from '../lib/config'
+import { routeConfig } from './provider'
 
 export function logOut() {
     const { push } = useRouter()
-    push(getLogoutApiRoute())
+    push(routeConfig.logout)
 }

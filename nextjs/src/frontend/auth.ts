@@ -1,8 +1,8 @@
 
 import useSWR from 'swr'
-import { getAuthApiRoute } from '../lib/config'
-import { Auth } from '../lib/auth'
-import { useHelloProviderContext } from "./provider"
+import type { Claims } from '@hellocoop/types'
+
+import { useHelloProviderContext, routeConfig } from "./provider"
 
 const fetcher = async (url: string): Promise<Auth | undefined> => {
     try {
@@ -15,15 +15,29 @@ const fetcher = async (url: string): Promise<Auth | undefined> => {
     }
 }
 
-export type UseAuth = {
+type AuthCookie = {
+        sub: string,
+        iat: number
+    } & Claims & {
+        [key: string]: any; // Allow arbitrary optional properties
+    }
+
+export type Auth = {
+    isLoggedIn: false
+} | ({
+    isLoggedIn: true,
+} & AuthCookie )
+
+
+export type AuthState = {
     auth: Auth | {}, 
     isLoading: boolean,
     isLoggedIn: boolean | undefined
 }
 
-export const useAuth = (): UseAuth => {
+export const useAuth = (): AuthState => {
     const defaultAuth: Auth | undefined = useHelloProviderContext()
-    const { data: auth, isLoading } = useSWR(getAuthApiRoute(), fetcher, {
+    const { data: auth, isLoading } = useSWR(routeConfig.auth, fetcher, {
         fallbackData: defaultAuth
     })
     return { 
