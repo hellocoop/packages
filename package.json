@@ -3,15 +3,11 @@
   "version": "0.1.0",
   "description": "Monorepo package management",
   "workspaces": [
-    "utils",
     "quickstart",
-    "quickstart-nextjs",
     "nextjs",
     "core",
     "client",
     "types",
-    "svelte",
-    "vue",
     "react"
   ],
   "repository": {
