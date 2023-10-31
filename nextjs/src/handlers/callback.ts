@@ -65,6 +65,7 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
+        clearOidcCookie(res) // clear cookie so we don't try to use code again
         const token = await fetchToken({
             code: code.toString(),
             wallet: config.helloWallet,
@@ -117,7 +118,7 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
                 targetURI: target_uri
             }))
             return
-            // no callback processing if wild_card
+            // no callback processing if wildcard
         }
 
         if (config.callbacks?.loggedIn) {

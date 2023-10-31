@@ -1,17 +1,10 @@
-import Head from 'next/head'
 import React, { useState } from 'react'
-import { useRouter } from 'next/router'
-import type { ProviderHint, Scope } from '@hellocoop/core'
+import type { ProviderHint, Scope } from '@hellocoop/types'
+import { Button } from '@hellocoop/types'
 
-import config from '../lib/config'
-const { loginApiRoute } = config
+import { routeConfig } from './provider'
 
-export type Color = "black" | "white"
-export type Theme = "ignore-light" | "ignore-dark" | "aware-invert" | "aware-static"
-export type Hover = "pop" | "glow" | "flare" | "none"
-export type UpdateScope = "email" | "picture" | "twitter" | "discord" | "github" | "gitlab"
-
-const BTN_STYLES = 'https://cdn.hello.coop/css/hello-btn.css'
+let checkedForStylesheet: boolean = false
 
 interface CommonButtonProps {
     label?: string
@@ -19,16 +12,16 @@ interface CommonButtonProps {
     style?: any //TBD type: any
     disabled?: boolean
     showLoader?: boolean
-    color?: Color
-    theme?: Theme
-    hover?: Hover
+    color?: Button.Color
+    theme?: Button.Theme
+    hover?: Button.Hover
     targetURI?: string
     providerHint?: ProviderHint[] | string
 }
 
 export interface BaseButtonProps extends CommonButtonProps {
     scope?: Scope[] | string
-    updateScope?: UpdateScope
+    updateScope?: Button.UpdateScope
 }
 
 export interface LoginButtonProps extends CommonButtonProps {
@@ -36,82 +29,61 @@ export interface LoginButtonProps extends CommonButtonProps {
 }
 
 export interface UpdateButtonProps extends CommonButtonProps {
-    updateScope?: UpdateScope
+    updateScope?: Button.UpdateScope
 }
 
-const CLASS_MAPPING = {
-    black: {
-        "ignore-light": "",
-        "ignore-dark": "hello-btn-black-on-dark",
-        "aware-invert": "hello-btn-black-and-invert",
-        "aware-static": "hello-btn-black-and-static"
-    },
-    white: {
-        "ignore-light": "hello-btn-white-on-light",
-        "ignore-dark": "hello-btn-white-on-dark",
-        "aware-invert": "hello-btn-white-and-invert",
-        "aware-static": "hello-btn-white-and-static"
-    },
-}
 
-const HOVER_MAPPING = {
-    "pop": "",
-    "glow": "hello-btn-hover-glow",
-    "flare": "hello-btn-hover-flare",
-    "none": "hello-btn-hover-none"
-}
+function BaseButton({ scope, updateScope, targetURI, providerHint, label, style, color = "black", theme = "ignore-light", hover = "pop", showLoader = false, disabled = false } : BaseButtonProps) {
+    //check if dev has added Hellō stylesheet to pages with Hellō buttons
+    if(typeof window != 'undefined' && !checkedForStylesheet) {
+        const hasStylesheet = !Array.from(document.head.getElementsByTagName('link')).find(
+            (element) =>
+                element.getAttribute('rel') === 'stylesheet' &&
+                element.getAttribute('href')?.startsWith(Button.STYLES_URL)
+        )
 
-function BaseButton({ scope, updateScope, targetURI, providerHint, label, style, color = "black", theme = "ignore-light", hover = "pop" } : BaseButtonProps) {
-    const helloBtnClass = CLASS_MAPPING[color]?.[theme]
+        if(!hasStylesheet)
+            console.info('Could not find Hellō stylesheet. Please add to pages with Hellō buttons. See http://hello.dev/docs/buttons/#stylesheet for more info.')
+
+        checkedForStylesheet = true
+    }
+
+    const helloBtnClass = Button.CLASS_MAPPING[color]?.[theme]
 
     const [clicked, setClicked] = useState(false)
-    const { push } = useRouter()
 
-    const params = new URLSearchParams()
+    const loginRoute = new URL(routeConfig.login, "https://example.com") // hack so we can use URL()
+
     if(scope) {
         if(typeof scope == 'string')
-            params.set("scope", scope)
+            loginRoute.searchParams.set("scope", scope)
         else
-            params.set("scope", scope.join(" "))
+            loginRoute.searchParams.set("scope", scope.join(" "))
     }
 
     targetURI = targetURI || (typeof window != 'undefined' && window.location.pathname) || ""
                              //window can be undefined when running server-side
-    params.set("target_uri", targetURI)
+    loginRoute.searchParams.set("target_uri", targetURI)
     
     if(updateScope)
-        params.set("scope", "profile_update " + updateScope)
+        loginRoute.searchParams.set("scope", "profile_update " + updateScope)
 
     if(providerHint) {
         if(typeof providerHint == 'string')
-            params.set("provider_hint", providerHint)
+            loginRoute.searchParams.set("provider_hint", providerHint)
         else
-            params.set("provider_hint", providerHint.join(" "))
+            loginRoute.searchParams.set("provider_hint", providerHint.join(" "))
     }
 
     const onClickHandler = (): void => {
         setClicked(true)
-        push(loginApiRoute + "&" + params.toString())
+        if (typeof window !== 'undefined') window.location.href = loginRoute.pathname + loginRoute.search
     }
 
-    //check if dev has added css to _document head
-    const injectStylesheetInHead = typeof document != 'undefined' && !Array.from(document.head.getElementsByTagName('link')).find(
-        (element) =>
-            element.getAttribute('rel') === 'stylesheet' &&
-            element.getAttribute('href') === BTN_STYLES
-    );
-    
     return (
-        <>
-            {injectStylesheetInHead &&
-                <Head>
-                    <link rel="stylesheet" href={BTN_STYLES} />
-                </Head>
-            }
-            <button onClick={onClickHandler} disabled={clicked} style={style} className={`hello-btn ${helloBtnClass} ${HOVER_MAPPING[hover]} ${clicked ? 'hello-btn-loader' : ''}`}>
-                {label}
-            </button>
-        </>
+        <button onClick={onClickHandler} disabled={disabled || clicked} style={style} className={`hello-btn ${helloBtnClass} ${Button.HOVER_MAPPING[hover]} ${(showLoader || clicked) ? 'hello-btn-loader' : ''}`}>
+            {label}
+        </button>
     )
 }
 

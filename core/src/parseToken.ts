@@ -2,32 +2,7 @@
 // parseToken - parses an ID token and returns the header and payload
 //
 
-import { VALID_IDENTITY_CLAIMS } from './createAuthRequest'
-
-type IdentityClaims = typeof VALID_IDENTITY_CLAIMS[number]
-
-// Create a type with all VALID_IDENTITY_CLAIMS properties as optional
-type OptionalClaims = {
-  [K in IdentityClaims]?: unknown;
-};
-
-export type Claims = OptionalClaims & { sub: string }
-
-export type TokenPayload = OptionalClaims & {
-    iss: string;
-    aud: string;
-    nonce: string;
-    jti: string;
-    sub: string;
-    scope: string[];
-    iat: number,
-    exp: number,                   
-}
-
-export type TokenHeader = {
-    typ: string;
-    alg: string;
-}
+import { TokenHeader, TokenPayload } from '@hellocoop/types'
 
 export function parseToken( token: string): { header: TokenHeader; payload: TokenPayload} {
 

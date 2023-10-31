@@ -32,10 +32,11 @@
   "bugs": {
     "url": "https://github.com/hellocoop/packages/issues"
   },
-  "homepage": "https://github.com/hellocoop/packages#readme",
+  "homepage": "https://www.hello.dev/docs/sdk/quickstart",
   "dependencies": {
     "chalk": "^5.3.0",
     "dotenv": "^16.3.1",
+    "fs-extra": "^11.1.1",
     "get-port": "^7.0.0",
     "open": "^9.1.0",
     "semver": "^7.5.4"

@@ -1,10 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import config from './config'
+import config, { getApiRoute } from './config'
 import { serialize } from 'cookie'
 import { decryptObj, encryptObj } from '@hellocoop/core'
 
-const { cookies } = config
-const { oidcName } = cookies 
+const { cookies: { oidcName } } = config
 
 export type OIDC = {
     code_verifier: string,
@@ -32,7 +31,7 @@ export const getOidc = async ( req: NextApiRequest, res: NextApiResponse): Promi
 export const saveOidc = async ( res: NextApiResponse, oidc: OIDC) => {
     try {
         const encCookie = await encryptObj(oidc, config.secret as string)
-        res.setHeader('Set-Cookie',serialize( oidcName, encCookie, {
+        res.appendHeader('Set-Cookie',serialize( oidcName, encCookie, {
             httpOnly: true,
             secure: config.production,
             maxAge: 5 * 60, // 5 minutes
@@ -44,7 +43,7 @@ export const saveOidc = async ( res: NextApiResponse, oidc: OIDC) => {
 }
 
 export const clearOidcCookie = ( res: NextApiResponse) => {    
-    res.setHeader('Set-Cookie',serialize(oidcName, '', {
+    res.appendHeader('Set-Cookie',serialize(oidcName, '', {
         expires: new Date(0), // Set the expiry date to a date in the past
         path: config.apiRoute
     }))

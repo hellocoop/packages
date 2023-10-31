@@ -1,6 +1,6 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 
-import { configured, configure } from '../lib/config'
+import { isConfigured, configure } from '../lib/config'
 import router from './router'
 import { Claims, Scope } from '@hellocoop/core'
 
@@ -22,6 +22,7 @@ export type LoggedInResponse = {
 
 
 export type Config = {
+    client_id: string,
     scope?: Scope[],
     callbacks?: {
         loggedIn?: (params: LoggedInParams) => Promise<LoggedInResponse>
@@ -33,20 +34,9 @@ export type Config = {
     }
 }
 
-export const pageAuth = function ( config: Config | {} | undefined 
-        | NextApiRequest, res?: NextApiResponse) // directly used as a NextApiHandler
-        : NextApiHandler | undefined {
-    if (res) {
-        const req = config as NextApiRequest
-        if (!configured)
-            configure({})
-        router( req, res )
-        return
-    }
-
-    if (!configured!) {
+export const pageAuth = function ( config: Config): NextApiHandler {
+    if (!isConfigured) {
         configure(config as Config)
     }
     return router
-
 }

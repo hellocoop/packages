@@ -35,7 +35,7 @@
     "bugs": {
         "url": "https://github.com/hellocoop/packages/issues"
     },
-    "homepage": "https://github.com/hellocoop/packages#readme",
+    "homepage": "https://www.hello.dev/docs/sdks/core-client",
     "devDependencies": {
         "esbuild": "^0.19.5",
         "rimraf": "^5.0.5",

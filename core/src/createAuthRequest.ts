@@ -1,74 +1,20 @@
 // creates an authorization request URL for Hellō
 
-
-export const PRODUCTION_WALLET: string = 'https://wallet.hello.coop'
-
-export const DEFAULT_SCOPE: Scope[] = ['openid','name','email','picture']
-const DEFAULT_RESPONSE_TYPE: AuthResponseType = 'code'
-const DEFAULT_RESPONSE_MODE: AuthResponseMode = 'query'
-const DEFAULT_PATH: string = '/authorize?'
-
 import { pkce, uuidv4 } from './pkce';
-
-export const VALID_IDENTITY_CLAIMS = [
-    'name', 
-    'nickname',
-    'preferred_username',
-    'given_name',
-    'family_name',
-    'email', 
-    'phone', 
-    'picture',
-// Hellō extensions -- non-standard claims
-    'ethereum',
-    'discord',
-    'twitter',
-    'github',
-    'gitlab'
-] as const;
-
-
-export const VALID_SCOPES = [
-    ...VALID_IDENTITY_CLAIMS,
-    'openid', 
-// Hellō extensions -- non-standard scopes
-    'profile_update',
-] as const;
-export const VALID_RESPONSE_TYPE = ['id_token', 'code'] as const;    // Default: 'code'
-export const VALID_RESPONSE_MODE = ['fragment', 'query', 'form_post'] // Default: 'query'
-export const VALID_PROVIDER_HINT = [
-    // 'google' and 'email' are always in default
-    // 'apple' added if on Apple OS
-    // 'microsoft' added if on Microsoft OS
-    'apple', 
-    'discord',
-    'facebook',
-    'github',
-    'gitlab',
-    'google',
-    'twitch',
-    'twitter',
-    'tumblr',
-    'mastodon',
-    'microsoft',
-    'line',
-    'wordpress',
-    'yahoo',
-    'phone',
-    'ethereum',
-    'qrcode',
-    // the following will remove provider from recommended list
-    'apple--',
-    'microsoft--',
-    'google--',
-    'email--',
-    'passkey--',
-] as const;
-
-export type Scope = typeof VALID_SCOPES[number];
-export type AuthResponseType = typeof VALID_RESPONSE_TYPE[number]; 
-export type AuthResponseMode = typeof VALID_RESPONSE_MODE[number]; 
-export type ProviderHint = typeof VALID_PROVIDER_HINT[number]; 
+import { 
+    VALID_SCOPES,
+    Scope,
+    AuthResponseMode,
+    AuthResponseType,
+    ProviderHint,
+    VALID_RESPONSE_TYPE,
+    VALID_RESPONSE_MODE,
+    DEFAULT_SCOPE,
+    DEFAULT_RESPONSE_TYPE,
+    DEFAULT_RESPONSE_MODE,
+    PRODUCTION_WALLET,
+    DEFAULT_PATH 
+} from '@hellocoop/types'
 
 export function isValidScope( scope: string ): boolean {
     return VALID_SCOPES.includes(scope as Scope)

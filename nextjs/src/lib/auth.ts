@@ -5,8 +5,7 @@ import config from './config'
 import { serialize } from 'cookie'
 import { clearOidcCookie } from './oidc'
 
-const { cookies } = config
-const { authName, oidcName } = cookies 
+const { cookies: {authName, oidcName} } = config 
 
 export type AuthCookie = {
         sub: string,
@@ -26,11 +25,11 @@ export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth ): Promis
         const encCookie = await encryptObj(auth, config.secret as string)
         if (!encCookie)
             return false
-        res.setHeader('Set-Cookie',serialize( authName, encCookie, {
+        res.appendHeader('Set-Cookie',serialize( authName, encCookie, {
             httpOnly: true,
             secure: config.production,
             sameSite: 'strict',
-            path: '/' // let any server side getAuth
+            path: '/' // let any server side route call getAuth
             // no maxAge => session cooke
         }))
         return true    
@@ -41,7 +40,7 @@ export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth ): Promis
 }
 
 export const clearAuthCookie = async ( res: NextApiResponse) =>  {
-    res.setHeader('Set-Cookie',serialize(authName, '', {
+    res.appendHeader('Set-Cookie',serialize(authName, '', {
         expires: new Date(0), // Set the expiry date to a date in the past
         path: '/', // Specify the path
       }))
@@ -52,8 +51,7 @@ export const getAuthfromCookies = async function
         ( res: NextApiResponse, cookies: Partial<{[key: string]: string;}> )
         : Promise<Auth> {
 
-    // we clear OIDC here so we are not setting / clearing more than one cookie at time
-    if (cookies[oidcName]) // note possible conflict with updateAuth()
+    if (cookies[oidcName]) // clear OIDC cookie it still there
         clearOidcCookie(res)
 
     const authCookie = cookies[authName]
