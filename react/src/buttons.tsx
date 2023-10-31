@@ -35,8 +35,8 @@ export interface UpdateButtonProps extends CommonButtonProps {
 
 function BaseButton({ scope, updateScope, targetURI, providerHint, label, style, color = "black", theme = "ignore-light", hover = "pop", showLoader = false, disabled = false } : BaseButtonProps) {
     //check if dev has added Hellō stylesheet to pages with Hellō buttons
-    if(!checkedForStylesheet) {
-        const hasStylesheet = typeof document != 'undefined' && !Array.from(document.head.getElementsByTagName('link')).find(
+    if(typeof window != 'undefined' && !checkedForStylesheet) {
+        const hasStylesheet = !Array.from(document.head.getElementsByTagName('link')).find(
             (element) =>
                 element.getAttribute('rel') === 'stylesheet' &&
                 element.getAttribute('href')?.startsWith(Button.STYLES_URL)
@@ -52,7 +52,7 @@ function BaseButton({ scope, updateScope, targetURI, providerHint, label, style,
 
     const [clicked, setClicked] = useState(false)
 
-    const loginRoute = new URL(routeConfig.login, window.location.origin)
+    const loginRoute = new URL(routeConfig.login, "https://example.com") // hack so we can use URL()
 
     if(scope) {
         if(typeof scope == 'string')
@@ -77,7 +77,7 @@ function BaseButton({ scope, updateScope, targetURI, providerHint, label, style,
 
     const onClickHandler = (): void => {
         setClicked(true)
-        window.location.href = loginRoute.href
+        if (typeof window !== 'undefined') window.location.href = loginRoute.pathname + loginRoute.search
     }
 
     return (
