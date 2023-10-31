@@ -1,4 +1,4 @@
-// quickstart CLI
+#!/usr/bin/env node
 
 import semver from 'semver';
 import next from './next.mjs'
