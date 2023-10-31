@@ -39,31 +39,34 @@ function BaseButton({ scope, updateScope, targetURI, providerHint, label, style,
     const [clicked, setClicked] = useState(false)
     const { push } = useRouter()
 
-    const params = new URLSearchParams()
+    // newURL only accepts absolute urls
+    // 2nd arg is no-op if routeConfig.login is an absolute url
+    const loginRoute = new URL(routeConfig.login, window.location.origin)
+
     if(scope) {
         if(typeof scope == 'string')
-            params.set("scope", scope)
+            loginRoute.searchParams.set("scope", scope)
         else
-            params.set("scope", scope.join(" "))
+            loginRoute.searchParams.set("scope", scope.join(" "))
     }
 
     targetURI = targetURI || (typeof window != 'undefined' && window.location.pathname) || ""
                              //window can be undefined when running server-side
-    params.set("target_uri", targetURI)
+    loginRoute.searchParams.set("target_uri", targetURI)
     
     if(updateScope)
-        params.set("scope", "profile_update " + updateScope)
+        loginRoute.searchParams.set("scope", "profile_update " + updateScope)
 
     if(providerHint) {
         if(typeof providerHint == 'string')
-            params.set("provider_hint", providerHint)
+            loginRoute.searchParams.set("provider_hint", providerHint)
         else
-            params.set("provider_hint", providerHint.join(" "))
+            loginRoute.searchParams.set("provider_hint", providerHint.join(" "))
     }
 
     const onClickHandler = (): void => {
         setClicked(true)
-        push(routeConfig.login + "&" + params.toString())
+        push(loginRoute)
     }
 
     //check if dev has added css to _document head
