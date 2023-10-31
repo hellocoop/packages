@@ -64,6 +64,7 @@
   "dependencies": {
     "@hellocoop/core": "latest",
     "@hellocoop/react": "latest",
+    "@hellocoop/types": "latest",
     "cookie": "^0.5.0",
     "cors": "^2.8.5",
     "swr": "^2.2.2"

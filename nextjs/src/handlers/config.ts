@@ -2,7 +2,7 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 
 import { isConfigured, configure } from '../lib/config'
 import router from './router'
-import { Claims, Scope } from '@hellocoop/core'
+import { Claims, Scope } from '@hellocoop/types'
 
 export  { Claims, Scope }
 
