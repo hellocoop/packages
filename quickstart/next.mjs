@@ -8,7 +8,7 @@ import 'dotenv/config'
 import quickstart from './index.js';
 import { randomBytes } from 'crypto'
 
-const HELLO_CONFIG_FILE = 'hello.config.ts'
+const HELLO_CONFIG_FILE = 'hello.config.js'
 const HELLO_COOP_FILE = 'pages/api/hellocoop.js'
 const ENV_FILE = '.env.local'
 
@@ -30,23 +30,22 @@ const writeConfig = async (options) => {
     options.wildcard_domain=true
     const client_id = await quickstart(options)
     const config =`// ${HELLO_CONFIG_FILE}
-import type { HelloConfig } from '@hellocoop/nextjs'
 
-const config: HelloConfig = {
+const config = {
     client_id: '${client_id}',
 }
 export default config
 `
     fs.outputFileSync( filePath, config)
     console.log(`created ${filePath} with\nclient_id:${chalk.blueBright(client_id)}`)
-    console.log(
-`You can update the:
-    - Application Logo
-    - Application Name
-    - Terms of Service URL
-    - Privacy Policy URL
-    - Redirect URIs
-at the Hellō Developer Console https://console.hello.coop`)
+//     console.log(
+// `You can update the:
+//     - Application Logo
+//     - Application Name
+//     - Terms of Service URL
+//     - Privacy Policy URL
+//     - Redirect URIs
+// at the Hellō Developer Console https://console.hello.coop`)
 }
 
 const writeHelloCoop = async () => {
@@ -63,7 +62,7 @@ const writeHelloCoop = async () => {
 
     const content = `// ${HELLO_COOP_FILE}
 
-import config from '../../hello.config'
+import config from '../../hello.config.js'
 import { pageAuth } from '@hellocoop/nextjs'
 export default pageAuth(config)
 `
