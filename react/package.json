@@ -1,25 +1,21 @@
 {
-  "name": "@hellocoop/nextjs",
-  "version": "2.1.2",
-  "description": "Next.js SDK for Hellō https://hello.dev",
+  "name": "@hellocoop/react",
+  "version": "1.0.0",
+  "description": "React SDK for Hellō https://hello.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hellocoop/packages.git"
   },
-  "homepage": "https://www.hello.dev/docs/sdks/nextjs",
+  "homepage": "https://www.hello.dev/docs/sdks/react",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": "./dist/index.js",
-    "./react": "./dist/react.js"
-  },
   "files": [
     "dist/"
   ],
   "keywords": [
-    "nextjs",
-    "next",
-    "next.js",
+    "reactjs",
+    "react",
+    "react.js",
     "hello",
     "openid",
     "oidc",
@@ -38,21 +34,14 @@
     "watch": "tsc --watch --declaration",
     "build": "npm run build:clean && npm run build:src",
     "build:clean": "rimraf dist/",
-    "build:src": "tsc --declaration",
-    "secret": "node -e \"console.log(crypto.randomBytes(32).toString('hex'))\""
+    "build:src": "tsc --declaration"
   },
   "peerDependencies": {
-    "next": ">=10",
     "react": ">=17",
     "react-dom": ">=17"
   },
   "devDependencies": {
-    "@tsconfig/node18": "^18.2.2",
-    "@types/cookie": "^0.5.2",
-    "@types/cors": "^2.8.14",
     "@types/react": "^18.2.21",
-    "eslint-config-next": "^13.5.1",
-    "next": "^13.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rimraf": "^5.0.1",
@@ -62,10 +51,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@hellocoop/core": "latest",
-    "@hellocoop/react": "latest",
-    "cookie": "^0.5.0",
-    "cors": "^2.8.5",
+    "@hellocoop/types": "^1.0.0",
     "swr": "^2.2.2"
   }
 }

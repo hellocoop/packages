@@ -7,9 +7,13 @@
     "url": "git+https://github.com/hellocoop/packages.git"
   },
   "homepage": "https://www.hello.dev/docs/sdks/types",
+  "exports": {
+    ".": "./types.js"
+  },
   "types": "./types.d.ts",
   "files": [
-    "types.d.ts"
+    "types.d.ts",
+    "types.js"
   ],
   "keywords": [
     "hello",

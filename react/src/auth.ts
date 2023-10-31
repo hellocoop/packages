@@ -10,7 +10,7 @@ const fetcher = async (url: string): Promise<Auth | undefined> => {
         const auth = await response.json()
         return auth
     } catch( err ) {
-        console.error(err)
+        console.error(err) 
         return undefined
     }
 }

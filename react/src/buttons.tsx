@@ -1,10 +1,10 @@
-import Head from 'next/head'
 import React, { useState } from 'react'
-import { useRouter } from 'next/router'
 import type { ProviderHint, Scope } from '@hellocoop/types'
 import { Button } from '@hellocoop/types'
 
 import { routeConfig } from './provider'
+
+let checkedForStylesheet: boolean = false
 
 interface CommonButtonProps {
     label?: string
@@ -33,14 +33,25 @@ export interface UpdateButtonProps extends CommonButtonProps {
 }
 
 
-function BaseButton({ scope, updateScope, targetURI, providerHint, label, style, color = "black", theme = "ignore-light", hover = "pop" } : BaseButtonProps) {
+function BaseButton({ scope, updateScope, targetURI, providerHint, label, style, color = "black", theme = "ignore-light", hover = "pop", showLoader = false, disabled = false } : BaseButtonProps) {
+    //check if dev has added Hellō stylesheet to pages with Hellō buttons
+    if(!checkedForStylesheet) {
+        const hasStylesheet = typeof document != 'undefined' && !Array.from(document.head.getElementsByTagName('link')).find(
+            (element) =>
+                element.getAttribute('rel') === 'stylesheet' &&
+                element.getAttribute('href')?.startsWith(Button.STYLES_URL)
+        )
+
+        if(!hasStylesheet)
+            console.info('Could not find Hellō stylesheet. Please add to pages with Hellō buttons. See http://hello.dev/docs/buttons/#stylesheet for more info.')
+
+        checkedForStylesheet = true
+    }
+
     const helloBtnClass = Button.CLASS_MAPPING[color]?.[theme]
 
     const [clicked, setClicked] = useState(false)
-    const { push } = useRouter()
 
-    // newURL only accepts absolute urls
-    // 2nd arg is no-op if routeConfig.login is an absolute url
     const loginRoute = new URL(routeConfig.login, window.location.origin)
 
     if(scope) {
@@ -66,27 +77,13 @@ function BaseButton({ scope, updateScope, targetURI, providerHint, label, style,
 
     const onClickHandler = (): void => {
         setClicked(true)
-        push(loginRoute)
+        window.location.href = loginRoute.href
     }
 
-    //check if dev has added css to _document head
-    const injectStylesheetInHead = typeof document != 'undefined' && !Array.from(document.head.getElementsByTagName('link')).find(
-        (element) =>
-            element.getAttribute('rel') === 'stylesheet' &&
-            element.getAttribute('href') === Button.STYLES_URL
-    );
-    
     return (
-        <>
-            {injectStylesheetInHead &&
-                <Head>
-                    <link rel="stylesheet" href={Button.STYLES_URL} />
-                </Head>
-            }
-            <button onClick={onClickHandler} disabled={clicked} style={style} className={`hello-btn ${helloBtnClass} ${Button.HOVER_MAPPING[hover]} ${clicked ? 'hello-btn-loader' : ''}`}>
-                {label}
-            </button>
-        </>
+        <button onClick={onClickHandler} disabled={disabled || clicked} style={style} className={`hello-btn ${helloBtnClass} ${Button.HOVER_MAPPING[hover]} ${(showLoader || clicked) ? 'hello-btn-loader' : ''}`}>
+            {label}
+        </button>
     )
 }
 
