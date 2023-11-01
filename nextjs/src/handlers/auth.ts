@@ -9,8 +9,7 @@ import config from '../lib/config'
 
 import { Auth, getAuthfromCookies, saveAuthCookie, clearAuthCookie } from '../lib/auth'
 
-// import { clearCookie, setCookie } from '..,/lib/cookie'
-import { Claims } from '@hellocoop/core'
+import { Claims } from '@hellocoop/types'
 
 
 export type AuthUpdates =
