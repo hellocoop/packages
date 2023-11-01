@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { routeConfig } from "./hello.config"
+  import { routeConfig } from "../Provder.svelte"
   import { Button, type ProviderHint, type Scope } from '@hellocoop/types'
 
   interface $$Props {

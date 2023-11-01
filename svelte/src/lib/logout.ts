@@ -1,3 +1,5 @@
+/// <reference types="svelte" />
+
 import { routeConfig } from './Provider.svelte'
 
 export const getLogOutRoute = () => routeConfig.logout

@@ -1,7 +1,8 @@
-import useSWR from 'swr'
+/// <reference types="svelte" />
+import { useSWR } from "sswr";
+import type { Readable } from 'svelte/store'
 import type { Claims } from '@hellocoop/types'
-
-import { useHelloProviderContext, routeConfig } from "./provider"
+import { getHelloProviderContext, routeConfig } from "./Provider.svelte"
 
 const fetcher = async (url: string): Promise<Auth | undefined> => {
     try {
@@ -30,18 +31,20 @@ export type Auth = {
 
 export type AuthState = {
     auth: Auth | {}, 
-    isLoading: boolean,
-    isLoggedIn: boolean | undefined
+    isLoading: Readable<boolean>,
+    isLoggedIn: Readable<boolean> | undefined
 }
 
 export const useAuth = (): AuthState => {
-    const defaultAuth: Auth | undefined = useHelloProviderContext()
-    const { data: auth, isLoading } = useSWR(routeConfig.auth, fetcher, {
-        fallbackData: defaultAuth
+    const defaultAuth: Auth | undefined = getHelloProviderContext()
+    const { data: auth, isLoading } : { data: any, isLoading: Readable<boolean> } = useSWR(routeConfig.auth, {
+        fetcher,
+        initialData: defaultAuth
     })
     return { 
         auth: auth || {}, 
         isLoading, 
-        isLoggedIn: auth?.isLoggedIn }
+        isLoggedIn: auth?.isLoggedIn
+    }
 }
 

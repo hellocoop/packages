@@ -1,5 +1,6 @@
-<script context="module">
-  import { setContext, getContext, onMount } from 'svelte'
+<script context="module" lang="ts">
+  import { type Auth } from './auth'
+  import { setContext, getContext } from 'svelte'
   
   export const routeConfig = {
       login: '/api/hellocoop?login=true',
@@ -7,7 +8,7 @@
       logout: '/api/hellocoop?logout=true',
   }
   
-  export const getHelloProviderContext = () => {
+  export const getHelloProviderContext = (): Auth | undefined => {
       return getContext('HelloProviderContext')
   }
 </script>

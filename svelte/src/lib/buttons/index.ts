@@ -1,3 +1,4 @@
+/// <reference types="svelte" />
 export { default as ContinueButton } from './ContinueButton.svelte'
 export { default as LoginButton } from './LoginButton.svelte'
 export { default as UpdateEmailButton } from './UpdateEmailButton.svelte'
