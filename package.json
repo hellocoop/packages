@@ -8,7 +8,9 @@
     "core",
     "client",
     "types",
-    "react"
+    "react",
+    "svelte",
+    "vue"
   ],
   "repository": {
     "type": "git",
