@@ -2,7 +2,7 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 
 import { isConfigured, configure } from '../lib/config'
 import router from './router'
-import { Claims, Scope } from '@hellocoop/types'
+import { Claims, Scope, ProviderHint } from '@hellocoop/types'
 
 export  { Claims, Scope }
 
@@ -22,8 +22,9 @@ export type LoggedInResponse = {
 
 
 export type Config = {
-    client_id: string,
+    client_id?: string,
     scope?: Scope[],
+    provider_hint?: ProviderHint[],
     callbacks?: {
         loggedIn?: (params: LoggedInParams) => Promise<LoggedInResponse>
     },

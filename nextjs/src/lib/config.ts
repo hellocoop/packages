@@ -1,5 +1,6 @@
 import { Scope } from '@hellocoop/core'
 import { Config, LoggedInParams, LoggedInResponse } from '../handlers/config'
+import { ProviderHint } from '@hellocoop/types'
 
 // try to import 
 
@@ -8,6 +9,7 @@ export interface IConfig {
     production: boolean,
     error?: string[],
     scope?: Scope[],
+    provider_hint?: ProviderHint[],
     routes: {
         loggedIn: string,
         loggedOut: string,
@@ -77,7 +79,7 @@ export let isConfigured: boolean = false
 const pendingConfigurations: ((config: any) => void)[] = [];
 
 export const configure = function ( config: Config ) {
-    _configuration.clientId = process.env.HELLO_CLIENT_ID || config.client_id
+    _configuration.clientId = process.env.HELLO_CLIENT_ID || config.client_id as string
     if (config.routes) {
         _configuration.routes = {
             ..._configuration.routes,
@@ -86,10 +88,11 @@ export const configure = function ( config: Config ) {
     }
     _configuration.callbacks = config.callbacks || {}
     _configuration.scope = config.scope
+    _configuration.provider_hint = config.provider_hint
 
     isConfigured = true
     if (!_configuration.clientId) {
-        const message = 'No HELLO_CLIENT_ID was in environment or client_id in helllo.config.ts'
+        const message = 'No HELLO_CLIENT_ID was in environment or client_id in hello.config.ts'
         _configuration.error = [message]
         console.error(message)
         isConfigured = false
