@@ -23,7 +23,7 @@ const writeConfig = async (options) => {
         statSync(filePath)
         const append = `
 // added by @hellocoop/quickstart --nextjs on ${(new Date()).toISOString()}
-config.client_id:'${secret}'
+config.client_id:'${client_id}'
 `
         appendFileSync( filePath, append)
         console.log(`\nUpdated ${filePath} with:`)
