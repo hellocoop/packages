@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { routeConfig } from "../Provder.svelte"
-  import { Button, type ProviderHint, type Scope } from '@hellocoop/types'
+  import { routeConfig } from "../Provider.svelte"
+  import type { ProviderHint, Scope } from '@hellocoop/types'
+  import { Button } from '@hellocoop/types'
 
   interface $$Props {
     label?: string

@@ -10,7 +10,8 @@
     "types",
     "react",
     "svelte",
-    "vue"
+    "vue",
+    "svelte-test"
   ],
   "repository": {
     "type": "git",
