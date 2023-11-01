@@ -5,8 +5,6 @@ import {
     NextApiResponse 
 } from 'next'
 
-import config from '../lib/config'
-
 import { Auth, getAuthfromCookies, saveAuthCookie, clearAuthCookie } from '../lib/auth'
 
 import { Claims } from '@hellocoop/types'
