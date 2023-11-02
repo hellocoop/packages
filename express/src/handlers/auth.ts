@@ -5,30 +5,38 @@ import { Auth, getAuthfromCookies, saveAuthCookie, clearAuthCookie } from '../li
 import { Claims } from '@hellocoop/types'
 import { NotLoggedIn } from '../lib/auth'
 
-export type AuthRequest = Request & {
-    auth?: Auth
-}
+// export type AuthRequest = Request & {
+//     auth?: Auth
+// }
 
 export type AuthUpdates =
     Claims & {
         [key: string]: any; // Allow arbitrary optional properties
     }
 
-export const handleAuth = async function (req: AuthRequest, res: Response) {
-    res.json(req.auth) 
+export const handleAuth = async function (req: Request, res: Response) {
+    res.json(await req.getAuth()) 
 }
 
 export const clearAuth = async function ( res: Response) {
     clearAuthCookie(res)
 }
 
-export const setAuthMiddleware = async function ( req: AuthRequest, res: Response, next: NextFunction) {
-    const auth = await getAuthfromCookies( req, res) 
-    req.auth = auth || NotLoggedIn
+export const setAuthMiddleware = async function ( req: Request, res: Response, next: NextFunction) {
+    let auth: Auth | undefined = undefined
+    req.getAuth = async () => {
+        if (auth)
+            return auth
+        auth = await getAuthfromCookies( req, res) 
+        return auth || NotLoggedIn        
+    }
+    res.clearAuth = async () => {
+        await clearAuth(res)
+    }
     next()
 }
 
-export const updateAuth = async function ( req: AuthRequest, res: Response, authUpdates: AuthUpdates )
+export const updateAuth = async function ( req: Request, res: Response, authUpdates: AuthUpdates )
         : Promise<Auth | null> {
     const auth = await getAuthfromCookies( req, res )
     if (!auth.isLoggedIn)
