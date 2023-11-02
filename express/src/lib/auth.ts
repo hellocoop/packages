@@ -1,5 +1,5 @@
 import { decryptObj, encryptObj } from '@hellocoop/core'
-import { Claims } from '@hellocoop/types'
+import { Auth } from '@hellocoop/types'
 import { Request, Response } from 'express'
 
 import config from './config'
@@ -7,19 +7,6 @@ import { serialize, parse } from 'cookie'
 import { clearOidcCookie } from './oidc'
 
 const { cookies: {authName, oidcName} } = config 
-
-export type AuthCookie = {
-        sub: string,
-        iat: number
-    } & Claims & {
-        [key: string]: any; // Allow arbitrary optional properties
-    }
-
-export type Auth = {
-    isLoggedIn: false
-} | ({
-    isLoggedIn: true,
-} & AuthCookie )
 
 export const saveAuthCookie = async ( res: Response, auth: Auth ): Promise<boolean> =>  {
     try {
