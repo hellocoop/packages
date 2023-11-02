@@ -6,8 +6,6 @@ import { checkSecret } from '@hellocoop/core'
 import dotenv from 'dotenv';
 dotenv.config({path:'.env.local',debug:true});
 
-console.log('config.ts:',process.cwd())
-
 export interface IConfig {
     production: boolean,
     error?: string[],
@@ -117,8 +115,8 @@ export const configure = function ( config: Config ) {
         if (resolve)
             resolve(_configuration);
       }
-console.log({isConfigured})
-console.log({_configuration})
+// console.log({isConfigured})
+// console.log({_configuration})
 
 }
 
