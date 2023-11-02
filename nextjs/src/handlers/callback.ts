@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { consentCors } from '../lib/consent'
 import config from '../lib/config'
 import { getOidc, clearOidcCookie } from '../lib/oidc'
-import { fetchToken, parseToken, wildcardConsole, Scope, Claims, errorPage, ErrorPageParams } from '@hellocoop/core'
+import { fetchToken, parseToken, wildcardConsole, errorPage, ErrorPageParams } from '@hellocoop/core'
 import { saveAuthCookie, Auth, NotLoggedIn } from '../lib/auth'
 
 

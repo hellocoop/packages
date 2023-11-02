@@ -1,5 +1,7 @@
-import { Claims, decryptObj, encryptObj } from '@hellocoop/core'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { decryptObj, encryptObj } from '@hellocoop/core'
+import { Claims } from '@hellocoop/types'
+
+import { NextApiResponse } from 'next'
 
 import config from './config'
 import { serialize } from 'cookie'

@@ -1,4 +1,4 @@
-import { Scope } from '@hellocoop/core'
+import { Scope } from '@hellocoop/types'
 import { Config, LoggedInParams, LoggedInResponse } from '../handlers/config'
 import { ProviderHint } from '@hellocoop/types'
 

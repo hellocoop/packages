@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { createAuthRequest, redirectURIBounce, ICreateAuthRequest, Scope, ProviderHint } from '@hellocoop/core'
+import { createAuthRequest, redirectURIBounce, ICreateAuthRequest } from '@hellocoop/core'
+import { Scope, ProviderHint } from '@hellocoop/types'
 import config from '../lib/config'
 import { saveOidc } from '../lib/oidc'
 var redirectURIs: Record<string, any> = {}
