@@ -38,8 +38,7 @@
     "watch": "tsc --watch --declaration",
     "build": "npm run build:clean && npm run build:src",
     "build:clean": "rimraf dist/",
-    "build:src": "tsc --declaration",
-    "secret": "node -e \"console.log(crypto.randomBytes(32).toString('hex'))\""
+    "build:src": "tsc --declaration"
   },
   "peerDependencies": {
     "next": ">=10",
