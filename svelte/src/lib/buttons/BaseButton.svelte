@@ -1,6 +1,7 @@
 <script lang="ts">
   import { routeConfig } from "../Provider.svelte"
   import type { ProviderHint, Scope } from '@hellocoop/types'
+  import { onMount } from "svelte"
   import { Button } from '../types'
   
   interface $$Props { 
@@ -23,12 +24,30 @@
   export let color: Button.Color = "black"
   export let theme: Button.Theme = "ignore-light"
   export let hover: Button.Hover = "pop"
-  export let scope: Scope[];
-  export let updateScope: Button.UpdateScope;
+  export let scope: Scope[]  = [];
+  export let updateScope: Button.UpdateScope = "";
   export let targetURI: string = ""
-  export let providerHint: ProviderHint[];
+  export let providerHint: ProviderHint[] = [];
   export let showLoader: boolean = false
   export let disabled: boolean = false
+
+  let checkedForStylesheet: boolean = false
+
+  onMount(() => {
+    //check if dev has added Hellō stylesheet to pages with Hellō buttons
+    if(typeof window != 'undefined' && !checkedForStylesheet) {
+        const hasStylesheet = Array.from(document.head.getElementsByTagName('link')).find(
+            (element) =>
+                element.getAttribute('rel') === 'stylesheet' &&
+                element.getAttribute('href')?.startsWith(Button.STYLES_URL)
+        )
+
+        if(!hasStylesheet)
+            console.warn('Could not find Hellō stylesheet. Please add to pages with Hellō buttons. See http://hello.dev/docs/buttons/#stylesheet for more info.')
+
+        checkedForStylesheet = true
+    }
+  })
 
   let clicked: boolean = false
   const loginRoute = new URL(routeConfig.login, window.location.origin)
