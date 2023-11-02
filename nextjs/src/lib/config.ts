@@ -127,9 +127,4 @@ export const getConfig = function ():Promise<IConfig> {
       return Promise.resolve(_configuration);
 }
 
-export const getLoginApiRoute = ():string => {return _configuration.loginApiRoute}
-export const getLogoutApiRoute = ():string => {return _configuration.logoutApiRoute}
-export const getAuthApiRoute = ():string => {return _configuration.authApiRoute}
-export const getApiRoute = ():string => {return _configuration.apiRoute}
-
 export default _configuration
