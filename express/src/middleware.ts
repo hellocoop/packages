@@ -17,7 +17,7 @@ export const unauthorized = async ( req: Request, res: Response, next: NextFunct
     if (auth.isLoggedIn)
         next()
     else 
-        res.setHeader('WWW-Authenticate:',`Hello ${config.clientId}`).status(401)
+        res.setHeader('WWW-Authenticate',`Hello ${config.clientId}`).status(401).send()
 }
 
 export const setAuth = async ( req: Request, res: Response, next: NextFunction) => {
