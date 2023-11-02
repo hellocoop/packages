@@ -25,10 +25,10 @@ export const clearAuth = async function ( res: Response) {
 export const setAuthMiddleware = async function ( req: Request, res: Response, next: NextFunction) {
     let auth: Auth | undefined = undefined
     req.getAuth = async () => {
-        if (auth)
-            return auth
-        auth = await getAuthfromCookies( req, res) 
-        return auth || NotLoggedIn        
+        if (req.auth)
+            return req.auth
+        req.auth = await getAuthfromCookies( req, res) || NotLoggedIn
+        return req.auth
     }
     res.clearAuth = async () => {
         await clearAuth(res)

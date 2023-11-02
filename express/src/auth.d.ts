@@ -7,10 +7,11 @@ export {}
 declare global {
   namespace Express {
     interface Request {
+      auth?: Auth;
       getAuth(): Promise<Auth>;
     }
     interface Response {
-      clearAuth()
+      clearAuth();
     }
   }
 }
