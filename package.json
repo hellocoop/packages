@@ -5,10 +5,11 @@
   "workspaces": [
     "quickstart",
     "nextjs",
+    "react",
+    "express",
     "core",
     "client",
-    "types",
-    "react"
+    "types"
   ],
   "repository": {
     "type": "git",
