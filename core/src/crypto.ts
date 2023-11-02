@@ -55,7 +55,10 @@ import * as crypto from 'crypto';
     }
   }
   
-
+export const checkSecret = ( secret: string ): boolean => {
+  const key = Buffer.from(secret, 'hex');    
+  return (Buffer.byteLength(key) == 16)
+}
   /*****  test code
 
   // Example usage:

@@ -1,8 +1,7 @@
 import { Scope } from '@hellocoop/types'
 import { Config, LoggedInParams, LoggedInResponse } from '../handlers/config'
 import { ProviderHint } from '@hellocoop/types'
-
-// try to import 
+import { checkSecret } from '@hellocoop/core'
 
 
 export interface IConfig {
@@ -103,6 +102,12 @@ export const configure = function ( config: Config ) {
         console.error(message)
         isConfigured = false
     } 
+    if (_configuration.secret && !checkSecret(_configuration.secret)) {
+        const message = 'HELLO_COOKIE_SECRET is not 16 hex digits'
+        _configuration.error = [message]
+        console.error(message)
+        isConfigured = false
+    }    
     while (pendingConfigurations.length > 0) {
         const resolve = pendingConfigurations.pop();
         if (resolve)
