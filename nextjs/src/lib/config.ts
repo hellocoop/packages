@@ -127,4 +127,6 @@ export const getConfig = function ():Promise<IConfig> {
       return Promise.resolve(_configuration);
 }
 
+export const getApiRoute = ():string => {return _configuration.apiRoute}
+
 export default _configuration

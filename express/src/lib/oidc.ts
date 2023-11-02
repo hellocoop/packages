@@ -29,14 +29,18 @@ export const getOidc = async ( req: Request, res: Response): Promise<OIDC | unde
     return undefined
 }
 
-export const saveOidc = async ( res: Response, oidc: OIDC) => {
+let apiRoute:string = '/'
+
+export const saveOidc = async ( req: Request, res: Response, oidc: OIDC) => {
+    if (apiRoute === '/')
+        apiRoute = req.path
     try {
         const encCookie = await encryptObj(oidc, config.secret as string)
         res.appendHeader('Set-Cookie',serialize( oidcName, encCookie, {
             httpOnly: true,
             secure: config.production,
             maxAge: 5 * 60, // 5 minutes
-            path: config.apiRoute
+            path: apiRoute
         }))
     } catch (e) {
         console.error(e)
@@ -46,6 +50,6 @@ export const saveOidc = async ( res: Response, oidc: OIDC) => {
 export const clearOidcCookie = ( res: Response) => {    
     res.appendHeader('Set-Cookie',serialize(oidcName, '', {
         expires: new Date(0), // Set the expiry date to a date in the past
-        path: config.apiRoute
+        path: apiRoute
     }))
 }

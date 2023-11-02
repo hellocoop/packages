@@ -55,7 +55,7 @@ const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
         provider_hint
     }
     const { url, nonce, code_verifier } = await createAuthRequest(request)
-    await saveOidc( res, {
+    await saveOidc( req, res, {
         nonce,
         code_verifier,
         redirect_uri: redirectURI,
