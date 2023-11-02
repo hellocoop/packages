@@ -1,6 +1,6 @@
 // auth.d.ts
 
-import { Auth } from './lib/auth'
+import { Auth } from '@hellocoop/types'
 
 export {}
 

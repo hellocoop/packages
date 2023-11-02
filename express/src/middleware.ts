@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { Auth } from './lib/auth'
+import { Auth } from '@hellocoop/types'
 import config from './lib/config'
 
 export const redirect = function ( target:string ) {

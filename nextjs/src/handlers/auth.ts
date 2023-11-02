@@ -5,9 +5,9 @@ import type {
     NextApiResponse 
 } from 'next'
 
-import { Auth, getAuthfromCookies, saveAuthCookie, clearAuthCookie } from '../lib/auth'
+import { getAuthfromCookies, saveAuthCookie, clearAuthCookie } from '../lib/auth'
 
-import { Claims } from '@hellocoop/types'
+import { Auth, Claims } from '@hellocoop/types'
 
 
 export type AuthUpdates =

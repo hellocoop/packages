@@ -19,6 +19,17 @@ type OptionalClaims = {
 export type Claims = OptionalClaims & {
     sub: string;
 };
+type AuthCookie = {
+    sub: string;
+    iat: number;
+} & Claims & {
+    [key: string]: any;
+};
+export type Auth = {
+    isLoggedIn: false;
+} | ({
+    isLoggedIn: true;
+} & AuthCookie);
 export type TokenPayload = OptionalClaims & {
     iss: string;
     aud: string;
