@@ -57,7 +57,6 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
-		"@hellocoop/types": "^1.0.2",
 		"sswr": "^2.0.0"
 	}
 }

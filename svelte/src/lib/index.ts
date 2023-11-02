@@ -21,4 +21,4 @@ export * from './auth.js'
 export * from './logout.js'
 
 //Provider
-export { default as Provider, routeConfig, getHelloProviderContext } from './Provider.svelte'
+export { default as HelloProvider, routeConfig, getHelloProviderContext } from './Provider.svelte'

@@ -13,9 +13,9 @@
   }
 </script>
     
-<script>
-    export let auth = {}
-    export let config = {}
+<script lang="ts">
+    export let auth: any = {} //tbd: any
+    export let config: any = {} //tbd: any
 
     setContext('HelloProviderContext', auth)
 

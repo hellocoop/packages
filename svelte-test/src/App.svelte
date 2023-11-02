@@ -1,5 +1,9 @@
-<script>
-  import { ContinueButton } from '@hellocoop/svelte'
+<script lang="ts">
+  import { HelloProvider } from '@hellocoop/svelte'
+  import Counter from './lib/Counter.svelte';
 </script>
 
-<ContinueButton/>
+
+<HelloProvider config={{login: "/api/hello-world"}}>
+  <Counter/>
+</HelloProvider>

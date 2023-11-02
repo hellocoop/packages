@@ -2,8 +2,8 @@
   import { routeConfig } from "../Provider.svelte"
   import type { ProviderHint, Scope } from '@hellocoop/types'
   import { Button } from '../types'
-
-  interface $$Props {
+  
+  interface $$Props { 
     label?: string
     style?: any
     color?: Button.Color

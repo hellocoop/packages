@@ -1,10 +1,8 @@
 <script>
-  let count = 0
-  const increment = () => {
-    count += 1
-  }
+    import { LoginButton, getHelloProviderContext } from "@hellocoop/svelte";
+    const test = getHelloProviderContext()
 </script>
 
-<button on:click={increment}>
-  count is {count}
-</button>
+<LoginButton/>
+
+{JSON.stringify(test)}
