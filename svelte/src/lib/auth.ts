@@ -1,7 +1,7 @@
 /// <reference types="svelte" />
 import { useSWR } from "sswr";
 import type { Readable } from 'svelte/store'
-import type { Claims } from '@hellocoop/types'
+import type { Claims } from '../types'
 import { getHelloProviderContext, routeConfig } from "./Provider.svelte"
 
 const fetcher = async (url: string): Promise<Auth | undefined> => {
