@@ -1,56 +1,51 @@
 {
-  "name": "@hellocoop/vue",
-  "version": "1.0.0",
-  "description": "Vue SDK for Hellō https://hello.dev",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hellocoop/packages.git"
-  },
-  "homepage": "https://www.hello.dev/docs/sdks/vue",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist/"
-  ],
-  "keywords": [
-    "vuejs",
-    "vue",
-    "vue.js",
-    "hello",
-    "openid",
-    "oidc",
-    "sso"
-  ],
-  "author": {
-    "name": "Hello Identity Co-op",
-    "email": "contact@hello.coop",
-    "url": "https://hello.coop"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/hellocoop/packages/issues"
-  },
-  "scripts": {
-    "watch": "tsc --watch --declaration",
-    "build": "npm run build:clean && npm run build:src",
-    "build:clean": "rimraf dist/",
-    "build:src": "tsc --declaration"
-  },
-  "peerDependencies": {
-    "react": ">=17",
-    "react-dom": ">=17"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.21",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "rimraf": "^5.0.1",
-    "typescript": "^5.2.2"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "dependencies": {
-    "@hellocoop/types": "^1.0.0"
-  }
+	"name": "@hellocoop/vue",
+	"version": "1.0.0",
+	"description": "Svelte SDK for Hellō https://hello.dev",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/hellocoop/packages.git"
+	},
+	"homepage": "https://www.hello.dev/docs/sdks/vue",
+	"keywords": [
+		"vuejs",
+		"vue",
+		"vue.js",
+		"hello",
+		"openid",
+		"oidc",
+		"sso"
+	],
+	"author": {
+		"name": "Hello Identity Co-op",
+		"email": "contact@hello.coop",
+		"url": "https://hello.coop"
+	},
+	"main": "./dist/index.umd.js",
+	"module": "./dist/index.mjs",
+	"exports": {
+		".": {
+			"import": "./dist/index.mjs",
+			"require": "./dist/index.umd.js"
+		}
+	},
+	"unpkg": "dist/index.umd.min.js",
+	"types": "./dist/index.d.ts",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/hellocoop/packages/issues"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "vite build"
+	},
+	"dependencies": {
+		"vue": "^3.0.5"
+	},
+	"devDependencies": {
+		"typescript": "^5.2.2",
+		"vite-plugin-dts": "^3.6.3"
+	}
 }

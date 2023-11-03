@@ -1,11 +1,10 @@
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { routeConfig } from "./hello.config"
-  import { Button, type ProviderHint, type Scope } from '@hellocoop/types'
+  import { Button, type ProviderHint, type Scope } from '../types'
   
   const clicked = ref(false)
 
-  export interface Props {
+  interface Props {
     label?: string
     style?: any
     color?: Button.Color
@@ -27,6 +26,8 @@
     showLoader: false,
     disabled: false
   })
+
+  const routeConfig = {}
 
   const loginRoute = new URL(routeConfig.login, window.location.origin)
 

@@ -1,8 +1,0 @@
-export { default as ContinueButton } from './ContinueButton.vue'
-export { default as LoginButton } from './LoginButton.vue'
-export { default as UpdateEmailButton } from './UpdateEmailButton.vue'
-export { default as UpdatePictureButton } from './UpdatePictureButton.vue'
-export { default as UpdateTwitterButton } from './UpdateTwitterButton.vue'
-export { default as UpdateDiscordButton } from './UpdateDiscordButton.vue'
-export { default as UpdateGitHubButton } from './UpdateGitHubButton.vue'
-export { default as UpdateGitLabButton } from './UpdateGitLabButton.vue'
