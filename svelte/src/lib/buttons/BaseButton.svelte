@@ -2,7 +2,7 @@
   import { routeConfig } from "../Provider.svelte"
   import type { ProviderHint, Scope } from '@hellocoop/types'
   import { onMount } from "svelte"
-  import { Button } from '../types'
+  import { Button } from '../types.js'
   
   interface $$Props { 
     label?: string

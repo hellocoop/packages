@@ -1,7 +1,8 @@
 /// <reference types="svelte" />
+// @ts-ignore tbd
 import { useSWR } from "sswr";
 import type { Readable } from 'svelte/store'
-import type { Claims } from './types'
+import type { Claims } from './types.js'
 import { getHelloProviderContext, routeConfig } from "./Provider.svelte"
 
 const fetcher = async (url: string): Promise<Auth | undefined> => {

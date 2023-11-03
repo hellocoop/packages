@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { useAuth } from "../auth"
+  import { useAuth } from "../auth.js"
   import type { Readable } from "svelte/store"
   
   const isLoggedIn = (): Readable<boolean> | boolean => useAuth()?.isLoggedIn || false

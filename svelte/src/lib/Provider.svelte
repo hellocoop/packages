@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-  import { type Auth } from './auth'
+  import type { Auth } from './auth.js'
   import { setContext, getContext } from 'svelte'
   
   export const routeConfig = {
