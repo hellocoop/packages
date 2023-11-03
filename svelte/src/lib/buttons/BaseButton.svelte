@@ -25,6 +25,7 @@
   export let theme: Button.Theme = "ignore-light"
   export let hover: Button.Hover = "pop"
   export let scope: Scope[]  = [];
+  // @ts-ignore tbd
   export let updateScope: Button.UpdateScope = "";
   export let targetURI: string = ""
   export let providerHint: ProviderHint[] = [];

@@ -2,10 +2,29 @@
   import { ref } from 'vue'
   import { routeConfig } from "../provider.js"
   import { Button, type ProviderHint, type Scope } from '../types'
+  import { onMounted } from 'vue'
+
+  let checkedForStylesheet = false;
+
+  onMounted(() => {
+    //check if dev has added Hellō stylesheet to pages with Hellō buttons
+    if(typeof window != 'undefined' && !checkedForStylesheet) {
+        const hasStylesheet = Array.from(document.head.getElementsByTagName('link')).find(
+            (element) =>
+                element.getAttribute('rel') === 'stylesheet' &&
+                element.getAttribute('href')?.startsWith(Button.STYLES_URL)
+        )
+
+        if(!hasStylesheet)
+            console.warn('Could not find Hellō stylesheet. Please add to pages with Hellō buttons. See http://hello.dev/docs/buttons/#stylesheet for more info.')
+
+        checkedForStylesheet = true
+    }
+  })
   
   const clicked = ref(false)
 
-  interface Props {
+  type Props = {
     label?: string
     style?: any
     color?: Button.Color
