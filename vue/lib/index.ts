@@ -19,4 +19,4 @@ export * from './auth.js'
 export * from './logout.js'
 
 //Provider
-export { default as HelloProvider, routeConfig, useHelloProviderContext } from './provider.ts'
+export { default as HelloProvider, routeConfig, useHelloProviderContext } from './provider.js'
