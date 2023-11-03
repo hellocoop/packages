@@ -5,6 +5,6 @@
     const isLoggedIn = (): Readable<boolean> | boolean => useAuth()?.isLoggedIn || false
   </script>
   
-  {#if !isLoggedIn}
+  {#if !isLoggedIn()}
     <slot/>
   {/if}

@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { routeConfig } from "../provider.js"
   import { Button, type ProviderHint, type Scope } from '../types'
   
   const clicked = ref(false)
@@ -26,8 +27,6 @@
     showLoader: false,
     disabled: false
   })
-
-  const routeConfig = {}
 
   const loginRoute = new URL(routeConfig.login, window.location.origin)
 

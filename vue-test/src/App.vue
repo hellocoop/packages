@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ContinueButton } from '@hellocoop/vue';
-console.log(ContinueButton)
+import { HelloProvider } from '@hellocoop/vue';
+import HelloWorld from './components/HelloWorld.vue';
 </script>
 
 <template>
-  <ContinueButton/>
+  <HelloProvider :auth="{foo: 'bar'}">
+    <HelloWorld/>
+  </HelloProvider>
 </template>

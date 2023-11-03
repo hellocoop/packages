@@ -9,14 +9,14 @@ export { default as UpdateGitHubButton } from './buttons/UpdateGitHubButton.vue'
 export { default as UpdateGitLabButton } from './buttons/UpdateGitLabButton.vue'
 
 //Login Status
-// export { default as LoggedIn } from './login-status/LoggedIn.vue'
-// export { default as LoggedOut } from './login-status/LoggedOut.vue'
+export { default as LoggedIn } from './login-status/LoggedIn.vue'
+export { default as LoggedOut } from './login-status/LoggedOut.vue'
 
-// //Auth
-// export * from './auth.js'
+//Auth
+export * from './auth.js'
 
-// //Logout
-// export * from './logout.js'
+//Logout
+export * from './logout.js'
 
-// //Provider
-// export { default as HelloProvider, routeConfig, getHelloProviderContext } from './Provider.vue'
+//Provider
+export { default as HelloProvider, routeConfig, useHelloProviderContext } from './provider.ts'
