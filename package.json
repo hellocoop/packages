@@ -18,7 +18,7 @@
   "scripts": {
     "clean": "rimraf client/node_modules core/node_modules express/node_modules nextjs/node_modules quickstart/node_modules react/node_modules types/node_modules",
     "build": "npm run clean && npm run build --workspaces",
-    "patch-starter": "npm run build && cp -r nextjs ../hello-nextjs-starter/node_modules/@hellocoop/ && cp -r react ../hello-nextjs-starter/node_modules/@hellocoop/ && cp -r core ../hello-nextjs-starter/node_modules/@hellocoop/ && cp -r types ../hello-nextjs-starter/node_modules/@hellocoop/ && rm -rf ../hello-nextjs-starter/.next",
+    "patch-sample": "npm run build && cp -r nextjs ../hello-nextjs-sample/node_modules/@hellocoop/ && cp -r react ../hello-nextjs-sample/node_modules/@hellocoop/ && cp -r core ../hello-nextjs-sample/node_modules/@hellocoop/ && cp -r types ../hello-nextjs-sample/node_modules/@hellocoop/ && rm -rf ../hello-nextjs-sample/.next",
     "watch:client": "npm run watch --workspace client",
     "watch:core": "npm run watch --workspace core",
     "watch:express": "npm run watch --workspace express",
