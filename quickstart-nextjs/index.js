@@ -42,7 +42,7 @@ HELLO_CLIENT_ID='${client_id}'`
     if (existingSessionSecret) {
         console.log(`HELLO_COOKIE_SECRET already set to ${existingSessionSecret}`)
     } else {
-        session_secret = randomBytes(32).toString('hex')
+        session_secret = randomBytes(16).toString('hex')
         helloConfig += `
 HELLO_COOKIE_SECRET='${session_secret}'`
     }

@@ -1,13 +1,14 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { Request, Response } from 'express'
 import { createAuthRequest, redirectURIBounce, ICreateAuthRequest } from '@hellocoop/core'
 import { Scope, ProviderHint } from '@hellocoop/types'
+
 import config from '../lib/config'
 import { saveOidc } from '../lib/oidc'
 var redirectURIs: Record<string, any> = {}
 
 // var callCount = 0 // DEBUG
 
-const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
+const handleLogin = async (req: Request, res: Response) => {
     const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri } = req.query
     
     if (!config.clientId) {
@@ -25,7 +26,7 @@ const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
             redirectURI = redirectURIs[host]
         } else {
             if (redirect_uri) {
-                const redirectUriString =  Array.isArray(redirect_uri) ? redirect_uri[0] : redirect_uri
+                const redirectUriString =  (Array.isArray(redirect_uri) ? redirect_uri[0] : redirect_uri) as string
                 const redirectHost = (new URL(redirectUriString)).host
                 if (redirectHost != host) {
 // TBd -- this might happen if we are behind a proxy where our host and the browser host are different -- look at X-headerrs
@@ -42,9 +43,9 @@ const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
         }
     }
     // parse out param strings
-    const targetURIstring = Array.isArray(providerParam) ? providerParam[0] : providerParam
+    const targetURIstring = (Array.isArray(providerParam) ? providerParam[0] : providerParam) as string
     const provider_hint = targetURIstring?.split(' ').map((s) => s.trim()) as ProviderHint[] | undefined
-    const scopeString = Array.isArray(scopeParam) ? scopeParam[0] : scopeParam
+    const scopeString = (Array.isArray(scopeParam) ? scopeParam[0] : scopeParam) as string
     const scope = scopeString?.split(' ').map((s) => s.trim()) as Scope[] | undefined
 
     const request: ICreateAuthRequest = {
@@ -59,7 +60,7 @@ const handleLogin = async (req: NextApiRequest, res: NextApiResponse) => {
         nonce,
         code_verifier,
         redirect_uri: redirectURI,
-        target_uri: (Array.isArray(target_uri) ? target_uri[0] : target_uri)|| config.routes.loggedIn
+        target_uri: (Array.isArray(target_uri) ? target_uri[0] : target_uri) as string || config.routes.loggedIn
     })
     res.redirect(url)
 }

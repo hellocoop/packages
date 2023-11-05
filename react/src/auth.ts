@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import type { Claims } from '@hellocoop/types'
+import type { Auth } from '@hellocoop/types'
 
 import { useHelloProviderContext, routeConfig } from "./provider"
 
@@ -13,20 +13,6 @@ const fetcher = async (url: string): Promise<Auth | undefined> => {
         return undefined
     }
 }
-
-type AuthCookie = {
-        sub: string,
-        iat: number
-    } & Claims & {
-        [key: string]: any; // Allow arbitrary optional properties
-    }
-
-export type Auth = {
-    isLoggedIn: false
-} | ({
-    isLoggedIn: true,
-} & AuthCookie )
-
 
 export type AuthState = {
     auth: Auth | {}, 

@@ -2,20 +2,10 @@
   derived from the solid work at https://github.com/crouchcd/pkce-challenge
 */
 
-// import { webcrypto} from 'node:crypto';
+
+import * as crypto from 'crypto';
 
 const VERIFIER_LENGTH = 43
-
-// TODO - fix utils so can be used in browser
-//
-import type { webcrypto } from 'node:crypto'
-const crypto: webcrypto.Crypto =
-  // @ts-ignore
-  globalThis.crypto?.webcrypto ?? // Node.js 16 REPL has globalThis.crypto as node:crypto
-  // @ts-ignore
-  globalThis.crypto // web browsers and Node.js 18+ 
-  // Below code error: The current file is a CommonJS module and cannot use 'await' at the top level.
-  // (await import("node:crypto")).webcrypto; // Node.js 16 non-REPL
 
 
 // export const uuidv4 = crypto.randomUUID

@@ -1,12 +1,11 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { consentCors } from '../lib/consent'
+import { Request, Response } from 'express'
 import config from '../lib/config'
 import { getOidc, clearOidcCookie } from '../lib/oidc'
 import { fetchToken, parseToken, wildcardConsole, errorPage, ErrorPageParams } from '@hellocoop/core'
 import { saveAuthCookie, NotLoggedIn } from '../lib/auth'
 import type { Auth } from '@hellocoop/types'
 
-const sendErrorPage = ( error: Record<string, any>, target_uri: string, req:NextApiRequest, res:NextApiResponse ) => {
+const sendErrorPage = ( error: Record<string, any>, target_uri: string, req:Request, res:Response ) => {
 
 
     if (config.routes.error) {
@@ -29,8 +28,7 @@ const sendErrorPage = ( error: Record<string, any>, target_uri: string, req:Next
     res.end(page)
 }
 
-const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
-    await consentCors(req, res)
+const handleCallback = async (req: Request, res: Response) => {
     const {
         code,
         error,
@@ -110,9 +108,9 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         if (wildcard_domain) { 
             // the redirect_uri is not registered at Hellō - prompt to add
             await saveAuthCookie( res, auth)
-            const appName = (Array.isArray(app_name) ? app_name[0] : app_name)  || 'Your App'
+            const appName = (Array.isArray(app_name) ? app_name[0] : app_name) as string  || 'Your App'
             res.end(wildcardConsole({
-                uri: Array.isArray(wildcard_domain) ? wildcard_domain[0] : wildcard_domain,
+                uri: (Array.isArray(wildcard_domain) ? wildcard_domain[0] : wildcard_domain) as string,
                 appName,
                 redirectURI: redirect_uri,
                 targetURI: target_uri

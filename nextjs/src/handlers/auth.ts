@@ -1,16 +1,13 @@
-import { 
+import type { 
     GetServerSidePropsContext, 
     GetServerSidePropsResult, 
     NextApiRequest, 
     NextApiResponse 
 } from 'next'
 
-import config from '../lib/config'
+import { getAuthfromCookies, saveAuthCookie, clearAuthCookie } from '../lib/auth'
 
-import { Auth, getAuthfromCookies, saveAuthCookie, clearAuthCookie } from '../lib/auth'
-
-// import { clearCookie, setCookie } from '..,/lib/cookie'
-import { Claims } from '@hellocoop/core'
+import { Auth, Claims } from '@hellocoop/types'
 
 
 export type AuthUpdates =

@@ -3,6 +3,8 @@ import { Config, LoggedInParams, LoggedInResponse } from '../handlers/config'
 import { ProviderHint } from '@hellocoop/types'
 import { checkSecret } from '@hellocoop/core'
 
+import dotenv from 'dotenv';
+dotenv.config({path:'.env.local',debug:true});
 
 export interface IConfig {
     production: boolean,
@@ -107,7 +109,7 @@ export const configure = function ( config: Config ) {
         _configuration.error = [message]
         console.error(message)
         isConfigured = false
-    }    
+    }
     while (pendingConfigurations.length > 0) {
         const resolve = pendingConfigurations.pop();
         if (resolve)
@@ -127,6 +129,9 @@ export const getConfig = function ():Promise<IConfig> {
       return Promise.resolve(_configuration);
 }
 
+export const getLoginApiRoute = ():string => {return _configuration.loginApiRoute}
+export const getLogoutApiRoute = ():string => {return _configuration.logoutApiRoute}
+export const getAuthApiRoute = ():string => {return _configuration.authApiRoute}
 export const getApiRoute = ():string => {return _configuration.apiRoute}
 
 export default _configuration

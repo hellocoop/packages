@@ -1,15 +1,14 @@
 import { decryptObj, encryptObj } from '@hellocoop/core'
 import { Auth } from '@hellocoop/types'
-
-import { NextApiResponse } from 'next'
+import { Request, Response } from 'express'
 
 import config from './config'
-import { serialize } from 'cookie'
+import { serialize, parse } from 'cookie'
 import { clearOidcCookie } from './oidc'
 
 const { cookies: {authName, oidcName} } = config 
 
-export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth ): Promise<boolean> =>  {
+export const saveAuthCookie = async ( res: Response, auth: Auth ): Promise<boolean> =>  {
     try {
         const encCookie = await encryptObj(auth, config.secret as string)
         if (!encCookie)
@@ -28,7 +27,7 @@ export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth ): Promis
     return false
 }
 
-export const clearAuthCookie = async ( res: NextApiResponse) =>  {
+export const clearAuthCookie = async ( res: Response) =>  {
     res.appendHeader('Set-Cookie',serialize(authName, '', {
         expires: new Date(0), // Set the expiry date to a date in the past
         path: '/', // Specify the path
@@ -37,9 +36,11 @@ export const clearAuthCookie = async ( res: NextApiResponse) =>  {
 
 
 export const getAuthfromCookies = async function 
-        ( res: NextApiResponse, cookies: Partial<{[key: string]: string;}> )
+        ( req: Request, res: Response )
         : Promise<Auth> {
 
+    const cookies = parse(req.headers.cookie || '')
+    
     if (cookies[oidcName]) // clear OIDC cookie it still there
         clearOidcCookie(res)
 
