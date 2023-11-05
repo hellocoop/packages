@@ -36,14 +36,14 @@ export interface UpdateButtonProps extends CommonButtonProps {
 function BaseButton({ scope, updateScope, targetURI, providerHint, label, style, color = "black", theme = "ignore-light", hover = "pop", showLoader = false, disabled = false } : BaseButtonProps) {
     //check if dev has added Hellō stylesheet to pages with Hellō buttons
     if(typeof window != 'undefined' && !checkedForStylesheet) {
-        const hasStylesheet = !Array.from(document.head.getElementsByTagName('link')).find(
+        const hasStylesheet = Array.from(document.head.getElementsByTagName('link')).find(
             (element) =>
                 element.getAttribute('rel') === 'stylesheet' &&
                 element.getAttribute('href')?.startsWith(Button.STYLES_URL)
         )
 
         if(!hasStylesheet)
-            console.info('Could not find Hellō stylesheet. Please add to pages with Hellō buttons. See http://hello.dev/docs/buttons/#stylesheet for more info.')
+            console.warn('Could not find Hellō stylesheet. Please add to pages with Hellō buttons. See http://hello.dev/docs/buttons/#stylesheet for more info.')
 
         checkedForStylesheet = true
     }
