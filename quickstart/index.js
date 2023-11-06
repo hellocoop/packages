@@ -33,6 +33,8 @@ const quickstart = async function (params) {
             paramKeys.forEach( param => {
                 if (!validQuickstartParams.includes(param))
                     throw(new Error(`Invalid param:${param}`))            
+                if (!params[param])
+                    delete params[param]
             })
         }
         
