@@ -4,7 +4,7 @@ import { ProviderHint } from '@hellocoop/types'
 import { checkSecret } from '@hellocoop/core'
 
 import dotenv from 'dotenv';
-dotenv.config({path:'.env.local',debug:true});
+dotenv.config()
 
 export interface IConfig {
     production: boolean,
