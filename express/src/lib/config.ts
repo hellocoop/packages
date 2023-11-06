@@ -93,7 +93,7 @@ export const configure = function ( config: Config ) {
 
     isConfigured = true
     if (!_configuration.clientId) {
-        const message = 'No HELLO_CLIENT_ID was in environment or client_id in hello.config.ts'
+        const message = 'No HELLO_CLIENT_ID was in environment or client_id in hello.config'
         _configuration.error = [message]
         console.error(message)
         isConfigured = false
