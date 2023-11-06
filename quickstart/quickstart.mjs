@@ -20,7 +20,7 @@ if (!process.stdout.isTTY) {
 }
 
 let {
-  values: { nextjs, provider_hint, suffix, file, secret, wildcard, integration, debug },
+  values: { nextjs, provider_hint, suffix, wildcard, integration },
 } = parseArgs({
   options: {
     nextjs: {
@@ -48,8 +48,8 @@ let {
   },
 });
 
-import 'dotenv/config'
 import quickstart from './index.js';
+import dotenv from 'dotenv'
 
 (async () => {
 
@@ -57,6 +57,8 @@ import quickstart from './index.js';
         await next({ provider_hint, suffix, integration })
         process.exit(0)
     }
+
+    dotenv.config() // .env
 
     const options = {}
     if (provider_hint) 
