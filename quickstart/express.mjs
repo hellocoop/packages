@@ -38,7 +38,6 @@ const config = {
     client_id: '${client_id}',
 }
 module.exports = config
-
 `
     fs.outputFileSync( filePath, config)
     console.log(`${chalk.greenBright('✓')} Created ${HELLO_CONFIG_FILE} with client_id ${chalk.blueBright(client_id)}`)
