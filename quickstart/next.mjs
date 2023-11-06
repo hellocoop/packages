@@ -7,8 +7,8 @@ import fs from 'fs-extra'
 import quickstart from './index.js';
 import { randomBytes } from 'crypto'
 
-const HELLO_CONFIG_FILE = 'hello.config.ts'
-const HELLO_COOP_FILE = 'pages/api/hellocoop.ts'
+const HELLO_CONFIG_FILE = 'hello.config.js'
+const HELLO_COOP_FILE = 'pages/api/hellocoop.js'
 const ENV_FILE = '.env.local'
 
 import dotenv from 'dotenv'
@@ -36,7 +36,6 @@ config.client_id = '${client_id}'
     }
     const config =`// ${HELLO_CONFIG_FILE}
 // see https://hello.dev/docs/sdks/nextjs/#configuration for details
-import type { Config } from '@hellocoop/nextjs'
 
 const config = {
     client_id: '${client_id}',
