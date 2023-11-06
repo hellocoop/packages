@@ -1,7 +1,7 @@
 {
   "name": "@hellocoop/express",
   "version": "1.0.1",
-  "description": "Next.js SDK for Hellō https://hello.dev",
+  "description": "Express SDK for Hellō https://hello.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hellocoop/packages.git"
