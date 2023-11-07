@@ -4,23 +4,33 @@ import { Auth } from '@hellocoop/types'
 import { NextApiResponse } from 'next'
 
 import config from './config'
-import { serialize } from 'cookie'
+import { serialize, CookieSerializeOptions } from 'cookie'
 import { clearOidcCookie } from './oidc'
 
 const { cookies: {authName, oidcName} } = config 
 
-export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth ): Promise<boolean> =>  {
+const laxAuthName = 'lax-'+authName
+
+const setEncryptedCookie = ( res: NextApiResponse, sameSite: boolean, encCookie: string ) => {
+    const cookieName = sameSite ? authName : laxAuthName
+
+    const options: CookieSerializeOptions = {
+        httpOnly: true,
+        secure: config.production,
+        path: '/' // let any server side route call getAuth
+    }
+    if (sameSite)
+        options.sameSite = 'strict'
+
+    res.appendHeader('Set-Cookie', serialize(cookieName, encCookie, options))  
+}
+
+export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth, sameSite: boolean = false ): Promise<boolean> =>  {
     try {
         const encCookie = await encryptObj(auth, config.secret as string)
         if (!encCookie)
             return false
-        res.appendHeader('Set-Cookie',serialize( authName, encCookie, {
-            httpOnly: true,
-            secure: config.production,
-            sameSite: 'strict',
-            path: '/' // let any server side route call getAuth
-            // no maxAge => session cooke
-        }))
+        setEncryptedCookie( res, sameSite, encCookie)
         return true    
     } catch (e) {
         console.error(e)
@@ -40,8 +50,18 @@ export const getAuthfromCookies = async function
         ( res: NextApiResponse, cookies: Partial<{[key: string]: string;}> )
         : Promise<Auth> {
 
-    if (cookies[oidcName]) // clear OIDC cookie it still there
+    if (cookies[oidcName]) // clear OIDC cookie if still there
         clearOidcCookie(res)
+
+    const laxAuthCookie = cookies[laxAuthName]
+    if (laxAuthCookie) {
+        // rotate to a sameSite:strict cookie
+        setEncryptedCookie(res,true,laxAuthCookie)
+        res.appendHeader('Set-Cookie', serialize(laxAuthName, '', {
+            expires: new Date(0),
+            path: '/', // Specify the path
+        }));
+    }        
 
     const authCookie = cookies[authName]
     if (!authCookie)
