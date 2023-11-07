@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { consentCors } from '../lib/consent'
 import config from '../lib/config'
 import { getOidc, clearOidcCookie } from '../lib/oidc'
-import { fetchToken, parseToken, wildcardConsole, errorPage, ErrorPageParams } from '@hellocoop/core'
+import { fetchToken, parseToken, wildcardConsole, errorPage, ErrorPageParams, sameSiteCallback } from '@hellocoop/core'
 import { saveAuthCookie, NotLoggedIn } from '../lib/auth'
 import type { Auth } from '@hellocoop/types'
 
@@ -36,7 +36,11 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         error,
         wildcard_domain,
         app_name,
+        same_site,    
     } = req.query
+
+    if (!same_site) // we need to bounce so we get cookies
+        return res.send(sameSiteCallback())
 
     const oidcState = await getOidc(req,res)
 
@@ -47,8 +51,9 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         code_verifier,
         nonce,
         redirect_uri,
-        target_uri
     } = oidcState
+
+    let {target_uri = '/'} = oidcState
 
     if (error)
         return sendErrorPage( req.query, target_uri, req, res )
@@ -91,9 +96,6 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             return res.status(400).end('The ID token is not yet valid.')
         }
 
-        // let auth = NotLoggedIn
-        let callbackProcessed = false
-
         let auth = {
             isLoggedIn: true,
             sub: payload.sub,
@@ -124,9 +126,10 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         if (config.callbacks?.loggedIn) {
             try {
                 const cb = await config.callbacks.loggedIn({ token, payload, req, res })
-                callbackProcessed = cb?.isProcessed as boolean
-                if (cb?.accessDenied)
+                if (cb?.accessDenied) {
+                    // TODO? set target_uri to not logged in setting?
                     auth = NotLoggedIn
+                }
                 else if (cb?.updatedAuth) {
                     auth = {
                         ...cb.updatedAuth,
@@ -135,16 +138,14 @@ const handleCallback = async (req: NextApiRequest, res: NextApiResponse) => {
                         iat: payload.iat
                     }
                 }
+                target_uri = cb?.target_uri || target_uri
             } catch(e) {
                 console.error(new Error('callback faulted'))
                 console.error(e)
             }
         }
         await saveAuthCookie( res, auth)
-        if (!callbackProcessed) {
-            res.redirect(target_uri 
-                || '/') // just in case
-        }
+        res.json({target_uri})
     } catch (error: any) {
         clearOidcCookie(res)
         return res.status(500).end(error.message)

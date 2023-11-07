@@ -16,7 +16,7 @@ export type LoggedInParams = {
 
 export type LoggedInResponse = {
     accessDenied?: boolean,
-    isProcessed?: boolean,
+    target_uri?: string,    
     updatedAuth?: {[key: string]: any}
 }
 
