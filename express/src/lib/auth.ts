@@ -51,7 +51,7 @@ export const getAuthfromCookies = async function
 
     const cookies = parse(req.headers.cookie || '')
     
-    if (cookies[oidcName]) // clear OIDC cookie it still there
+    if (cookies[oidcName]) // clear OIDC cookie if still there
         clearOidcCookie(res)
 
     const laxAuthCookie = cookies[laxAuthName]
