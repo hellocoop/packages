@@ -18,6 +18,9 @@ export type AuthUpdates =
 
 export const getAuth = async function ( req: NextApiRequest, res: NextApiResponse): Promise<undefined> {
     const auth = await getAuthfromCookies( res, req.cookies)
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');    
     res.json(auth)  
 }
 
