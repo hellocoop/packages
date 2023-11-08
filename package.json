@@ -23,7 +23,6 @@
     "watch:core": "npm run watch --workspace core",
     "watch:express": "npm run watch --workspace express",
     "watch:nextjs": "npm run watch --workspace nextjs",
-    "watch:quickstart": "npm run watch --workspace quickstart",
     "watch:react": "npm run watch --workspace react",
     "watch:types": "npm run watch --workspace types",
     "watch": "npm-run-all -p watch:*"
