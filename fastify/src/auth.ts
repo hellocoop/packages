@@ -116,7 +116,8 @@ export interface HelloConfig extends FastifyPluginOptions, Config {}
     instance.decorateRequest('auth', undefined)
     instance.decorateRequest('getAuth', async function () { 
         const helloReq = convertToHelloRequest(this)
-        return await getAuthfromCookies(helloReq)  
+        this.auth = await getAuthfromCookies(helloReq)
+        return this.auth  
      })
     instance.decorateReply('clearAuth', function () {
         const { name, value, options } = clearAuthCookieParams()
