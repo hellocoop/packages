@@ -6,9 +6,11 @@
     "client",
     "core",
     "express",
+    "fastify",
     "nextjs",
     "quickstart",
     "react",
+    "router",
     "types"
   ],
   "repository": {

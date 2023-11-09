@@ -146,3 +146,5 @@ export namespace Button {
     }
 
 }
+
+export const NotLoggedIn: Auth = { isLoggedIn: false}

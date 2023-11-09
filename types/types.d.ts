@@ -71,5 +71,6 @@ export declare namespace Button {
         };
     };
 }
+export declare const NotLoggedIn: Auth;
 export {};
 //# sourceMappingURL=types.d.ts.map

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Button = exports.VALID_PROVIDER_HINT = exports.VALID_RESPONSE_MODE = exports.VALID_RESPONSE_TYPE = exports.VALID_SCOPES = exports.VALID_IDENTITY_CLAIMS = exports.DEFAULT_PATH = exports.DEFAULT_RESPONSE_MODE = exports.DEFAULT_RESPONSE_TYPE = exports.DEFAULT_SCOPE = exports.PRODUCTION_WALLET = void 0;
+exports.NotLoggedIn = exports.Button = exports.VALID_PROVIDER_HINT = exports.VALID_RESPONSE_MODE = exports.VALID_RESPONSE_TYPE = exports.VALID_SCOPES = exports.VALID_IDENTITY_CLAIMS = exports.DEFAULT_PATH = exports.DEFAULT_RESPONSE_MODE = exports.DEFAULT_RESPONSE_TYPE = exports.DEFAULT_SCOPE = exports.PRODUCTION_WALLET = void 0;
 exports.PRODUCTION_WALLET = 'https://wallet.hello.coop';
 exports.DEFAULT_SCOPE = ['openid', 'name', 'email', 'picture'];
 exports.DEFAULT_RESPONSE_TYPE = 'code';
@@ -96,3 +96,4 @@ var Button;
         },
     };
 })(Button || (exports.Button = Button = {}));
+exports.NotLoggedIn = { isLoggedIn: false };
