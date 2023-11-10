@@ -14,12 +14,12 @@ export const routeConfig: RouteConfig = {
 
 const HelloContext = createContext(undefined)
 
-const HelloProvider = ({ children, status, config} : any) => { //TBD any
+const HelloProvider = ({ children, auth, config} : any) => { //TBD any
     if (config?.login) routeConfig.login = config.login 
     if (config?.auth) routeConfig.auth = config.auth 
     if (config?.logout) routeConfig.logout = config.logout 
     return (
-      <HelloContext.Provider value={status}>
+      <HelloContext.Provider value={auth}>
           {children}
       </HelloContext.Provider>
     )
