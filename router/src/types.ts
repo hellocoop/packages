@@ -3,12 +3,21 @@
 import type { Claims, Scope, ProviderHint, Auth } from '@hellocoop/types'
 import type { CookieSerializeOptions } from 'cookie'
 
+export type CallbackRequest = {
+    getHeaders: () => Record<string, string>,
+}
+
+
+export type CallbackResponse = {
+    setHeader: (key: string, value: string) => void,
+    setCookie: (key: string, value: string, options: CookieSerializeOptions) => void,
+}
 
 export type LoggedInParams = {
     token: string,
     payload: Claims,
-    req: HelloRequest,
-    res: HelloResponse
+    cbReq: CallbackRequest,
+    cbRes: CallbackResponse
 }
 
 
@@ -51,4 +60,5 @@ export type HelloResponse = {
     setHeader: (name: string, value: string) => void;
     status: (statusCode: number) => { send: (data: any) => void };
 };
+
 

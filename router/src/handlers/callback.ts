@@ -1,9 +1,24 @@
-import { HelloRequest, HelloResponse } from '../types'
+import { HelloRequest, HelloResponse, CallbackRequest, CallbackResponse } from '../types'
 import config from '../lib/config'
 import { getOidc, clearOidcCookie } from '../lib/oidc'
 import { fetchToken, parseToken, wildcardConsole, errorPage, ErrorPageParams, sameSiteCallback } from '@hellocoop/core'
 import { saveAuthCookie } from '../lib/auth'
 import { Auth, NotLoggedIn } from '@hellocoop/types'
+
+
+const getCallbackRequest = (req: HelloRequest): CallbackRequest => {
+    return {
+        getHeaders: () => { return req.headers() }
+    }
+}
+
+const getCallbackResponse = (res: HelloResponse): CallbackResponse => {
+    return {
+        setHeader: (key: string, value: string) => { res.setHeader(key, value) },
+        setCookie: (key: string, value: string, options: any) => { res.setCookie(key, value, options) },
+    }
+}
+
 
 const sendErrorPage = ( error: Record<string, any>, target_uri: string, req:HelloRequest, res:HelloResponse ) => {
 
@@ -121,7 +136,9 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
 
         if (config.callbacks?.loggedIn) {
             try {
-                const cb = await config.callbacks.loggedIn({ token, payload, req, res })
+                const cbReq = getCallbackRequest(req)
+                const cbRes = getCallbackResponse(res)
+                const cb = await config.callbacks.loggedIn({ token, payload, cbReq, cbRes })
                 if (cb?.accessDenied) {
                     auth = NotLoggedIn
                     // TODO? set target_uri to not logged in setting?
