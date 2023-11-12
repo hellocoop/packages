@@ -20,14 +20,11 @@ export type LoggedInParams = {
     cbRes: CallbackResponse
 }
 
-
 export type LoggedInHelloResponse = {
     accessDenied?: boolean,
     target_uri?: string,
     updatedAuth?: {[key: string]: any}
 }
-
-export type HelloNext = () => void;
 
 export interface Config {
     client_id?: string,
