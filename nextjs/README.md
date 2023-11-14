@@ -12,4 +12,3 @@ The [Hellō Next.js Sample](https://github.com/hellocoop/hello-nextjs-sample) us
 
 See the [Next.js Quickstart documentation](https://www.hello.dev/docs/quickstarts/nextjs) for how to add Hellō to your Next.js app in minutes, and the [Next.js SDK documentation](https://www.hello.dev/docs/sdks/nextjs) for details.
 
-

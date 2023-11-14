@@ -5,6 +5,7 @@ import handleCallback from './callback'
 import handleLogin from './login'
 import handleLogout from './logout'
 import { handleAuth } from './auth'
+import handleWildcardConsole from './wildcard'
 import { NotLoggedIn } from '@hellocoop/types'
 
 // const  translateHandlerErrors = (handler: Router): Router =>
@@ -58,6 +59,10 @@ const router = (req: HelloRequest, res: HelloResponse ) => {
 
     if (query.logout) {     // logout user
         return handleLogout(req, res)
+    }
+
+    if (query.wildcard_console) {
+        return handleWildcardConsole(req, res)
     }
 
     if (query.iss) {        // IdP (Hellō) initiated login

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import config from '../lib/config'
 import { getOidc, clearOidcCookie } from '../lib/oidc'
-import { fetchToken, parseToken, wildcardConsole, errorPage, ErrorPageParams, sameSiteCallback } from '@hellocoop/core'
+import { fetchToken, parseToken, errorPage, ErrorPageParams, sameSiteCallback } from '@hellocoop/core'
 import { saveAuthCookie, NotLoggedIn } from '../lib/auth'
 import type { Auth } from '@hellocoop/types'
 
@@ -105,20 +105,6 @@ const handleCallback = async (req: Request, res: Response) => {
                 auth[scope as keyof Auth] = claim
         })
 
-        if (wildcard_domain) { 
-            // the redirect_uri is not registered at Hellō - prompt to add
-            await saveAuthCookie( res, auth)
-            const appName = (Array.isArray(app_name) ? app_name[0] : app_name) as string  || 'Your App'
-            res.end(wildcardConsole({
-                uri: (Array.isArray(wildcard_domain) ? wildcard_domain[0] : wildcard_domain) as string,
-                appName,
-                redirectURI: redirect_uri,
-                targetURI: target_uri
-            }))
-            return
-            // no callback processing if wildcard
-        }
-
         if (config.callbacks?.loggedIn) {
             try {
                 const cb = await config.callbacks.loggedIn({ token, payload, req, res })
@@ -140,6 +126,22 @@ const handleCallback = async (req: Request, res: Response) => {
                 console.error(e)
             }
         }
+
+        if (wildcard_domain) { 
+            // the redirect_uri is not registered at Hellō - prompt to add
+            const appName = app_name || 'Your App'
+
+            const queryString = new URLSearchParams({
+                uri: wildcard_domain,
+                appName,
+                redirectURI: redirect_uri,
+                targetURI: target_uri,
+                wildcard_console: 'true'
+            } as Record<string, string> ).toString()
+
+            target_uri = config.apiRoute+'?'+queryString
+        }
+
         await saveAuthCookie( res, auth)
         res.json({target_uri})
     } catch (error: any) {

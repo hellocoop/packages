@@ -4,6 +4,8 @@ import config from '../lib/config'
 import handleCallback from './callback'
 import handleLogin from './login'
 import handleLogout from './logout'
+import handleWildcardConsole from './wildcard'
+
 import { handleAuth } from './auth'
 import { NotLoggedIn } from '../lib/auth'
 
@@ -44,6 +46,10 @@ const router = translateHandlerErrors((req: NextApiRequest, res: NextApiResponse
 
         if (query.logout) {     // logout user
             return handleLogout(req, res)
+        }
+
+        if (query.wildcard_console) {
+            return handleWildcardConsole(req, res)
         }
 
         if (query.iss) {        // IdP (Hellō) initiated login
