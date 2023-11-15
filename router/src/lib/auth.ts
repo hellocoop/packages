@@ -16,7 +16,7 @@ export const saveAuthCookie = async ( res: HelloResponse, auth: Auth): Promise<b
         res.setCookie(authName, encCookie, {
             httpOnly: true,
             secure: config.production,
-            sameSite: 'strict',
+            sameSite: 'lax',
             path: '/' // let any server side route call getAuth
         })  
         return true    

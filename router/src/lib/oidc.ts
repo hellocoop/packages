@@ -39,7 +39,7 @@ export const saveOidc = async ( req: HelloRequest, res: HelloResponse, oidc: OID
         res.setCookie( oidcName, encCookie, {
             httpOnly: true,
             secure: config.production,
-            sameSite: 'strict',
+            sameSite: 'lax',
             maxAge: 5 * 60, // 5 minutes
             path: apiRoute
         })

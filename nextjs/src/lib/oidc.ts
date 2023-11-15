@@ -38,7 +38,7 @@ export const saveOidc = async ( req: NextApiRequest, res: NextApiResponse, oidc:
         res.appendHeader('Set-Cookie',serialize( oidcName, encCookie, {
             httpOnly: true,
             secure: config.production,
-            sameSite: 'strict',    
+            sameSite: 'lax',    
             maxAge: 5 * 60, // 5 minutes
             path: apiRoute
         }))
