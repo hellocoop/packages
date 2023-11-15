@@ -28,7 +28,7 @@ import * as crypto from 'crypto';
     const encodedData = textEncoder.encode(JSON.stringify(obj));
     const iv = crypto.randomBytes(12);
     const key = Buffer.from(secret, 'hex');    
-    const cipher = crypto.createCipheriv('aes-128-gcm', key, iv);
+    const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
     const ciphertext = Buffer.concat([iv, cipher.update(encodedData), cipher.final()]);
     const tag = cipher.getAuthTag();
     const encryptedData = Buffer.concat([ciphertext, tag]);
@@ -43,7 +43,7 @@ import * as crypto from 'crypto';
       const tag = encryptedData.slice(-16);
       const ciphertext = encryptedData.slice(12, -16);
       const key = Buffer.from(secret, 'hex');    
-      const decipher = crypto.createDecipheriv('aes-128-gcm', key, iv);
+      const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
       decipher.setAuthTag(tag);
       const decryptedData = Buffer.concat([decipher.update(ciphertext), decipher.final()]);
       const decryptedText = new TextDecoder().decode(decryptedData);
@@ -57,7 +57,7 @@ import * as crypto from 'crypto';
   
 export const checkSecret = ( secret: string ): boolean => {
   const key = Buffer.from(secret, 'hex');    
-  return (Buffer.byteLength(key) == 16)
+  return (Buffer.byteLength(key) == 32)
 }
   /*****  test code
 

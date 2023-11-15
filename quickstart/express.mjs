@@ -52,7 +52,7 @@ const writeEnvLocal = async (name) => {
         return
     } 
 
-    const secret = randomBytes(16).toString('hex')
+    const secret = randomBytes(32).toString('hex')
     const env = `
 # added by @hellocoop/quickstart --${name} on ${(new Date()).toISOString()}
 HELLO_COOKIE_SECRET='${secret}'
