@@ -17,7 +17,7 @@ export const saveAuthCookie = async ( res: NextApiResponse, auth: Auth): Promise
         res.appendHeader('Set-Cookie', serialize(authName, encCookie, {
             httpOnly: true,
             secure: config.production,
-            sameSite: 'strict',
+            sameSite: 'lax',
             path: '/' // let any server side route call getAuth
         }))          
         return true    
