@@ -1,12 +1,14 @@
 // test server
 import express, { Request, Response } from 'express'
-import auth from './index'
+import { helloAuth, HelloConfig} from './index'
 import { redirect, unauthorized, setAuth } from './middleware'
+
+const config: HelloConfig = require('../hello.config.js')
 
 const app = express();
 const port = 8080; // default port to listen
 
-app.use(auth({client_id:'90804992-8d01-474e-8a0c-59cddeb5a1a3'}))
+app.use(helloAuth(config))
 
 app.get( "/", async ( req: Request, res: Response ) => {
     res.json( await req.getAuth()) 
