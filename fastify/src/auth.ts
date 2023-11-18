@@ -73,7 +73,7 @@ declare module 'fastify' {
 export interface HelloConfig extends FastifyPluginOptions, Config {}
   
   
-  const helloPlugin: FastifyPluginAsync <HelloConfig> = async (instance, options) => {
+const helloPlugin: FastifyPluginAsync <HelloConfig> = async (instance, options) => {
     if (!isConfigured)
        configure(options)
     instance.decorateRequest('auth', undefined)
@@ -92,6 +92,6 @@ export interface HelloConfig extends FastifyPluginOptions, Config {}
       const helloRes = convertToHelloResponse(res)
       return await router(helloReq, helloRes)
     })
-  }
+}
 
 export default fp( helloPlugin )
