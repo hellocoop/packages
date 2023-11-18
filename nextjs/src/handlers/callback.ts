@@ -3,8 +3,9 @@ import { consentCors } from '../lib/consent'
 import config from '../lib/config'
 import { getOidc, clearOidcCookie } from '../lib/oidc'
 import { fetchToken, parseToken, errorPage, ErrorPageParams, sameSiteCallback } from '@hellocoop/core'
-import { saveAuthCookie, NotLoggedIn } from '../lib/auth'
+import { saveAuthCookie } from '../lib/auth'
 import type { Auth } from '@hellocoop/types'
+import { NotLoggedIn } from '@hellocoop/constants'
 
 const sendErrorPage = ( error: Record<string, any>, target_uri: string, req:NextApiRequest, res:NextApiResponse ) => {
 

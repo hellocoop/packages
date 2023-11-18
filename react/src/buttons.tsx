@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import type { ProviderHint, Scope } from '@hellocoop/types'
-import { Button } from '@hellocoop/types'
+import { Button } from '@hellocoop/constants'
 
 import { routeConfig } from './provider'
 

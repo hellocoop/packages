@@ -1,3 +1,5 @@
+import { Auth, AuthResponseMode, AuthResponseType, Scope } from "@hellocoop/types";
+
 export const PRODUCTION_WALLET: string = 'https://wallet.hello.coop'
 
 export const DEFAULT_SCOPE: Scope[] = ['openid','name','email','picture']
@@ -60,64 +62,6 @@ export const VALID_PROVIDER_HINT = [
     'passkey--',
 ] as const;
 
-export type Scope = typeof VALID_SCOPES[number];
-export type AuthResponseType = typeof VALID_RESPONSE_TYPE[number]; 
-export type AuthResponseMode = typeof VALID_RESPONSE_MODE[number]; 
-export type ProviderHint = typeof VALID_PROVIDER_HINT[number]; 
-
-type IdentityClaims = typeof VALID_IDENTITY_CLAIMS[number]
-
-// Create a type with all VALID_IDENTITY_CLAIMS properties as optional
-type OptionalClaims = {
-  [K in IdentityClaims]?: unknown;
-};
-
-export type Claims = OptionalClaims & { sub: string }
-
-type AuthCookie = {
-    sub: string,
-    iat: number
-} & Claims & {
-    [key: string]: any; // Allow arbitrary optional properties
-}
-
-export type Auth = {
-isLoggedIn: false
-} | ({
-isLoggedIn: true,
-} & AuthCookie )
-
-export type TokenPayload = OptionalClaims & {
-    iss: string;
-    aud: string;
-    nonce: string;
-    jti: string;
-    sub: string;
-    scope: string[];
-    iat: number,
-    exp: number,                   
-}
-
-export type TokenHeader = {
-    typ: string;
-    alg: string;
-}
-
-const CLASS_MAPPING = {
-    black: {
-        "ignore-light": "",
-        "ignore-dark": "hello-btn-black-on-dark",
-        "aware-invert": "hello-btn-black-and-invert",
-        "aware-static": "hello-btn-black-and-static"
-    },
-    white: {
-        "ignore-light": "hello-btn-white-on-light",
-        "ignore-dark": "hello-btn-white-on-dark",
-        "aware-invert": "hello-btn-white-and-invert",
-        "aware-static": "hello-btn-white-and-static"
-    },
-}
-
 export namespace Button {
     export type Color = "black" | "white"
     export type Theme = "ignore-light" | "ignore-dark" | "aware-invert" | "aware-static"
@@ -144,7 +88,7 @@ export namespace Button {
             "aware-static": "hello-btn-white-and-static"
         },
     }
-
+    
 }
 
 export const NotLoggedIn: Auth = { isLoggedIn: false}

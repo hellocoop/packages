@@ -4,6 +4,7 @@
   "description": "Monorepo package management",
   "workspaces": [
     "client",
+    "constants",
     "core",
     "express",
     "fastify",
@@ -18,7 +19,7 @@
     "url": "git+https://github.com/hellocoop/packages.git"
   },
   "scripts": {
-    "clean": "rimraf client/node_modules core/node_modules express/node_modules nextjs/node_modules quickstart/node_modules react/node_modules types/node_modules",
+    "clean": "rimraf client/node_modules core/node_modules express/node_modules nextjs/node_modules quickstart/node_modules react/node_modules types/node_modules constants/node_modules",
     "build": "npm run clean && npm run build --workspaces",
     "patch-sample": "npm run build && cp -r quickstart ../hello-nextjs-sample/node_modules/@hellocoop/ && cp -r nextjs ../hello-nextjs-sample/node_modules/@hellocoop/ && cp -r react ../hello-nextjs-sample/node_modules/@hellocoop/ && cp -r core ../hello-nextjs-sample/node_modules/@hellocoop/ && cp -r types ../hello-nextjs-sample/node_modules/@hellocoop/ && rm -rf ../hello-nextjs-sample/.next",
     "watch:client": "npm run watch --workspace client",

@@ -1,15 +1,19 @@
 {
-  "name": "@hellocoop/types",
-  "version": "1.0.9",
-  "description": "Types for Hellō packages",
+  "name": "@hellocoop/constants",
+  "version": "1.0.1",
+  "description": "Constants for Hellō https://hello.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hellocoop/packages.git"
   },
   "homepage": "https://www.hello.dev/docs/sdks/types",
-  "types": "./dist/types.d.ts",
+  "exports": {
+    ".": "./dist/constants.js"
+  },
+  "types": "./dist/constants.d.ts",
   "files": [
-    "./dist/types.d.ts"
+    "constants.d.ts",
+    "constants.js"
   ],
   "keywords": [
     "hello",
@@ -34,7 +38,7 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "rimraf": "^5.0.1",
-    "@hellocoop/constants": "*"
+    "@hellocoop/types": "*",
+    "rimraf": "^5.0.1"
   }
 }

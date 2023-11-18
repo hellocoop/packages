@@ -1,6 +1,6 @@
 // fetches an ID token from Hellō given the code and code_verifier
 
-import { PRODUCTION_WALLET } from '@hellocoop/types'
+import { PRODUCTION_WALLET } from '@hellocoop/constants'
 const DEFAULT_ENDPOINT: string = '/oauth/token'
 
 export type FetchConfig = {

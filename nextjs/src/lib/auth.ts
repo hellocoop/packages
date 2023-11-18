@@ -1,5 +1,6 @@
 import { decryptObj, encryptObj } from '@hellocoop/core'
 import { Auth } from '@hellocoop/types'
+import { NotLoggedIn } from '@hellocoop/constants'
 
 import { NextApiResponse } from 'next'
 
@@ -57,4 +58,3 @@ export const getAuthfromCookies = async function
     return NotLoggedIn
 }
 
-export const NotLoggedIn: Auth = { isLoggedIn: false}
