@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/hellocoop/packages#readme",
   "devDependencies": {
-    "@types/node": "^18.6.2",
+    "@types/node": "*",
     "typescript": "^5.2.2"
   },
   "engines": {

@@ -194,7 +194,7 @@ With the above setup:
 
 2. **TypeScript Configuration**: Ensure your `tsconfig.json` is properly configured for project references as discussed previously.
 
-3. **Versioning**: If the shared code changes frequently, you might consider using a more specific versioning strategy instead of `"latest"` for internal dependencies. This can prevent unexpected breaks due to changes in the shared code:
+3. **Versioning**: If the shared code changes frequently, you might consider using a more specific versioning strategy instead of `"*"` for internal dependencies. This can prevent unexpected breaks due to changes in the shared code:
 
 ```json
 "dependencies": {

@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express'
 import { getAuthfromCookies, saveAuthCookie, clearAuthCookie } from '../lib/auth'
 
 import { Auth, Claims } from '@hellocoop/types'
-import { NotLoggedIn } from '../lib/auth'
+import { NotLoggedIn } from '@hellocoop/constants'
 
 // export type AuthRequest = Request & {
 //     auth?: Auth

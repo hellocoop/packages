@@ -6,7 +6,7 @@ import handleLogin from './login'
 import handleLogout from './logout'
 import { handleAuth } from './auth'
 import handleWildcardConsole from './wildcard'
-import { NotLoggedIn } from '@hellocoop/types'
+import { NotLoggedIn } from '@hellocoop/constants'
 
 // const  translateHandlerErrors = (handler: Router): Router =>
 //     async (req: HelloRequest, res: HelloResponse, next: NextFunction) => {

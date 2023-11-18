@@ -3,7 +3,8 @@ import config from '../lib/config'
 import { getOidc, clearOidcCookie } from '../lib/oidc'
 import { fetchToken, parseToken, errorPage, ErrorPageParams, sameSiteCallback } from '@hellocoop/core'
 import { saveAuthCookie } from '../lib/auth'
-import { Auth, NotLoggedIn } from '@hellocoop/types'
+import { Auth } from '@hellocoop/types'
+import { NotLoggedIn } from '@hellocoop/constants'
 
 
 const getCallbackRequest = (req: HelloRequest): CallbackRequest => {
