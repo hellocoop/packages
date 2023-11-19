@@ -10,7 +10,7 @@ export type LoggedInParams = {
 }
 
 
-export type LoggedInHelloResponse = {
+export type LoggedInResponse = {
     accessDenied?: boolean,
     target_uri?: string,
     updatedAuth?: {[key: string]: any}
@@ -22,7 +22,7 @@ export type Config = {
     scope?: Scope[],
     provider_hint?: ProviderHint[],
     callbacks?: {
-        loggedIn?: (params: LoggedInParams) => Promise<LoggedInHelloResponse>
+        loggedIn?: (params: LoggedInParams) => Promise<LoggedInResponse>
     },
     routes?: {
         loggedIn?: string,

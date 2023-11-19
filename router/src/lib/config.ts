@@ -1,4 +1,4 @@
-import { Config, LoggedInParams, LoggedInHelloResponse } from '../types'
+import { Config, LoggedInParams, LoggedInResponse } from '../types'
 import { Scope, ProviderHint } from '@hellocoop/types'
 import { checkSecret } from '@hellocoop/core'
 
@@ -20,7 +20,7 @@ export interface IConfig {
         oidcName: string,
     },
     callbacks: {
-        loggedIn?: (params: LoggedInParams) => Promise<LoggedInHelloResponse>
+        loggedIn?: (params: LoggedInParams) => Promise<LoggedInResponse>
     },
     // built from HELLO_API_ROUTE
     apiRoute: string,
