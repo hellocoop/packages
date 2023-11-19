@@ -1,102 +1,23 @@
-import { serialize } from 'cookie'
-
-import type { 
-    GetServerSidePropsContext, 
-    GetServerSidePropsResult, 
-    NextApiHandler,
-    NextApiRequest, 
-    NextApiResponse 
-} from 'next'
 
 import { Auth } from '@hellocoop/types'
+import { configuration } from '@hellocoop/router'
+import { cookies } from 'next/headers'
+import { decryptObj } from '@hellocoop/core'
+import { NotLoggedIn} from '@hellocoop/constants'
 
-import { 
-    router,
-    HelloResponse, 
-    HelloRequest, 
-    clearAuthCookieParams,
-    getAuthfromCookies, 
-    isConfigured,
-    configure,
-    Config,
-} from '@hellocoop/router'
+export const auth = async function (): Promise<Auth> {
 
-import { parse } from 'url';
+    const authCookie = cookies().get(configuration.cookies.authName)?.value
 
-export type HelloConfig = Config
+console.log({authCookie})
 
-declare module 'next' {
-    interface NextApiRequest {
-        auth?: Auth;
-    }
-}
+    if (!authCookie)
+        return NotLoggedIn
+    const a = await decryptObj(authCookie, configuration.secret as string) as Auth
 
-const convertToHelloRequest = (req: NextApiRequest): HelloRequest => {
-    return {
-        headers: () => req.headers as { [key: string]: string },
-        query: req.query as { [key: string]: string } | {},
-        path: req.url ? parse(req.url, true)?.pathname as string : '/',
-        getAuth: () => req.auth,
-        setAuth: (auth: Auth) => { req.auth = auth },
-    }
-}
+console.log({a})
 
-const convertToHelloResponse = (res: NextApiResponse): HelloResponse => {
-    return {
-        clearAuth: () => {
-            const { name, value, options } = clearAuthCookieParams()
-            res.setHeader('Set-Cookie', serialize(name, value, options))
-        },
-        send: (data: any) => res.send(data),
-        json: (data: any) => res.json(data),
-        redirect: (url: string) => res.redirect(url),
-        setCookie: (name: string, value: string, options: any) => {
-            res.setHeader('Set-Cookie', serialize(name, value, options))
-        },
-        setHeader: (name: string, value: string) => res.setHeader(name, value),
-        status: (statusCode: number) => { 
-            res.status(statusCode)
-            return {
-                send: (data: any) => res.send(data)
-            }
-        },
-    }
-}
-
-
-
-export const getServerSideProps = async function (context:GetServerSidePropsContext)
-       : Promise<GetServerSidePropsResult<{auth:Auth}>> {
-    const req = context.req as NextApiRequest
-    if (req.auth)
-        return {
-            props: {auth: req.auth}
-        }
-    const helloReq = convertToHelloRequest(req)
-    const helloRes = convertToHelloResponse(context.res as NextApiResponse)
-
-    const auth = await getAuthfromCookies( helloReq, helloRes)
-    return {
-        props: {auth}
-    }
-}
-
-export const getAuth = async function ( req: NextApiRequest): Promise<Auth> {
-    if (req.auth)
-        return req.auth
-    const helloReq = convertToHelloRequest(req)
-    const auth = await getAuthfromCookies( helloReq )
-    return auth
-}
-
-export const pageAuth = function ( config: Config): NextApiHandler {
-    if (!isConfigured) {
-        configure(config as Config)
-    }
-    const r = async (req: NextApiRequest, res: NextApiResponse ) => {
-        const helloReq = convertToHelloRequest(req)
-        const helloRes = convertToHelloResponse(res)
-        await router(helloReq, helloRes)   
-    }
-    return r
+    if (!a)
+        return NotLoggedIn
+    return a 
 }
