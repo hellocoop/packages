@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/node18/tsconfig.json",
   "exclude": ["node_modules", "./**/dist"],
-  "include": ["src"],
+  "include": ["./src"],
   "compilerOptions": {
       "declarationMap": true,
       "declaration": true,

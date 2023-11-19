@@ -18,15 +18,19 @@ export const VALID_IDENTITY_CLAIMS = [
     'picture',
 // Hellō extensions -- non-standard claims
     'ethereum',
+] as const;
+
+export const VALID_IDENTITY_ACCOUNT_CLAIMS = [
     'discord',
     'twitter',
     'github',
     'gitlab'
-] as const;
+] as const
 
 
 export const VALID_SCOPES = [
     ...VALID_IDENTITY_CLAIMS,
+    ...VALID_IDENTITY_ACCOUNT_CLAIMS,
     'openid', 
 // Hellō extensions -- non-standard scopes
     'profile_update',

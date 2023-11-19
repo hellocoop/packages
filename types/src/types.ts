@@ -2,6 +2,7 @@
 
 import { 
     VALID_IDENTITY_CLAIMS,
+    VALID_IDENTITY_ACCOUNT_CLAIMS,
     VALID_SCOPES,
     VALID_RESPONSE_TYPE,
     VALID_RESPONSE_MODE,
@@ -15,13 +16,20 @@ export type AuthResponseMode = typeof VALID_RESPONSE_MODE[number];
 export type ProviderHint = typeof VALID_PROVIDER_HINT[number]; 
 
 type IdentityClaims = typeof VALID_IDENTITY_CLAIMS[number]
+type IdentityAccountClaims = typeof VALID_IDENTITY_ACCOUNT_CLAIMS[number]
 
-// Create a type with all VALID_IDENTITY_CLAIMS properties as optional
 type OptionalClaims = {
-  [K in IdentityClaims]?: unknown;
+  [K in IdentityClaims]?: string;
 };
 
-export type Claims = OptionalClaims & { sub: string }
+type OptionalAccountClaims = {
+    [K in IdentityAccountClaims]?: {
+        id: string;
+        label: string;
+      };
+};    
+
+export type Claims = OptionalClaims & OptionalAccountClaims & { sub: string }
 
 type AuthCookie = {
     sub: string,
