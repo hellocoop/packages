@@ -7,6 +7,7 @@ dotenv.config()
 
 export interface IConfig {
     production: boolean,
+    sameSiteStrict?: boolean,
     error?: string[],
     scope?: Scope[],
     provider_hint?: ProviderHint[],
@@ -89,6 +90,7 @@ export const configure = function ( config: Config ) {
     _configuration.callbacks = config.callbacks || {}
     _configuration.scope = config.scope
     _configuration.provider_hint = config.provider_hint
+    _configuration.sameSiteStrict = config.sameSiteStrict
 
     isConfigured = true
     if (!_configuration.clientId) {
@@ -104,7 +106,7 @@ export const configure = function ( config: Config ) {
         isConfigured = false
     } 
     if (_configuration.secret && !checkSecret(_configuration.secret)) {
-        const message = 'HELLO_COOKIE_SECRET is not 16 hex digits'
+        const message = 'HELLO_COOKIE_SECRET is not 32 hex digits'
         _configuration.error = [message]
         console.error(message)
         isConfigured = false

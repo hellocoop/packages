@@ -30,6 +30,7 @@ export interface Config {
     client_id?: string,
     scope?: Scope[],
     provider_hint?: ProviderHint[],
+    sameSiteStrict?: boolean,
     callbacks?: {
         loggedIn?: (params: LoggedInParams) => Promise<LoggedInResponse>
     },

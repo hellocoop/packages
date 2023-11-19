@@ -1,6 +1,6 @@
 import { HelloRequest, HelloResponse } from '../types'
-import config, { getApiRoute } from './config'
-import { serialize, parse } from 'cookie'
+import config from './config'
+import { parse } from 'cookie'
 import { decryptObj, encryptObj } from '@hellocoop/core'
 
 const { cookies: { oidcName } } = config
@@ -39,7 +39,7 @@ export const saveOidc = async ( req: HelloRequest, res: HelloResponse, oidc: OID
         res.setCookie( oidcName, encCookie, {
             httpOnly: true,
             secure: config.production,
-            sameSite: 'lax',
+            sameSite: config.sameSiteStrict ? 'strict' : 'lax',
             maxAge: 5 * 60, // 5 minutes
             path: apiRoute
         })
