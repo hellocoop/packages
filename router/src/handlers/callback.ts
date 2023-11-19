@@ -53,7 +53,7 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
         app_name,
     } = req.query
 
-    if (!same_site) // we need to bounce so we get cookies
+    if (config.sameSiteStrict && !same_site) // we need to bounce so we get cookies
         return res.send(sameSiteCallback())
 
     const oidcState = await getOidc(req,res)
@@ -161,7 +161,10 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
         }
 
         await saveAuthCookie( res, auth)
-        res.json({target_uri})
+        if (config.sameSiteStrict)
+            res.json({target_uri})
+        else 
+            res.redirect(target_uri)
     } catch (error: any) {
         clearOidcCookie(res)
         return res.status(500).send(error.message)
