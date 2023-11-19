@@ -1,6 +1,6 @@
 {
   "name": "@hellocoop/constants",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Constants for Hellō https://hello.dev",
   "repository": {
     "type": "git",
@@ -12,8 +12,8 @@
   },
   "types": "./dist/constants.d.ts",
   "files": [
-    "constants.d.ts",
-    "constants.js"
+    "./dist/constants.d.ts",
+    "./dist/constants.js"
   ],
   "keywords": [
     "hello",

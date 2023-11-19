@@ -1,4 +1,2 @@
-export * from './handlers/auth'
-export * from './handlers/config'
-
+export * from './auth'
 export type { Auth } from '@hellocoop/types'
