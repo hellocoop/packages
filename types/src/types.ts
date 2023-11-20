@@ -25,7 +25,7 @@ type OptionalClaims = {
 type OptionalAccountClaims = {
     [K in IdentityAccountClaims]?: {
         id: string;
-        label: string;
+        username: string;
       };
 };    
 
