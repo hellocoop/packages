@@ -35,12 +35,21 @@ const router = (req: HelloRequest, res: HelloResponse ) => {
         return
     }
 
-    if (query.auth || query.getAuth) { // get auth object
-        if (config.error) {
-            return res.json(NotLoggedIn)    
-        } else {
-            return handleAuth(req, res)                 
-        } 
+    if (query.action) {
+        const action = query.action 
+        if (action === 'auth') {
+            if (config.error) {
+                return res.json(NotLoggedIn)    
+            } else {
+                return handleAuth(req, res)                 
+            } 
+        }
+        if (action === 'login') { // start login flow, redirect to Hellō
+            return handleLogin(req, res)
+        }
+        if (action === 'logout') {     // logout user
+            return handleLogout(req, res)
+        }
     }
 
     if (config.error) { // not able to process requests
@@ -49,18 +58,11 @@ const router = (req: HelloRequest, res: HelloResponse ) => {
         return
     }
 
-    if (query.login) { // start login flow, redirect to Hellō
-        return handleLogin(req, res)
-    }
-
     if (query.code || query.error) { // authorization response
         return handleCallback(req, res)
     }
 
-    if (query.logout) {     // logout user
-        return handleLogout(req, res)
-    }
-
+    // TODO - convert to action 
     if (query.wildcard_console) {
         return handleWildcardConsole(req, res)
     }

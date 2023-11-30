@@ -53,9 +53,9 @@ const _configuration: IConfig = {
     },
     callbacks: {},
     apiRoute: HELLO_API_ROUTE,
-    authApiRoute: HELLO_API_ROUTE+'?auth=true',
-    loginApiRoute: HELLO_API_ROUTE+'?login=true',
-    logoutApiRoute: HELLO_API_ROUTE+'?logout=true',
+    authApiRoute: HELLO_API_ROUTE+'?action=auth',
+    loginApiRoute: HELLO_API_ROUTE+'?action=login',
+    logoutApiRoute: HELLO_API_ROUTE+'?action=logout',
 
 
     // configured only by process.env or .env
