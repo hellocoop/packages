@@ -1,7 +1,7 @@
 // Hellō types
 
 import { 
-    VALID_IDENTITY_CLAIMS,
+    VALID_IDENTITY_STRING_CLAIMS,
     VALID_IDENTITY_ACCOUNT_CLAIMS,
     VALID_SCOPES,
     VALID_RESPONSE_TYPE,
@@ -15,11 +15,11 @@ export type AuthResponseType = typeof VALID_RESPONSE_TYPE[number];
 export type AuthResponseMode = typeof VALID_RESPONSE_MODE[number]; 
 export type ProviderHint = typeof VALID_PROVIDER_HINT[number]; 
 
-type IdentityClaims = typeof VALID_IDENTITY_CLAIMS[number]
+type IdentityStringClaims = typeof VALID_IDENTITY_STRING_CLAIMS[number]
 type IdentityAccountClaims = typeof VALID_IDENTITY_ACCOUNT_CLAIMS[number]
 
-type OptionalClaims = {
-  [K in IdentityClaims]?: string;
+type OptionalStringClaims = {
+  [K in IdentityStringClaims]?: string;
 };
 
 type OptionalAccountClaims = {
@@ -29,7 +29,7 @@ type OptionalAccountClaims = {
       };
 };    
 
-export type Claims = OptionalClaims & OptionalAccountClaims & { sub: string }
+export type Claims = OptionalStringClaims & OptionalAccountClaims & { sub: string }
 
 type AuthCookie = {
     sub: string,
@@ -44,7 +44,7 @@ export type Auth = {
     isLoggedIn: true,
 } & AuthCookie )
 
-export type TokenPayload = OptionalClaims & {
+export type TokenPayload = OptionalStringClaims & OptionalAccountClaims & {
     iss: string;
     aud: string;
     nonce: string;

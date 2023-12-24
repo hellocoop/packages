@@ -7,7 +7,7 @@ export const DEFAULT_RESPONSE_TYPE: AuthResponseType = 'code'
 export const DEFAULT_RESPONSE_MODE: AuthResponseMode = 'query'
 export const DEFAULT_PATH: string = '/authorize?'
 
-export const VALID_IDENTITY_CLAIMS = [
+export const VALID_IDENTITY_STRING_CLAIMS = [
     'name', 
     'nickname',
     'preferred_username',
@@ -27,10 +27,13 @@ export const VALID_IDENTITY_ACCOUNT_CLAIMS = [
     'gitlab'
 ] as const
 
+export const VALID_IDENTITY_CLAIMS = [
+    ...VALID_IDENTITY_STRING_CLAIMS,
+    ...VALID_IDENTITY_ACCOUNT_CLAIMS
+] as const;
 
 export const VALID_SCOPES = [
     ...VALID_IDENTITY_CLAIMS,
-    ...VALID_IDENTITY_ACCOUNT_CLAIMS,
     'openid', 
 // Hellō extensions -- non-standard scopes
     'profile_update',
