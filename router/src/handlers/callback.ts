@@ -4,7 +4,7 @@ import { getOidc, clearOidcCookie } from '../lib/oidc'
 import { fetchToken, parseToken, errorPage, ErrorPageParams, sameSiteCallback } from '@hellocoop/core'
 import { saveAuthCookie } from '../lib/auth'
 import { Auth } from '@hellocoop/types'
-import { NotLoggedIn } from '@hellocoop/constants'
+import { NotLoggedIn, VALID_IDENTITY_CLAIMS } from '@hellocoop/constants'
 
 
 const getCallbackRequest = (req: HelloRequest): CallbackRequest => {
@@ -113,13 +113,13 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
             sub: payload.sub,
             iat: payload.iat
         } as Auth
-        // hack TypeScript
-        const claims: {[key: string]: any} = payload as {[key: string]: any}
-        payload.scope.forEach( (scope) => {
-            const claim = claims[scope]
-            if (claim)
-                auth[scope as keyof Auth] = claim
+
+        VALID_IDENTITY_CLAIMS.forEach( (claim) => {
+            const value = payload[claim]
+            if (value)
+                (auth as any)[claim] = value
         })
+        auth = auth as Auth
 
         if (config.callbacks?.loggedIn) {
             try {
