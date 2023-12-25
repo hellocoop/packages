@@ -29,11 +29,14 @@ export const VALID_IDENTITY_ACCOUNT_CLAIMS = [
 
 export const VALID_IDENTITY_CLAIMS = [
     ...VALID_IDENTITY_STRING_CLAIMS,
-    ...VALID_IDENTITY_ACCOUNT_CLAIMS
+    ...VALID_IDENTITY_ACCOUNT_CLAIMS,
+    'email_verified', 
+    'phone_verified'
 ] as const;
 
 export const VALID_SCOPES = [
-    ...VALID_IDENTITY_CLAIMS,
+    ...VALID_IDENTITY_STRING_CLAIMS,
+    ...VALID_IDENTITY_ACCOUNT_CLAIMS,
     'openid', 
 // Hellō extensions -- non-standard scopes
     'profile_update',

@@ -1,4 +1,4 @@
-import { TokenPayload } from "./parseToken";
+import type { TokenPayload } from '@hellocoop/types'
 import { PRODUCTION_WALLET } from './createAuthRequest'
 
 const DEFAULT_ENDPOINT: string = '/oauth/introspect'

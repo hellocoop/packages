@@ -1,6 +1,6 @@
 {
   "name": "@hellocoop/types",
-  "version": "1.0.12",
+  "version": "1.0.14",
   "description": "Types for Hellō packages",
   "repository": {
     "type": "git",

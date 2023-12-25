@@ -115,7 +115,7 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
         } as Auth
 
         VALID_IDENTITY_CLAIMS.forEach( (claim) => {
-            const value = payload[claim]
+            const value = (payload as any)[claim]
             if (value)
                 (auth as any)[claim] = value
         })
