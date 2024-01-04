@@ -10,8 +10,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js",
-    "./middleware": "./dist/middleware.js"
+    ".": "./dist/index.js"
   },
   "files": [
     "dist/"

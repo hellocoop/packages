@@ -1,7 +1,7 @@
 // test server
 import express, { Request, Response } from 'express'
-import { helloAuth, HelloConfig} from './index'
-import { redirect, unauthorized, setAuth } from './middleware'
+import { helloAuth, HelloConfig} from '@hellocoop/express'
+import { redirect, unauthorized, setAuth } from '@hellocoop/express'
 
 const config: HelloConfig = require('../hello.config.js')
 
