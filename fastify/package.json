@@ -1,6 +1,6 @@
 {
   "name": "@hellocoop/fastify",
-  "version": "1.7.5",
+  "version": "1.8.0",
   "description": "Fastify SDK for Hellō https://hello.dev",
   "repository": {
     "type": "git",
@@ -10,8 +10,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js",
-    "./middleware": "./dist/middleware.js"
+    ".": "./dist/index.js"
   },
   "files": [
     "dist/"
