@@ -94,4 +94,4 @@ const helloPlugin: FastifyPluginAsync <HelloConfig> = async (instance, options) 
     })
 }
 
-export default fp( helloPlugin )
+export const auth = fp( helloPlugin )
