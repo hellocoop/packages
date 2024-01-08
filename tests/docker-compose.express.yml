@@ -1,4 +1,4 @@
-# base file -- will not run by itself -- must be extended with either docker-compose.dev.yml or docker-compose.local.yml
+# runs express server and tests it with playwright
 
 version: '3.8'
 
@@ -13,6 +13,8 @@ services:
     command: ["node", "./express.js"]
 
   playwright:
-  #   # command: ["/bin/sh"]
-  #   # command: ["npx", "playwright", "test", "tests/server.test.js"]    
-    command: ["npx", "playwright", "test"]
+    # firefox needs to run as root
+    user: root 
+    command: ["npx", "playwright", "test", "tests/server.test.ts"]    
+    # for local development
+    # command: ["tail", "-f", "/dev/null"]
