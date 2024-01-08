@@ -1,7 +1,6 @@
-# test Dockerfile
+# app Dockerfile
 FROM node:20-alpine
 WORKDIR /usr/src/app
-COPY  ../package.json ./
-RUN npm ci
 COPY ./ ./
+RUN npm install
 EXPOSE 8080

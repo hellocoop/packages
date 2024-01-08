@@ -6,8 +6,13 @@ networks:
   mock:
 
 services:
-  app:
-      command: ["node", "tests/express.js"]
 
-  # playwright:
-  #     command: ["node", "server.spec.js"]
+  app:
+    environment:
+      - NODE_ENV=production
+    command: ["node", "./express.js"]
+
+  playwright:
+  #   # command: ["/bin/sh"]
+  #   # command: ["npx", "playwright", "test", "tests/server.test.js"]    
+    command: ["npx", "playwright", "test"]

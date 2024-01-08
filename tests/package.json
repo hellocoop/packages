@@ -2,20 +2,9 @@
   "name": "tests",
   "version": "1.0.0",
   "description": "Tests for packages",
-  "main": "express.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^20.10.6",
-    "playwright": "^1.40.1",
-    "typescript": "^5.3.3"
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "fastify": "^4.25.2",
-    "nextjs": "^0.0.3"
+    "build": "docker compose -f docker-compose.yml build --no-cache",
+    "test:express": "docker compose -f docker-compose.yml -f docker-compose.express.yml up --attach playwright --exit-code-from playwright",
+    "test": "run-s test:*"
   }
 }
