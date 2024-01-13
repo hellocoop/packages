@@ -34,6 +34,7 @@
     "url": "https://github.com/hellocoop/packages/issues"
   },
   "scripts": {
+    "test": "npm run build && npx playwright test",
     "watch": "tsc --watch --declaration",
     "build": "npm run build:clean && npm run build:src",
     "build:clean": "rimraf dist/",
