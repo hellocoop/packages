@@ -1,5 +1,5 @@
 # Playwright Dockerfile
-FROM mcr.microsoft.com/playwright:v1.40.0-jammy
+FROM mcr.microsoft.com/playwright:v1.41.1-jammy
 WORKDIR /playwright
 RUN npm init -y \
     && npm install playwright \
