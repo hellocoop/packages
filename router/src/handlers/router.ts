@@ -4,7 +4,7 @@ import config from '../lib/config'
 import handleCallback from './callback'
 import handleLogin from './login'
 import handleLogout from './logout'
-import { handleAuth } from './auth'
+import { handleAuth, handleCookieTokenVerify } from './auth'
 import handleWildcardConsole from './wildcard'
 import { NotLoggedIn } from '@hellocoop/constants'
 
@@ -27,13 +27,21 @@ import { NotLoggedIn } from '@hellocoop/constants'
 // // console.log({query})     
 
 const router = (req: HelloRequest, res: HelloResponse ) => {
-    const { query } = req
+    const { query, method } = req
 
     if (!query) {
         res.status(500)
         res.send('Missing query')
         return
     }
+    if (method === 'POST') {
+        if (query.op === 'verifyCookieToken') {
+            return handleCookieTokenVerify(req, res)
+        }
+        return res.status(400).send('Invalid op parameter')
+    }
+    if (method !== 'GET')
+        return res.status(400).send('Method not allowed')
     if (query.op) { // not a protocol flow
         if (query.op === 'auth' || query.op === 'getAuth') {
             if (config.error) {

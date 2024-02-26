@@ -38,6 +38,8 @@ const convertToHelloRequest = (req: NextApiRequest): HelloRequest => {
         path: req.url ? parse(req.url, true)?.pathname as string : '/',
         getAuth: () => req.auth,
         setAuth: (auth: Auth) => { req.auth = auth },
+        method: req.method as string,
+        body: req.body as any
     }
 }
 
@@ -59,7 +61,7 @@ const convertToHelloResponse = (res: NextApiResponse): HelloResponse => {
             return {
                 send: (data: any) => res.send(data)
             }
-        },
+        }
     }
 }
 

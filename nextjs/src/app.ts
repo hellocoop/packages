@@ -47,6 +47,7 @@ const convertToHelloRequest = (req: NextRequest): HelloRequest => {
         getAuth: () => req.auth,
         setAuth: (auth: Auth) => { req.auth = auth },
         method: req.method,
+        body: req.body
     }
 }
 

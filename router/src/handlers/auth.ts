@@ -3,6 +3,9 @@ import { HelloRequest, HelloResponse } from '../types'
 import { getAuthfromCookies, saveAuthCookie, clearAuthCookie } from '../lib/auth'
 
 import { Auth, Claims } from '@hellocoop/types'
+import { decryptObj } from '@hellocoop/core'
+import config from '../lib//config'
+
 
 // export type AuthHelloRequest = HelloRequest & {
 //     auth?: Auth
@@ -41,4 +44,19 @@ export const updateAuth = async function ( req: HelloRequest, res: HelloResponse
     if (success)
         return newAuth
     return null
+}
+
+export const handleCookieTokenVerify = async function ( req: HelloRequest, res: HelloResponse) {
+    const cookieToken = req.body
+    if (!cookieToken)
+        return res.status(400).send('Invalid request')
+    try {
+        const auth = await decryptObj( cookieToken, config.secret as string) as Auth | undefined 
+        if (auth) {
+            return res.json(auth)
+        }
+    } catch( e ) {
+        console.error(e)
+    }
+    return res.status(401).send('Unauthorized')
 }

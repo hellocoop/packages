@@ -47,7 +47,8 @@ export type HelloRequest = {
     path: string;
     query: { [key: string]: string };
     setAuth: ( auth: Auth) => void,
-    method: string
+    method: string,
+    body: any
 };
   
 export type HelloResponse = {

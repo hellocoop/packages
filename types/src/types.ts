@@ -42,6 +42,7 @@ export type Auth = {
     isLoggedIn: false   
 } | ( {
     isLoggedIn: true,
+    cookieToken?: string
 } & AuthCookie )
 
 export type TokenPayload = OptionalStringClaims & OptionalAccountClaims & {

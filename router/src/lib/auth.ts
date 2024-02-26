@@ -5,6 +5,7 @@ import { NotLoggedIn } from '@hellocoop/constants'
 import { HelloRequest, HelloResponse } from '../types'
 
 import config from './config'
+
 import { parse, CookieSerializeOptions } from 'cookie'
 import { clearOidcCookie } from './oidc'
 
@@ -59,6 +60,8 @@ export const getAuthfromCookies = async function
     try {
         const auth = await decryptObj( authCookie, config.secret as string) as Auth | undefined 
         if (auth) {
+            if (auth.isLoggedIn && config.cookieToken)
+                auth.cookieToken = authCookie
             return auth
         }
     } catch( e ) {
