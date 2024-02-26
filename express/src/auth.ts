@@ -1,6 +1,5 @@
-import { Router, Request, Response, NextFunction } from 'express'
+import { Router, Request, Response, NextFunction, text } from 'express'
 import { serialize } from 'cookie'
-
 import { Auth } from '@hellocoop/types'
 import { 
     router,
@@ -99,6 +98,14 @@ console.log({isConfigured,configuration})
             res.setHeader('Set-Cookie', serialize(name, value, options))
         }
         next()
+    })
+
+    r.use(text()); // for parsing text/plain
+    
+    r.post('/api/hellocoop', async (req: Request, res: Response ) => {
+        const helloReq = convertToHelloRequest(req)
+        const helloRes = convertToHelloResponse(res)
+        await router(helloReq, helloRes)   
     })
 
     r.get('/api/hellocoop', async (req: Request, res: Response ) => {
