@@ -92,7 +92,8 @@ export const configure = function ( config: Config ) {
     _configuration.scope = config.scope
     _configuration.provider_hint = config.provider_hint
     _configuration.sameSiteStrict = config.sameSiteStrict
-
+    _configuration.cookieToken = config.cookieToken
+    
     isConfigured = true
     if (!_configuration.clientId) {
         const message = 'No HELLO_CLIENT_ID was in environment or client_id in hello.config'

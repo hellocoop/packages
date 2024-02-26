@@ -38,7 +38,8 @@ export interface Config {
         loggedIn?: string,
         loggedOut?: string,
         error?: string
-    }
+    },
+    cookieToken?: boolean,
 }
 
 export type HelloRequest = {

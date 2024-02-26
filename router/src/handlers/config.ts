@@ -17,17 +17,3 @@ export type LoggedInResponse = {
 }
 
 
-export type Config = {
-    client_id?: string,
-    scope?: Scope[],
-    provider_hint?: ProviderHint[],
-    callbacks?: {
-        loggedIn?: (params: LoggedInParams) => Promise<LoggedInResponse>
-    },
-    routes?: {
-        loggedIn?: string,
-        loggedOut?: string,
-        error?: string
-    }
-}
-
