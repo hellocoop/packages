@@ -46,6 +46,7 @@ const convertToHelloRequest = (req: NextRequest): HelloRequest => {
         path: req.nextUrl.pathname as string,
         getAuth: () => req.auth,
         setAuth: (auth: Auth) => { req.auth = auth },
+        method: req.method,
     }
 }
 

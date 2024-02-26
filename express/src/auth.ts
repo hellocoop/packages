@@ -23,6 +23,7 @@ const convertToHelloRequest = (req: Request): HelloRequest => {
         path: req.path,
         getAuth: () => req.auth,
         setAuth: (auth: Auth) => { req.auth = auth },
+        method: req.method,
     }
 }
 

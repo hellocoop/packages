@@ -32,6 +32,7 @@ const convertToHelloRequest = ( req: FastifyRequest ): HelloRequest => {
         path: req.routeOptions.url,
         getAuth: () => { return req.auth },
         setAuth: (auth: Auth) => {req.auth = auth},
+        method: req.method,
     }
 }
 
