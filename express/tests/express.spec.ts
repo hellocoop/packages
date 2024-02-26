@@ -41,8 +41,8 @@ const trace = (page) => {
 test.describe(`Testing ${APP_HOME}`, () => {
 
     test.beforeEach(async ({ page }) => {        
-        await page.goto(APP_API+'?logout=true')
-        const response = await page.request.get(APP_API+'?auth=true')
+        await page.goto(APP_API+'?op=logout')
+        const response = await page.request.get(APP_API+'?op=auth')
         const json = await response.json()
         expect(json).toEqual(loggedOut)
     })
@@ -55,7 +55,7 @@ test.describe(`Testing ${APP_HOME}`, () => {
     test('login', async ({ page }) => {
         // this request fails in webkit -- and cookies are not set
         // TBD - figure out why so we can test webkit
-        await page.goto(APP_API+'?login=true')
+        await page.goto(APP_API+'?op=login')
         const body = await page.textContent('body');
         try {
             const json = JSON.parse(body as string);
@@ -67,15 +67,15 @@ test.describe(`Testing ${APP_HOME}`, () => {
         }
     })
     test('Logged In', async ({ page }) => {
-        await page.goto(APP_API+'?login=true')
+        await page.goto(APP_API+'?op=login')
         const response = await page.request.get(APP_HOME);
         const json = await response.json()
         delete json.iat
         expect(json).toEqual(loggedIn)
     })
     test('auth', async ({ page }) => {
-        await page.goto(APP_API+'?login=true')
-        const response = await page.request.get(APP_API+'?auth=true');
+        await page.goto(APP_API+'?op=login')
+        const response = await page.request.get(APP_API+'?op=auth');
         const json = await response.json()
         delete json.iat
         expect(json).toEqual(loggedIn)

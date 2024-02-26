@@ -34,31 +34,32 @@ const router = (req: HelloRequest, res: HelloResponse ) => {
         res.send('Missing query')
         return
     }
-
-    if (query.auth || query.getAuth) { // get auth object
-        if (config.error) {
-            return res.json(NotLoggedIn)    
-        } else {
-            return handleAuth(req, res)                 
-        } 
+    if (query.op) { // not a protocol flow
+        if (query.op === 'auth' || query.op === 'getAuth') {
+            if (config.error) {
+                return res.json(NotLoggedIn)    
+            } else {
+                return handleAuth(req, res)                 
+            } 
+        }
+        if (query.op === 'login') { // start login flow, redirect to Hellō
+            return handleLogin(req, res)
+        }
+        if (query.op === 'logout') {     // logout user
+            return handleLogout(req, res)
+        }
+        res.status(500)
+        res.send('unknown op parameter:\n'+JSON.stringify(query,null,4))        
+        return
     }
-
     if (config.error) { // not able to process requests
         res.status(500)
         res.send('Missing configuration:\n'+JSON.stringify(config.error,null,4))
         return
     }
 
-    if (query.login) { // start login flow, redirect to Hellō
-        return handleLogin(req, res)
-    }
-
     if (query.code || query.error) { // authorization response
         return handleCallback(req, res)
-    }
-
-    if (query.logout) {     // logout user
-        return handleLogout(req, res)
     }
 
     if (query.wildcard_console) {
@@ -70,9 +71,8 @@ const router = (req: HelloRequest, res: HelloResponse ) => {
         throw new Error('unimplemented')
     }
 
-
     res.status(500)
-    res.send('Invalid hellocoop call:\n'+JSON.stringify(query,null,4))
+    res.send('unknown query:\n'+JSON.stringify(query,null,4))
 }
 
 export default router
