@@ -1,3 +1,0 @@
-# CDK code
-
-placeholder

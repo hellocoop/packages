@@ -4,6 +4,10 @@ require('dotenv').config();
 const express = require('express');
 // const https = require('https');
 // const fs = require('fs');
+
+import dotenv from 'dotenv';
+dotenv.config();
+
 const { helloAuth, redirect, unauthorized, setAuth } = require('@hellocoop/express');
 const config = require('./hello.config');
 

@@ -2,9 +2,6 @@ import { Config, LoggedInParams, LoggedInResponse } from '../types'
 import { Scope, ProviderHint } from '@hellocoop/types'
 import { checkSecret } from '@hellocoop/core'
 
-import dotenv from 'dotenv';
-dotenv.config()
-
 export interface IConfig {
     production: boolean,
     sameSiteStrict?: boolean,
