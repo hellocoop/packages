@@ -27,16 +27,16 @@ const handleLogin = async (req: HelloRequest, res: HelloResponse) => {
             redirectURI = redirectURIs[host]
         } else {
             if (redirect_uri) {
-                const redirectUriString =  (Array.isArray(redirect_uri) ? redirect_uri[0] : redirect_uri) as string
-                const redirectHost = (new URL(redirectUriString)).host
-                if (redirectHost != host) {
-// TBd -- this might happen if we are behind a proxy where our host and the browser host are different -- look at X-headerrs
-                    const err = `host from redirect_uri=${redirectHost}, expected ${host}`
-                    console.error(err)
-                    res.status(500)
-                    res.send(err)
-                    return 
-                }
+//                 const redirectUriString =  (Array.isArray(redirect_uri) ? redirect_uri[0] : redirect_uri) as string
+//                 const redirectHost = (new URL(redirectUriString)).host
+//                 if (redirectHost != host) {
+// // TBd -- this might happen if we are behind a proxy where our host and the browser host are different -- look at X-headerrs
+//                     const err = `host from redirect_uri=${redirectHost}, expected ${host}`
+//                     console.error(err)
+//                     res.status(500)
+//                     res.send(err)
+//                     return 
+//                 }
                 redirectURIs[host] = redirectURI = redirect_uri as string
                 console.log(`Hellō: RedirectURI for ${host} => ${redirectURI}`)
             } else {            
