@@ -61,9 +61,9 @@ const _configuration: IConfig = {
     secret:  process.env.HELLO_COOKIE_SECRET as string,
     host: undefined,
     redirectURI: process.env.HELLO_REDIRECT_URI
-        || process.env.HELLO_HOST 
+        || (process.env.HELLO_HOST 
             ? `https://${process.env.HELLO_HOST}${HELLO_API_ROUTE}` 
-            : undefined,
+            : undefined),
     // for internal testing
     helloDomain: HELLO_DOMAIN,
     helloWallet
