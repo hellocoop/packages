@@ -60,8 +60,7 @@ const _configuration: IConfig = {
     clientId:  process.env.HELLO_CLIENT_ID as string,
     secret:  process.env.HELLO_COOKIE_SECRET as string,
     host: undefined,
-    redirectURI
-        :  process.env.HELLO_REDIRECT_URI
+    redirectURI: process.env.HELLO_REDIRECT_URI
         || process.env.HELLO_HOST 
             ? `https://${process.env.HELLO_HOST}${HELLO_API_ROUTE}` 
             : undefined,
@@ -86,10 +85,18 @@ export const configure = function ( config: Config ) {
         }
     }
     _configuration.callbacks = config.callbacks || {}
-    _configuration.scope = config.scope
-    _configuration.provider_hint = config.provider_hint
-    _configuration.sameSiteStrict = config.sameSiteStrict
-    _configuration.cookieToken = config.cookieToken
+    if (process.env.HELLO_SCOPES)
+        _configuration.scope = process.env.HELLO_SCOPES.split(' ') as Scope[]
+    else
+        _configuration.scope = config.scope
+
+    if (process.env.HELLO_PROVIDER_HINT)
+        _configuration.provider_hint = process.env.HELLO_PROVIDER_HINT.split(' ') as ProviderHint[]
+    else
+        _configuration.provider_hint = config.provider_hint
+
+    _configuration.sameSiteStrict = !!process.env.HELLO_SAME_SITE_STRICT || config.sameSiteStrict
+    _configuration.cookieToken = !!process.env.HELLO_COOKIE_TOKEN || config.cookieToken
     
     isConfigured = true
     if (!_configuration.clientId) {
