@@ -1,6 +1,6 @@
 {
   "name": "@hellocoop/router",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "description": "Generic router for Hellō https://hello.dev",
   "repository": {
     "type": "git",
