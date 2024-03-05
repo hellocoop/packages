@@ -8,7 +8,7 @@ This [Next.js](https://nextjs.org/) package provides:
 - React components for buttons and logged in context
 
 
-The [Hellō Next.js Sample](https://github.com/hellocoop/hello-nextjs-sample) uses this package and [npx `@hellocoop/quickstart --nextjs`](https://www.hello.dev/docs/sdks/quickstart#nextjs) to be configured in seconds. Check it out deployed on [Vercel](https://hello-netjs-sample.vercel.app).
+The [Hellō Next.js Sample](https://github.com/hellocoop/hello-nextjs-sample) uses this package and [npx `@hellocoop/quickstart --nextjs`](https://www.hello.dev/docs/sdks/quickstart#nextjs) to be configured in seconds. Check it out deployed on [Vercel](https://hello-nextjs-sample.vercel.app).
 
 See the [Next.js Quickstart documentation](https://www.hello.dev/docs/quickstarts/nextjs) for how to add Hellō to your Next.js app in minutes, and the [Next.js SDK documentation](https://www.hello.dev/docs/sdks/nextjs) for details.
 
