@@ -121,8 +121,8 @@ export const configure = function ( config: Config ) {
         if (resolve)
             resolve(_configuration);
       }
-// console.log({isConfigured})
-// console.log({_configuration})
+    if (config.logConfig)
+        console.log({config:_configuration})
 
 }
 

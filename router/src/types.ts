@@ -40,6 +40,7 @@ export interface Config {
         error?: string
     },
     cookieToken?: boolean,
+    logConfig?: boolean,
 }
 
 export type HelloRequest = {
