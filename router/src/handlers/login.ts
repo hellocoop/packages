@@ -9,7 +9,7 @@ var redirectURIs: Record<string, any> = {}
 // var callCount = 0 // DEBUG
 
 const handleLogin = async (req: HelloRequest, res: HelloResponse) => {
-    const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri } = req.query
+    const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri, nonce: providedNonce } = req.query
     
     if (!config.clientId) {
         res.status(500)
@@ -58,6 +58,8 @@ const handleLogin = async (req: HelloRequest, res: HelloResponse) => {
         scope,
         provider_hint
     }
+    if (providedNonce)
+        request.nonce = providedNonce
     const { url, nonce, code_verifier } = await createAuthRequest(request)
     await saveOidc( req, res, {
         nonce,
