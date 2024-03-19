@@ -1,7 +1,7 @@
 export type { 
     Config as HelloConfig, 
-    LoggedInParams, 
-    LoggedInResponse, 
+    LoginTriggerParams, 
+    LoginTriggerResponse, 
     CallbackRequest, 
     CallbackResponse 
 } from '@hellocoop/router'

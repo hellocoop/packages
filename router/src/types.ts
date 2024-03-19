@@ -13,14 +13,14 @@ export type CallbackResponse = {
     setCookie: (key: string, value: string, options: CookieSerializeOptions) => void,
 }
 
-export type LoggedInParams = {
+export type LoginTriggerParams = {
     token: string,
     payload: Claims,
     cbReq: CallbackRequest,
     cbRes: CallbackResponse
 }
 
-export type LoggedInResponse = {
+export type LoginTriggerResponse = {
     accessDenied?: boolean,
     target_uri?: string,
     updatedAuth?: {[key: string]: any}
@@ -31,9 +31,7 @@ export interface Config {
     scope?: Scope[],
     provider_hint?: ProviderHint[],
     sameSiteStrict?: boolean,
-    callbacks?: {
-        loggedIn?: (params: LoggedInParams) => Promise<LoggedInResponse>
-    },
+    loginTrigger?: (params: LoginTriggerParams) => Promise<LoginTriggerResponse>,
     routes?: {
         loggedIn?: string,
         loggedOut?: string,

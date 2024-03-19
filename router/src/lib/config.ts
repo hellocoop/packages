@@ -1,4 +1,4 @@
-import { Config, LoggedInParams, LoggedInResponse } from '../types'
+import { Config, LoginTriggerParams, LoginTriggerResponse } from '../types'
 import { Scope, ProviderHint } from '@hellocoop/types'
 import { checkSecret } from '@hellocoop/core'
 
@@ -17,9 +17,7 @@ export interface IConfig {
         authName: string,
         oidcName: string,
     },
-    callbacks: {
-        loggedIn?: (params: LoggedInParams) => Promise<LoggedInResponse>
-    },
+    loginTrigger?: (params: LoginTriggerParams) => Promise<LoginTriggerResponse>,
     cookieToken?: boolean, // include encrypted cookie in auth response
     // built from HELLO_API_ROUTE
     apiRoute: string,
@@ -49,7 +47,6 @@ const _configuration: IConfig = {
         authName: 'hellocoop_auth',
         oidcName: 'hellocoop_oidc',
     },
-    callbacks: {},
     apiRoute: HELLO_API_ROUTE,
     authApiRoute: HELLO_API_ROUTE+'?op=auth',
     loginApiRoute: HELLO_API_ROUTE+'?op=login',
@@ -83,7 +80,7 @@ export const configure = function ( config: Config ) {
             ...config.routes
         }
     }
-    _configuration.callbacks = config.callbacks || {}
+    _configuration.loginTrigger = config.loginTrigger
     if (process.env.HELLO_SCOPES)
         _configuration.scope = process.env.HELLO_SCOPES.split(' ') as Scope[]
     else

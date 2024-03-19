@@ -2,7 +2,7 @@ import { HelloRequest, HelloResponse } from '../types'
 import { Claims, Scope, ProviderHint } from '@hellocoop/types'
 export  { Claims, Scope }
 
-export type LoggedInParams = {
+export type LoginTriggerParams = {
     token: string,
     payload: Claims,
     req: HelloRequest,
@@ -10,7 +10,7 @@ export type LoggedInParams = {
 }
 
 
-export type LoggedInResponse = {
+export type LoginTriggerResponse = {
     accessDenied?: boolean,
     target_uri?: string,
     updatedAuth?: {[key: string]: any}
