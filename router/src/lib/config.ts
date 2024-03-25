@@ -84,7 +84,7 @@ export const configure = function ( config: Config ) {
     _configuration.routes = {
         loggedIn: process.env.HELLO_LOGGED_IN || config.routes?.loggedIn || '/',
         loggedOut: process.env.HELLO_LOGGED_OUT || config.routes?.loggedOut || '/',
-        error: process.env.HELLO_ERROR || config.routes?.error || '/'
+        error: process.env.HELLO_ERROR || config.routes?.error
     }
     _configuration.redirectURI = HOST 
             ? `https://${HOST}${apiRoute}` 
