@@ -54,7 +54,7 @@ const _configuration: IConfig = {
 
 
     // configured only by process.env or .env
-    clientId:  process.env.CLIENT_ID || process.env.HELLO_CLIENT_ID as string,
+    clientId:  '',
     secret:  process.env.COOKIE_SECRET || process.env.HELLO_COOKIE_SECRET as string,
     host: HOST,
     redirectURI: HOST 
@@ -73,7 +73,7 @@ export let isConfigured: boolean = false
 const pendingConfigurations: ((config: any) => void)[] = [];
 
 export const configure = function ( config: Config ) {
-    _configuration.clientId = process.env.HELLO_CLIENT_ID || config.client_id as string
+    _configuration.clientId = process.env.CLIENT_ID || process.env.HELLO_CLIENT_ID || config.client_id as string
     if (config.routes) {
         _configuration.routes = {
             ..._configuration.routes,
@@ -96,13 +96,13 @@ export const configure = function ( config: Config ) {
     
     isConfigured = true
     if (!_configuration.clientId) {
-        const message = 'No HELLO_CLIENT_ID was in environment or client_id in hello.config'
+        const message = 'No CLIENT_ID or HELLO_CLIENT_ID was in environment or client_id in hello.config'
         _configuration.error = [message]
         console.error(message)
         isConfigured = false
     } 
     if (!_configuration.secret) {
-        const message = 'No HELLO_COOKIE_SECRET was in environment'
+        const message = 'No COOKIE_SECRET or HELLO_COOKIE_SECRET was in environment'
         _configuration.error = [message]
         console.error(message)
         isConfigured = false

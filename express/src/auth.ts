@@ -102,13 +102,13 @@ console.log({isConfigured,configuration})
 
     r.use(text()); // for parsing text/plain
     
-    r.post('/api/hellocoop', async (req: Request, res: Response ) => {
+    r.post(configuration.apiRoute, async (req: Request, res: Response ) => {
         const helloReq = convertToHelloRequest(req)
         const helloRes = convertToHelloResponse(res)
         await router(helloReq, helloRes)   
     })
 
-    r.get('/api/hellocoop', async (req: Request, res: Response ) => {
+    r.get(configuration.apiRoute, async (req: Request, res: Response ) => {
         const helloReq = convertToHelloRequest(req)
         const helloRes = convertToHelloResponse(res)
         await router(helloReq, helloRes)   

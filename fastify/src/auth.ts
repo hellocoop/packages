@@ -22,6 +22,7 @@ import {
     getAuthfromCookies, 
     isConfigured,
     configure,
+    configuration,
     Config,
 }  from '@hellocoop/router'
 
@@ -89,11 +90,16 @@ const helloPlugin: FastifyPluginAsync <HelloConfig> = async (instance, options) 
         this.header('Set-Cookie', serialize(name, value, options))
     })
 
-    instance.get('/api/hellocoop', async (req, res) => {
+    instance.get(configuration.apiRoute, async (req, res) => {
       const helloReq = convertToHelloRequest(req)
       const helloRes = convertToHelloResponse(res)
       return await router(helloReq, helloRes)
     })
-}
+    instance.post(configuration.apiRoute, async (req, res) => {
+        const helloReq = convertToHelloRequest(req)
+        const helloRes = convertToHelloResponse(res)
+        return await router(helloReq, helloRes)
+      })
+  }
 
 export const auth = fp( helloPlugin )
