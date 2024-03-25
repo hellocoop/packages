@@ -39,6 +39,7 @@ export interface Config {
     },
     cookieToken?: boolean,
     logConfig?: boolean,
+    apiRoute?: string,
 }
 
 export type HelloRequest = {

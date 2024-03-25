@@ -9,8 +9,8 @@ export interface IConfig {
     scope?: Scope[],
     provider_hint?: ProviderHint[],
     routes: {
-        loggedIn: string,
-        loggedOut: string,
+        loggedIn?: string,
+        loggedOut?: string,
         error?: string
     },
     cookies: {
@@ -25,7 +25,7 @@ export interface IConfig {
     loginApiRoute: string,
     logoutApiRoute: string,
     // configured only by process.env or .env
-    clientId: string,
+    clientId?: string,
     host: string | undefined ,
     redirectURI: string | undefined,
     // for internal testing
@@ -34,32 +34,28 @@ export interface IConfig {
     secret?: string
 }
 
-const HELLO_API_ROUTE = process.env.HELLO_API_ROUTE as string || '/api/hellocoop'
 const HELLO_DOMAIN = process.env.HELLO_DOMAIN as string || 'hello.coop'
 const HOST = process.env.HOST || process.env.HELLO_HOST || undefined
+
 const _configuration: IConfig = {
     production: process.env.NODE_ENV === 'production',
     routes: {
-        loggedIn: '/',
-        loggedOut: '/',
+        loggedIn: 'not-configured',
+        loggedOut: 'not-configured',
     },
     cookies: {
         authName: 'hellocoop_auth',
         oidcName: 'hellocoop_oidc',
     },
-    apiRoute: HELLO_API_ROUTE,
-    authApiRoute: HELLO_API_ROUTE+'?op=auth',
-    loginApiRoute: HELLO_API_ROUTE+'?op=login',
-    logoutApiRoute: HELLO_API_ROUTE+'?op=logout',
-
-
+    apiRoute: 'not-configured',
+    authApiRoute: 'not-configured',
+    loginApiRoute: 'not-configured',
+    logoutApiRoute: 'not-configured',
+    redirectURI: 'not-configured',
     // configured only by process.env or .env
     clientId:  '',
     secret:  process.env.COOKIE_SECRET || process.env.HELLO_COOKIE_SECRET as string,
     host: HOST,
-    redirectURI: HOST 
-            ? `https://${HOST}${HELLO_API_ROUTE}` 
-            : undefined,
     // for internal testing
     helloDomain: HELLO_DOMAIN,
     helloWallet
@@ -80,6 +76,20 @@ export const configure = function ( config: Config ) {
             ...config.routes
         }
     }
+    const apiRoute = process.env.HELLO_API_ROUTE || config.apiRoute || '/api/hellocoop'
+    _configuration.apiRoute = apiRoute
+    _configuration.authApiRoute = apiRoute+'?op=auth'
+    _configuration.loginApiRoute = apiRoute+'?op=login'
+    _configuration.logoutApiRoute = apiRoute+'?op=logout'
+    _configuration.routes = {
+        loggedIn: process.env.HELLO_LOGGED_IN || config.routes?.loggedIn || '/',
+        loggedOut: process.env.HELLO_LOGGED_OUT || config.routes?.loggedOut || '/',
+        error: process.env.HELLO_ERROR || config.routes?.error || '/'
+    }
+    _configuration.redirectURI = HOST 
+            ? `https://${HOST}${apiRoute}` 
+            : undefined,
+
     _configuration.loginTrigger = config.loginTrigger
     if (process.env.HELLO_SCOPES)
         _configuration.scope = process.env.HELLO_SCOPES.split(' ') as Scope[]
