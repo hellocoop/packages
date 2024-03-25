@@ -36,7 +36,7 @@ export interface IConfig {
 
 const HELLO_API_ROUTE = process.env.HELLO_API_ROUTE as string || '/api/hellocoop'
 const HELLO_DOMAIN = process.env.HELLO_DOMAIN as string || 'hello.coop'
-
+const HOST = process.env.HOST || process.env.HELLO_HOST || undefined
 const _configuration: IConfig = {
     production: process.env.NODE_ENV === 'production',
     routes: {
@@ -54,11 +54,11 @@ const _configuration: IConfig = {
 
 
     // configured only by process.env or .env
-    clientId:  process.env.HELLO_CLIENT_ID as string,
-    secret:  process.env.HELLO_COOKIE_SECRET as string,
-    host: undefined,
-    redirectURI: process.env.HELLO_HOST 
-            ? `https://${process.env.HELLO_HOST}${HELLO_API_ROUTE}` 
+    clientId:  process.env.CLIENT_ID || process.env.HELLO_CLIENT_ID as string,
+    secret:  process.env.COOKIE_SECRET || process.env.HELLO_COOKIE_SECRET as string,
+    host: HOST,
+    redirectURI: HOST 
+            ? `https://${HOST}${HELLO_API_ROUTE}` 
             : undefined,
     // for internal testing
     helloDomain: HELLO_DOMAIN,
