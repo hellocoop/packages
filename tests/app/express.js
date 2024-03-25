@@ -24,6 +24,12 @@ const privateKey = fs.readFileSync('./key.pem', 'utf8');
 const certificate = fs.readFileSync('./cert.pem', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
+// // simple logging
+// app.use((req, res, next) => {
+//     console.log(`${new Date().toISOString()} - ${req.method} request to ${req.url}`);
+//     next();
+// });
+
 app.use(helloAuth(config));
 
 app.get( "/", async ( req, res ) => {
