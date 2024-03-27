@@ -120,11 +120,11 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
                 (auth as any)[claim] = value
         })
         auth = auth as Auth
-        if (config?.loginTrigger) {
+        if (config?.loginSync) {
             try {
                 const cbReq = getCallbackRequest(req)
                 const cbRes = getCallbackResponse(res)
-                const cb = await config.loginTrigger({ token, payload, cbReq, cbRes })
+                const cb = await config.loginSync({ token, payload, cbReq, cbRes })
                 if (cb?.accessDenied) {
                     auth = NotLoggedIn
                     // TODO? set target_uri to not logged in setting?
