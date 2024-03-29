@@ -23,9 +23,10 @@ const getCallbackResponse = (res: HelloResponse): CallbackResponse => {
 
 const sendErrorPage = ( error: Record<string, any>, target_uri: string, req:HelloRequest, res:HelloResponse ) => {
 
-
-    if (config.routes.error) {
-        const url = new URL(config.routes.error);
+    // note that we send errors to the target_uri if it was passed in the original request
+    const error_uri = target_uri || config.routes.error
+    if (error_uri) {
+        const url = new URL(error_uri);
         for (const key in error) {
             if (key.startsWith('error')) {
                 // Append each error query parameter to the URL
@@ -38,7 +39,7 @@ const sendErrorPage = ( error: Record<string, any>, target_uri: string, req:Hell
         error: error.error,
         error_description: error.error_description,
         error_uri: error.error_uri,
-        target_uri
+        target_uri: config.routes.loggedIn || '/'
     }
     const page = errorPage(params)
     res.send(page)
@@ -67,7 +68,7 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
         redirect_uri,
     } = oidcState
 
-    let {target_uri = '/'} = oidcState
+    let { target_uri } = oidcState
 
     if (error)
         return sendErrorPage( req.query, target_uri, req, res )
@@ -80,6 +81,9 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
         res.status(400).send('Missing code_verifier from session')
         return
     }
+
+    if (!target_uri)
+        target_uri = config.routes.loggedIn || '/'
 
     try {
         clearOidcCookie(res) // clear cookie so we don't try to use code again
