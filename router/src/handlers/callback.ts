@@ -2,7 +2,7 @@ import { HelloRequest, HelloResponse, CallbackRequest, CallbackResponse } from '
 import config from '../lib/config'
 import { getOidc, clearOidcCookie } from '../lib/oidc'
 import { fetchToken, parseToken, errorPage, ErrorPageParams, sameSiteCallback } from '@hellocoop/core'
-import { saveAuthCookie } from '../lib/auth'
+import { saveAuthCookie, clearAuthCookie } from '../lib/auth'
 import { Auth } from '@hellocoop/types'
 import { NotLoggedIn, VALID_IDENTITY_CLAIMS } from '@hellocoop/constants'
 
@@ -21,7 +21,9 @@ const getCallbackResponse = (res: HelloResponse): CallbackResponse => {
 }
 
 
-const sendErrorPage = ( error: Record<string, any>, target_uri: string, req:HelloRequest, res:HelloResponse ) => {
+const sendErrorPage = ( error: Record<string, any>, target_uri: string, res:HelloResponse ) => {
+
+    clearAuthCookie( res)
 
     // note that we send errors to the target_uri if it was passed in the original request
     const error_uri = target_uri || config.routes.error
@@ -60,7 +62,10 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
     const oidcState = await getOidc(req,res)
 
     if (!oidcState)
-        return res.status(400).send('OpenID Connect cookie lost')
+        return sendErrorPage( {
+            error: 'invalid_request',
+            error_description: 'OpenID Connect cookie lost'
+        }, '', res)
 
     const {
         code_verifier,
@@ -71,14 +76,23 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
     let { target_uri } = oidcState
 
     if (error)
-        return sendErrorPage( req.query, target_uri, req, res )
+        return sendErrorPage( req.query, target_uri, res )
     if (!code)
-        return res.status(400).send('Missing code parameter')
+        return sendErrorPage( {
+            error: 'invalid_request',
+            error_description: 'Missing code parameter'
+        }, target_uri, res)
     if (Array.isArray(code))
-        return res.status(400).send('Received more than one code.')
+        return sendErrorPage( {
+            error: 'invalid_request',
+            error_description: 'Received more than one code.',
+            }, target_uri, res)
 
     if (!code_verifier) {
-        res.status(400).send('Missing code_verifier from session')
+        sendErrorPage( {
+            error: 'invalid_request',
+            error_description: 'Missing code_verifier from session',
+            }, target_uri, res)
         return
     }
 
@@ -98,18 +112,30 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
         const { payload } = parseToken(token)
 
         if (payload.aud != config.clientId) {
-            return res.status(400).send('Wrong ID token audience.')
+            return sendErrorPage( {
+            error: 'invalid_client',
+            error_description: 'Wrong ID token audience.',
+            }, target_uri, res)
         }
         if (payload.nonce != nonce) {
-            return res.status(400).send('Wrong nonce in ID token.')
+            return sendErrorPage( {
+            error: 'invalid_request',
+            error_description: 'Wrong nonce in ID token.',
+            }, target_uri, res)
         }
         
         const currentTimeInt = Math.floor(Date.now()/1000)
         if (payload.exp < currentTimeInt) {
-            return res.status(400).send('The ID token has expired.')
+            return sendErrorPage( {
+            error: 'invalid_request',
+            error_description: 'The ID token has expired.',
+            }, target_uri, res)
         }
         if (payload.iat > currentTimeInt+5) { // 5 seconds of clock skew
-            return res.status(400).send('The ID token is not yet valid.')
+            return sendErrorPage( {
+            error: 'invalid_request',
+            error_description: 'The ID token is not yet valid.',
+            }, target_uri, res)
         }
 
         let auth = {
@@ -123,17 +149,18 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
             if (value)
                 (auth as any)[claim] = value
         })
-        auth = auth as Auth
         if (config?.loginSync) {
             try {
                 const cbReq = getCallbackRequest(req)
                 const cbRes = getCallbackResponse(res)
                 const cb = await config.loginSync({ token, payload, cbReq, cbRes })
+                target_uri = cb?.target_uri || target_uri
                 if (cb?.accessDenied) {
-                    auth = NotLoggedIn
-                    // TODO? set target_uri to not logged in setting?
-                }
-                else if (cb?.updatedAuth) {
+                    return sendErrorPage( {
+                        error: 'access_denied',
+                        error_description: 'loginSync denied access',
+                    }, target_uri, res)
+                } else if (cb?.updatedAuth) {
                     auth = {
                         ...cb.updatedAuth,
                         isLoggedIn: true,
@@ -141,11 +168,14 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
                         iat: payload.iat
                     }
                 }
-                target_uri = cb?.target_uri || target_uri
             } catch(e) {
                 console.error(new Error('callback faulted'))
                 console.error(e)
-            }
+                return sendErrorPage( {
+                    error: 'server_error',
+                    error_description: 'loginSync failed',
+                }, target_uri, res)
+        }
         }
 
         if (wildcard_domain) { 
