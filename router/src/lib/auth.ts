@@ -11,6 +11,14 @@ import { clearOidcCookie } from './oidc'
 
 const { cookies: {authName, oidcName} } = config 
 
+const PRODUCTION = config.production
+const ENABLE_3P_COOKIES = (process.env.ENABLE_3P_COOKIES === 'true')
+const SAME_SITE = (ENABLE_3P_COOKIES) 
+    ? 'none' 
+    : (config.sameSiteStrict ? 'strict' : 'lax')
+const SECURE = PRODUCTION || ENABLE_3P_COOKIES
+
+
 export const saveAuthCookie = async ( res: HelloResponse, auth: Auth): Promise<boolean> =>  {
     try {
         const encCookie = await encryptObj(auth, config.secret as string)
@@ -18,8 +26,8 @@ export const saveAuthCookie = async ( res: HelloResponse, auth: Auth): Promise<b
             return false
         res.setCookie(authName, encCookie, {
             httpOnly: true,
-            secure: config.production,
-            sameSite: config.sameSiteStrict ? 'strict' : 'lax',
+            secure: SECURE,
+            sameSite: SAME_SITE,
             path: '/' // let any server side route call getAuth
         })  
         return true    
