@@ -1,6 +1,6 @@
 {
   "name": "@hellocoop/constants",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Constants for Hellō https://hello.dev",
   "repository": {
     "type": "git",
@@ -38,7 +38,7 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "@hellocoop/types": "*",
+    "@hellocoop/types": "~1.1.5",
     "rimraf": "^5.0.1"
   }
 }
