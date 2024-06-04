@@ -37,6 +37,7 @@ export const VALID_IDENTITY_CLAIMS = [
 export const VALID_SCOPES = [
     ...VALID_IDENTITY_STRING_CLAIMS,
     ...VALID_IDENTITY_ACCOUNT_CLAIMS,
+    'profile',
     'openid', 
 // Hellō extensions -- non-standard scopes
     'profile_update',
