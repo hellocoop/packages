@@ -4,6 +4,7 @@ import config from '../lib/config'
 import handleCallback from './callback'
 import handleLogin from './login'
 import handleLogout from './logout'
+import handleSecevent from './secevent'
 import { handleAuth, handleCookieTokenVerify } from './auth'
 import handleWildcardConsole from './wildcard'
 import { NotLoggedIn } from '@hellocoop/constants'
@@ -37,6 +38,9 @@ const router = (req: HelloRequest, res: HelloResponse ) => {
     if (method === 'POST') {
         if (query.op === 'verifyCookieToken') {
             return handleCookieTokenVerify(req, res)
+        }
+        if (query.op === 'secevent') {
+            return handleSecevent(req, res)
         }
         return res.status(400).send('Invalid op parameter')
     }
