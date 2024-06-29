@@ -1,4 +1,4 @@
-const identifiers = require('../dist/cjs/identifier');
+const identifiers = require('../dist/identifier.cjs');
 
 const runTests = async () => {
   try {

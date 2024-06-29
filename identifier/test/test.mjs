@@ -1,4 +1,4 @@
-import identifiers from '../dist/esm/identifier.js'
+import identifiers from '../dist/identifier.mjs'
 
 const runTests = async () => {
   try {
