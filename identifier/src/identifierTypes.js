@@ -13,6 +13,7 @@ const identifierTypeDescriptions = {
   pky: 'Hellō passkey identifier',
   pic: 'Hellō picture identifier',
   non: 'Hellō nonce identifier',
+  cod: "Hellō authorization code",
   // Admin created
   pub: 'Hellō publisher identifier',
   app: 'Hellō application identifier'
