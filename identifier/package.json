@@ -1,0 +1,27 @@
+{
+  "name": "@hellocoop/identifier",
+  "version": "1.0.0",
+  "description": "A module for generating and verifying Hellō identifiers with a checksum.",
+  "main": "dist/identifier.cjs",
+  "module": "dist/identifier.mjs",
+  "type": "module",
+  "exports": {
+    "require": "dist/identifier.cjs",
+    "import": "dist/identifier.mjs"
+  },
+  "types": "dist/identifier.d.ts",
+  "scripts": {
+    "build": "node src/build.js",
+    "test": "node test/test.js"
+  },
+  "keywords": [
+    "identifier",
+    "Hello",
+    "Hellō"
+  ],
+  "author": "Hellō Identity Co-op",
+  "license": "MIT",
+  "dependencies": {
+    "nanoid": "^5.0.7"
+  }
+}
