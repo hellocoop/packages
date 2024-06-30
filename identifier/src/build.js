@@ -38,9 +38,34 @@ const identifierTypesSet = new Set(identifierTypes);
 // Read identifier.js
 const identifierContent = fs.readFileSync(path.join(srcDir, 'identifier.js'), 'utf8');
 
-// Prepend identifierTypes content to identifier.js content
-const cjsContent = `${identifierTypesContent}\n\n${identifierContent}\n\nmodule.exports = generators;`;
-const mjsContent = `${identifierTypesContent}\n\n${identifierContent}\n\nexport default generators;`;
+// create CJS version of identifier.js
+const cjsContent = 
+`${identifierTypesContent}
+
+let generateId;
+
+// Load nanoid dynamically
+const loadNanoid = async () => {
+  const { customAlphabet } = await import('nanoid');
+  generateId = customAlphabet(HELLO_ALPHABET, 27);
+};
+
+loadNanoid(); // Call the function to load nanoid immediately
+
+
+${identifierContent}
+
+module.exports = generators;`;
+
+// create ESM version of identifier.js
+const mjsContent = 
+`${identifierTypesContent}
+import { customAlphabet } from 'nanoid';
+const generateId = customAlphabet(HELLO_ALPHABET, 27);
+
+${identifierContent}
+
+export default generators;`;
 
 fs.writeFileSync(path.join(distDir, 'identifier.cjs'), cjsContent, 'utf8');
 fs.writeFileSync(path.join(distDir, 'identifier.mjs'), mjsContent, 'utf8');

@@ -1,19 +1,12 @@
-// identifier.js
+// identifier.js - only used during build
 
 // identifierTypesSet added by build script
 
-let generateId;
+// generateId added by build script
 
 const HELLO_ALPHABET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-// Load nanoid dynamically
-const loadNanoid = async () => {
-  const { customAlphabet } = await import('nanoid');
-  generateId = customAlphabet(HELLO_ALPHABET, 24);
-};
-
-loadNanoid(); // Call the function to load nanoid immediately
-
 const HELLO_REGEX = new RegExp(`^[${HELLO_ALPHABET}]+$`);
+
 
 const checksum = (prefix, id) => {
   const pb = Buffer.from(prefix);
