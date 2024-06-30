@@ -16,7 +16,7 @@ const identifierTypeDescriptions = {
   cod: "Hellō authorization code",
   // Admin created
   pub: 'Hellō publisher identifier',
-  app: 'Hellō application identifier'
+  app: 'Hellō application identifier (client_id)'
 };
 
 const identifierTypesSet = new Set(Object.keys(identifierTypeDescriptions));
