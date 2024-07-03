@@ -2,9 +2,11 @@
 // edit this file to add new identifier types
 
 const identifierTypeDescriptions = {
-  // Wallet created
+  // Customer exposed
+  sub: 'Hellō directed identifier - `sub` in ID token',
+  app: 'Hellō application identifier (client_id) - `aud` in ID token',
+  // Wallet internal
   usr: 'Hellō internal user identifier',
-  hdi: 'Hellō directed identifier - sub value in ID token',
   jti: 'ID Token jti',
   kid: 'Hellō key identifier in ID Token header',
   ses: 'Hellō session identifier',
@@ -14,9 +16,9 @@ const identifierTypeDescriptions = {
   pic: 'Hellō picture identifier',
   non: 'Hellō nonce identifier',
   cod: "Hellō authorization code",
-  // Admin created
+  fed: "Hellō federation identifier",
+  // Admin internal
   pub: 'Hellō publisher identifier',
-  app: 'Hellō application identifier (client_id)'
 };
 
 const identifierTypesSet = new Set(Object.keys(identifierTypeDescriptions));
