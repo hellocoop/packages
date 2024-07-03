@@ -13,7 +13,6 @@ const identifierTypeDescriptions = {
   dvc: 'Hellō device cookie identifier',
   inv: 'Hellō invitation identifier',
   pky: 'Hellō passkey identifier',
-  pic: 'Hellō picture identifier',
   non: 'Hellō nonce identifier',
   cod: "Hellō authorization code",
   fed: "Hellō federation identifier",
