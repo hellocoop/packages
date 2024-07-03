@@ -38,9 +38,15 @@ const identifierTypesSet = new Set(identifierTypes);
 // Read identifier.js
 const identifierContent = fs.readFileSync(path.join(srcDir, 'identifier.js'), 'utf8');
 
+const helloAlphabetContent = 
+`
+const HELLO_ALPHABET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+`
+
 // create CJS version of identifier.js
 const cjsContent = 
 `${identifierTypesContent}
+${helloAlphabetContent}
 
 let generateId;
 
@@ -60,6 +66,8 @@ module.exports = generators;`;
 // create ESM version of identifier.js
 const mjsContent = 
 `${identifierTypesContent}
+${helloAlphabetContent}
+
 import { customAlphabet } from 'nanoid';
 const generateId = customAlphabet(HELLO_ALPHABET, 27);
 

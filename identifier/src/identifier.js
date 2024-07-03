@@ -4,7 +4,6 @@
 
 // generateId added by build script
 
-const HELLO_ALPHABET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 const HELLO_REGEX = new RegExp(`^[${HELLO_ALPHABET}]+$`);
 
 
