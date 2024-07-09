@@ -8,7 +8,6 @@ const identifierTypeDescriptions = {
   // Wallet internal
   usr: 'Hellō internal user identifier',
   jti: 'ID Token jti',
-  kid: 'Hellō key identifier in ID Token header',
   ses: 'Hellō session identifier',
   dvc: 'Hellō device cookie identifier',
   inv: 'Hellō invitation identifier',

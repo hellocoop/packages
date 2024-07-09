@@ -1,6 +1,6 @@
 {
   "name": "@hellocoop/identifier",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "A module for generating and verifying Hellō identifiers with a checksum.",
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
   "types": "./dist/identifier.d.ts",
   "scripts": {
     "build": "node src/build.js",
-    "test": "node test/test.cjs && node test/test.mjs"
+    "test": "mocha --require esm test/**/*"
   },
   "keywords": [
     "identifier",

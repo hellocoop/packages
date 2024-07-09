@@ -53,7 +53,7 @@ let generateId;
 // Load nanoid dynamically
 const loadNanoid = async () => {
   const { customAlphabet } = await import('nanoid');
-  generateId = customAlphabet(HELLO_ALPHABET, 27);
+  generateId = customAlphabet(HELLO_ALPHABET, 24);
 };
 
 loadNanoid(); // Call the function to load nanoid immediately
@@ -69,7 +69,7 @@ const mjsContent =
 ${helloAlphabetContent}
 
 import { customAlphabet } from 'nanoid';
-const generateId = customAlphabet(HELLO_ALPHABET, 27);
+const generateId = customAlphabet(HELLO_ALPHABET, 24);
 
 ${identifierContent}
 
@@ -85,9 +85,14 @@ const tsDefFileContent = `
 type IdentifierType = ${identifierTypes.map(type => `'${type}'`).join(' | ')};
 
 type Generators = {
-    [key in IdentifierType]: () => string;
+    readonly [key in IdentifierType]: () => string;
 } & {
-    validate: (identifier: string) => boolean;
+    readonly validate: (identifier: string) => boolean;
+    readonly checksum: (prefix: string, id: string) => string;
+    readonly HELLO_REGEX: RegExp;
+    readonly HELLO_ALPHABET: string;
+    readonly types: readonly IdentifierType[]; // Making the array itself read-only
+    readonly isUUIDv4: (id: string) => boolean;
 };
 
 declare const generators: Generators;

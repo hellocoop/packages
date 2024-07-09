@@ -54,7 +54,15 @@ const generators = identifierTypes.reduce((acc, type) => {
   return acc;
 }, {});
 
+const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+
+Object.freeze(identifierTypes);
+
 generators.validate = validate;
+generators.checksum = checksum;
+generators.HELLO_ALPHABET = HELLO_ALPHABET;
+generators.types = identifierTypes;
+generators.isUUIDv4 = (id) => uuidRegex.test(id);
 
 /*
  * export and modules.exports statements added by build script
