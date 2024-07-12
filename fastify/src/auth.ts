@@ -51,7 +51,8 @@ const convertToHelloResponse = ( res: FastifyReply ): HelloResponse => {
         setCookie: (name: string, value: string, options: any) => {
             res.header('Set-Cookie', serialize(name, value, options))
         },
-        setHeader: (name: string, value: string) => res.header(name, value),
+        getHeaders: () => { return res.getHeaders() as Record<string, string>},
+        setHeader: (name: string, value: string | string[]) => res.header(name, value),
         status: ( statusCode: number) => { 
             res.code(statusCode) 
             return {

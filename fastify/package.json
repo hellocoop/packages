@@ -1,6 +1,6 @@
 {
   "name": "@hellocoop/fastify",
-  "version": "1.10.5",
+  "version": "1.11.4",
   "description": "Fastify SDK for Hellō https://hello.dev",
   "repository": {
     "type": "git",
@@ -44,16 +44,16 @@
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",
+    "fastify": "^4",
     "rimraf": "^5.0.1",
-    "typescript": "^5.2.2",
-    "fastify": "^4"
+    "typescript": "^5.2.2"
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
+    "@hellocoop/router": "^1.9.3",
     "dotenv": "^16.3.1",
-    "@hellocoop/router": "~1.8.7",
     "fastify-plugin": "^4.5.1"
   }
 }

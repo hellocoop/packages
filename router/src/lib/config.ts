@@ -1,4 +1,4 @@
-import { Config, LoginSyncParams, LoginSyncResponse } from '../types'
+import { Config, LoginSyncParams, LoginSyncResponse, LogoutSyncParams, LogoutSyncResponse } from '../types'
 import { Scope, ProviderHint } from '@hellocoop/types'
 import { checkSecret } from '@hellocoop/core'
 
@@ -18,6 +18,7 @@ export interface IConfig {
         oidcName: string,
     },
     loginSync?: (params: LoginSyncParams) => Promise<LoginSyncResponse>,
+    logoutSync?: (params: LogoutSyncParams) => Promise<LogoutSyncResponse>,
     cookieToken?: boolean, // include encrypted cookie in auth response
     // built from HELLO_API_ROUTE
     apiRoute: string,
@@ -91,6 +92,8 @@ export const configure = function ( config: Config ) {
             : undefined,
 
     _configuration.loginSync = config.loginSync
+    _configuration.logoutSync = config.logoutSync
+
     if (process.env.HELLO_SCOPES)
         _configuration.scope = process.env.HELLO_SCOPES.split(' ') as Scope[]
     else

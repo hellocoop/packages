@@ -9,7 +9,8 @@ export type CallbackRequest = {
 
 
 export type CallbackResponse = {
-    setHeader: (key: string, value: string) => void,
+    getHeaders: () => Record<string, string>,
+    setHeader: (key: string, value: string | string[]) => void,
     setCookie: (key: string, value: string, options: CookieSerializeOptions) => void,
 }
 
@@ -26,12 +27,21 @@ export type LoginSyncResponse = {
     updatedAuth?: {[key: string]: any}
 }
 
+
+export type LogoutSyncParams = {
+    cbReq: CallbackRequest,
+    cbRes: CallbackResponse
+}
+
+export type LogoutSyncResponse = null | Error
+
 export interface Config {
     client_id?: string,
     scope?: Scope[],
     provider_hint?: ProviderHint[],
     sameSiteStrict?: boolean,
     loginSync?: (params: LoginSyncParams) => Promise<LoginSyncResponse>,
+    logoutSync?: (params: LogoutSyncParams) => Promise<LogoutSyncResponse>,
     routes?: {
         loggedIn?: string,
         loggedOut?: string,
@@ -58,8 +68,9 @@ export type HelloResponse = {
     json: ( data : any ) => void;
     redirect: (url: string) => void;
     setCookie: (name: string, value: string, options: CookieSerializeOptions) => void;
-    setHeader: (name: string, value: string) => void;
+    setHeader: (name: string, value: string | string[]) => void;
     status: (statusCode: number) => { send: (data: any) => void };
+    getHeaders: () => Record<string, string>
 };
 
 

@@ -7,15 +7,16 @@ import { Auth } from '@hellocoop/types'
 import { NotLoggedIn, VALID_IDENTITY_CLAIMS } from '@hellocoop/constants'
 
 
-const getCallbackRequest = (req: HelloRequest): CallbackRequest => {
+export const getCallbackRequest = (req: HelloRequest): CallbackRequest => {
     return {
         getHeaders: () => { return req.headers() }
     }
 }
 
-const getCallbackResponse = (res: HelloResponse): CallbackResponse => {
+export const getCallbackResponse = (res: HelloResponse): CallbackResponse => {
     return {
-        setHeader: (key: string, value: string) => { res.setHeader(key, value) },
+        getHeaders: () => { return res.getHeaders() },
+        setHeader: (key: string, value: string | string[]) => { res.setHeader(key, value) },
         setCookie: (key: string, value: string, options: any) => { res.setCookie(key, value, options) },
     }
 }
