@@ -14,7 +14,7 @@ const identifierTypeDescriptions = {
   pky: 'Hellō passkey identifier',
   non: 'Hellō nonce identifier',
   cod: "Hellō authorization code",
-  fed: "Hellō federation identifier",
+  mng: "Hellō managed identifier",
   // Admin internal
   pub: 'Hellō publisher identifier',
 };
