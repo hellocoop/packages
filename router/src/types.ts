@@ -17,6 +17,7 @@ export type CallbackResponse = {
 export type LoginSyncParams = {
     token: string,
     payload: Claims,
+    target_uri: string,
     cbReq: CallbackRequest,
     cbRes: CallbackResponse
 }

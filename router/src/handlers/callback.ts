@@ -154,7 +154,7 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
             try {
                 const cbReq = getCallbackRequest(req)
                 const cbRes = getCallbackResponse(res)
-                const cb = await config.loginSync({ token, payload, cbReq, cbRes })
+                const cb = await config.loginSync({ token, payload, target_uri, cbReq, cbRes })
                 target_uri = cb?.target_uri || target_uri
                 if (cb?.accessDenied) {
                     return sendErrorPage( {
