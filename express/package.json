@@ -1,6 +1,6 @@
 {
   "name": "@hellocoop/express",
-  "version": "1.11.5",
+  "version": "1.12.1",
   "description": "Express SDK for Hellō https://hello.dev",
   "repository": {
     "type": "git",
@@ -61,7 +61,7 @@
   "dependencies": {
     "@hellocoop/constants": "~1.1.5",
     "@hellocoop/core": "~1.4.5",
-    "@hellocoop/router": "~1.8.7",
+    "@hellocoop/router": "~1.10.0",
     "cookie": "^0.5.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1"

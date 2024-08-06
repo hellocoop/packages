@@ -1,6 +1,6 @@
 {
   "name": "@hellocoop/fastify",
-  "version": "1.11.5",
+  "version": "1.12.2",
   "description": "Fastify SDK for Hellō https://hello.dev",
   "repository": {
     "type": "git",
@@ -52,7 +52,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@hellocoop/router": "^1.9.4",
+    "@hellocoop/router": "^1.10.0",
     "dotenv": "^16.3.1",
     "fastify-plugin": "^4.5.1"
   }

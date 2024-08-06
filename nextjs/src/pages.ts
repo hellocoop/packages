@@ -55,9 +55,20 @@ const convertToHelloResponse = (res: NextApiResponse): HelloResponse => {
         setCookie: (name: string, value: string, options: any) => {
             res.setHeader('Set-Cookie', serialize(name, value, options))
         },
-        setHeader: (name: string, value: string) => res.setHeader(name, value),
-        status: (statusCode: number) => { 
-            res.status(statusCode)
+        setHeader: (name: string, value: string | string[]) => {
+            if (Array.isArray(value)) {
+                if (name.toLowerCase() === 'set-cookie') {
+                    value.forEach(val => res.setHeader(name, val)); // Append each cookie individually
+                } else {
+                    res.setHeader(name, value.join(', ')); // Combine array values into a single string separated by commas
+                }
+            } else {
+                res.setHeader(name, value);
+            }
+        },
+        getHeaders: () => { throw( new Error('getHeaders not implemented')) }, // not implemented
+        status: (statusCode: number) => {
+            res.status(statusCode);
             return {
                 send: (data: any) => res.send(data)
             }

@@ -66,7 +66,14 @@ const convertToHelloResponse = (res: InternalResponse): HelloResponse => {
         setCookie: (name: string, value: string, options: any) => {
             res.headers.append('Set-Cookie', serialize(name, value, options))
         },
-        setHeader: (name: string, value: string) => res.headers.set(name, value),
+        getHeaders: () => headersToObject(res.headers),
+        setHeader: (name: string, value: string | string[]) => {
+            if (Array.isArray(value)) {
+                res.headers.set(name, value.join(', ')); 
+            } else {
+                res.headers.set(name, value);
+            }
+        },
         status: (statusCode: number) => { 
             res.status = statusCode
             return {

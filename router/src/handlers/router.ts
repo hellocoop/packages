@@ -29,10 +29,9 @@ import { NotLoggedIn } from '@hellocoop/constants'
 const router = (req: HelloRequest, res: HelloResponse ) => {
     const { query, method } = req
 
-    if (!query) {
-        res.status(500)
-        res.send('Missing query')
-        return
+    if (!query || Object.keys(query).length === 0) {
+        console.error(new Error('No query parameters'))
+        return res.redirect( config.routes.loggedOut || '/')
     }
     if (method === 'POST') {
         if (query.op === 'verifyCookieToken') {
