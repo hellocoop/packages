@@ -93,6 +93,8 @@ type Generators = {
     readonly HELLO_ALPHABET: string;
     readonly types: readonly IdentifierType[]; // Making the array itself read-only
     readonly isUUIDv4: (id: string) => boolean;
+    readonly nanoidFromUUIDv4: (uuid: string) => string;
+    readonly uuidv4FromNanoid: (nanoid: string) => string;
 };
 
 declare const generators: Generators;

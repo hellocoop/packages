@@ -56,6 +56,48 @@ const generators = identifierTypes.reduce((acc, type) => {
 
 const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
 
+const uuidv4FromNanoid = (nanoid) => {
+  if (!validate(nanoid)) {
+    throw new Error(`Invalid nanoid: ${nanoid}`);
+  }
+  const base62 = nanoid.slice(4, -4);
+  let num = BigInt(0);
+  const base = BigInt(62);
+  for (const char of base62) {
+    num = num * base + BigInt(HELLO_ALPHABET.indexOf(char));
+  }
+  const hexString = num.toString(16).padStart(32, '0');
+  if (hexString.length !== 32) {
+    throw new Error(`NanoId is too long: ${nanoid}`);
+  }
+  const uuidv4 = `${hexString.slice(0, 8)}-${hexString.slice(8, 12)}-${hexString.slice(12, 16)}-${hexString.slice(16, 20)}-${hexString.slice(20)}`;
+  return uuidv4;
+};
+
+const nanoidFromUUIDv4 = (type, uuidv4) => {
+  if (!identifierTypesSet.has(type))
+    throw new Error(`Unknown identifier type: ${type}`);
+  if (!uuidRegex.test(uuidv4))
+    throw new Error(`Invalid UUIDv4: ${uuidv4}`);
+  // Remove hyphens and convert to a BigInt
+  const hexString = uuidv4.replace(/-/g, '');
+  let num = BigInt(`0x${hexString}`);
+  // Convert to base62
+  let base62 = '';
+  const base = BigInt(HELLO_ALPHABET.length);
+  while (num > 0n) {
+    base62 = HELLO_ALPHABET[num % base] + base62;
+    num = num / base;
+  }
+  // Pad with the first character of HELLO_ALPHABET to ensure fixed length
+  while (base62.length < 24) {
+    base62 = HELLO_ALPHABET[0] + base62;
+  }
+  const chk = checksum(type, base62);
+  const nanoid = `${type}_${base62}_${chk}`;
+  return nanoid;
+}
+
 Object.freeze(identifierTypes);
 
 generators.validate = validate;
@@ -63,6 +105,8 @@ generators.checksum = checksum;
 generators.HELLO_ALPHABET = HELLO_ALPHABET;
 generators.types = identifierTypes;
 generators.isUUIDv4 = (id) => uuidRegex.test(id);
+generators.nanoidFromUUIDv4 = nanoidFromUUIDv4;
+generators.uuidv4FromNanoid = uuidv4FromNanoid;
 
 /*
  * export and modules.exports statements added by build script
