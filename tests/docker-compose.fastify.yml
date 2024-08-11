@@ -1,7 +1,5 @@
 # runs fastify server and tests it with playwright
 
-version: '3.8'
-
 networks: 
   mock:
 
