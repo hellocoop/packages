@@ -31,7 +31,7 @@
     theme?: Button.Theme
     hover?: Button.Hover
     scope?: Scope[]
-    updateScope?: Button.UpdateScope
+    update?: Button.Update
     targetURI?: string
     providerHint?: ProviderHint[]
     showLoader?: boolean
@@ -54,8 +54,8 @@
 
   loginRoute.searchParams.set("target_uri", props.targetURI || window.location.pathname)
   
-  if(props.updateScope)
-      loginRoute.searchParams.set("scope", "profile_update " + props.updateScope)
+  if(props.update)
+      loginRoute.searchParams.set("prompt", "consent")
 
   if(props.providerHint)
     loginRoute.searchParams.set("provider_hint", props.providerHint.join(" "))

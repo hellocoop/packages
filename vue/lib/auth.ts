@@ -35,11 +35,14 @@ export type AuthState = {
 }
 
 export const useAuth = (): AuthState => {
+    // @ts-ignore //TBD
     const defaultAuth: Auth | undefined = useHelloProviderContext()
-    const { data: auth = defaultAuth, isValidating: isLoading } = useSWR(routeConfig.auth, fetcher)
+    const { data: auth = defaultAuth, isValidating: isLoading } = useSWRV(routeConfig.auth, fetcher)
     return { 
         auth: auth || {}, 
+        // @ts-ignore //TBD
         isLoading, 
+        // @ts-ignore
         isLoggedIn: auth?.isLoggedIn }
 }
 

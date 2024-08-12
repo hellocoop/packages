@@ -109,7 +109,7 @@ export namespace Button {
     export type Color = "black" | "white"
     export type Theme = "ignore-light" | "ignore-dark" | "aware-invert" | "aware-static"
     export type Hover = "pop" | "glow" | "flare" | "none"
-    export type UpdateScope = "email" | "picture" | "twitter" | "discord" | "github" | "gitlab"
+    export type Update = boolean
     export const STYLES_URL = 'https://cdn.hello.coop/css/hello-btn.css'
     export const HOVER_MAPPING = {
         "pop": "",

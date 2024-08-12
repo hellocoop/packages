@@ -3,5 +3,5 @@
 </script>
 
 <template>
-    <BaseButton label="ō&nbsp;&nbsp;&nbsp;Update GitLab with Hellō" updateScope="gitlab" />
+    <BaseButton label="ō&nbsp;&nbsp;&nbsp;Update Profile with Hellō" :update="true" />
 </template>

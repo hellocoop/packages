@@ -11,7 +11,7 @@
     theme?: Button.Theme
     hover?: Button.Hover
     scope?: Scope[]
-    updateScope?: Button.UpdateScope
+    update?: boolean
     targetURI?: string
     providerHint?: ProviderHint[],
     showLoader?: boolean,
@@ -26,7 +26,7 @@
   export let hover: Button.Hover = "pop"
   export let scope: Scope[]  = [];
   // @ts-ignore tbd
-  export let updateScope: Button.UpdateScope = "";
+  export let update: Button.update = false;
   export let targetURI: string = ""
   export let providerHint: ProviderHint[] = [];
   export let showLoader: boolean = false
@@ -57,8 +57,8 @@
 
   loginRoute.searchParams.set("target_uri", targetURI || window.location.pathname)
   
-  if(updateScope)
-      loginRoute.searchParams.set("scope", "profile_update " + updateScope)
+  if(update)
+      loginRoute.searchParams.set("prompt", "consent")
 
   if(providerHint)
     loginRoute.searchParams.set("provider_hint", providerHint.join(" "))
