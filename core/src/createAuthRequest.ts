@@ -40,6 +40,7 @@ export interface ICreateAuthRequest {
     state?: string;
     login_hint?: string
     provider_hint?: ProviderHint[];
+    prompt?: 'login' | 'consent' ;
 }
 
 export interface AuthenticationResponse {
