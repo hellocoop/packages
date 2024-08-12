@@ -9,7 +9,7 @@ var redirectURIs: Record<string, any> = {}
 // var callCount = 0 // DEBUG
 
 const handleLogin = async (req: HelloRequest, res: HelloResponse) => {
-    const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri, nonce: providedNonce } = req.query
+    const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri, nonce: providedNonce, prompt } = req.query
     
     if (!config.clientId) {
         res.status(500)
@@ -56,7 +56,8 @@ const handleLogin = async (req: HelloRequest, res: HelloResponse) => {
         client_id: config.clientId,
         wallet: config.helloWallet,
         scope,
-        provider_hint
+        provider_hint,
+        prompt: prompt as ICreateAuthRequest['prompt']
     }
     if (providedNonce)
         request.nonce = providedNonce
