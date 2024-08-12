@@ -89,6 +89,9 @@ export async function createAuthRequest(
         response_mode: config.response_mode || DEFAULT_RESPONSE_MODE,
         nonce,
     }
+    if(config.prompt){
+        params.prompt = config.prompt
+    }
     if (params.response_type === 'code') {
         const pkceMaterial  = await pkce()
         code_verifier = pkceMaterial.code_verifier
