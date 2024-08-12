@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import type { ProviderHint, Scope } from '@hellocoop/types'
-import { Button } from '@hellocoop/types'
+import { Button } from '@hellocoop/constants'
 
 import { routeConfig } from './provider'
 
@@ -21,7 +21,7 @@ interface CommonButtonProps {
 
 export interface BaseButtonProps extends CommonButtonProps {
     scope?: Scope[] | string
-    updateScope?: Button.UpdateScope
+    update?: boolean
 }
 
 export interface LoginButtonProps extends CommonButtonProps {
@@ -29,11 +29,11 @@ export interface LoginButtonProps extends CommonButtonProps {
 }
 
 export interface UpdateButtonProps extends CommonButtonProps {
-    updateScope?: Button.UpdateScope
+    update?: boolean
 }
 
 
-function BaseButton({ scope, updateScope, targetURI, providerHint, label, style, color = "black", theme = "ignore-light", hover = "pop", showLoader = false, disabled = false } : BaseButtonProps) {
+function BaseButton({ scope, update = false, targetURI, providerHint, label, style, color = "black", theme = "ignore-light", hover = "pop", showLoader = false, disabled = false } : BaseButtonProps) {
     //check if dev has added Hellō stylesheet to pages with Hellō buttons
     if(typeof window != 'undefined' && !checkedForStylesheet) {
         const hasStylesheet = Array.from(document.head.getElementsByTagName('link')).find(
@@ -65,8 +65,8 @@ function BaseButton({ scope, updateScope, targetURI, providerHint, label, style,
                              //window can be undefined when running server-side
     loginRoute.searchParams.set("target_uri", targetURI)
     
-    if(updateScope)
-        loginRoute.searchParams.set("scope", "profile_update " + updateScope)
+    if(update)
+        loginRoute.searchParams.set("prompt", "consent")
 
     if(providerHint) {
         if(typeof providerHint == 'string')
@@ -95,31 +95,6 @@ export function LoginButton(props: LoginButtonProps) {
     return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Log in with Hellō" />
 }
 
-export function UpdateEmailButton(props: UpdateButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Email with Hellō" updateScope="email" style={{width: '275px'}} />
+export function UpdateProfileButton(props: UpdateButtonProps) {
+    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Profile with Hellō" update={true} style={{width: '275px'}} />
 }
-
-export function UpdatePictureButton(props: UpdateButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Picture with Hellō" updateScope="picture" style={{width: '275px'}} />
-}
-
-export function UpdateDiscordButton(props: UpdateButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Discord with Hellō" updateScope="discord" style={{width: '275px'}} />
-}
-
-export function UpdateTwitterButton(props: UpdateButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Twitter with Hellō" updateScope="twitter" style={{width: '275px'}} />
-}
-
-export function UpdateGitHubButton(props: UpdateButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update GitHub with Hellō" updateScope="github" style={{width: '275px'}} />
-}
-
-export function UpdateGitLabButton(props: UpdateButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update GitLab with Hellō" updateScope="gitlab" style={{width: '275px'}} />
-}
-
-//TBD
-// export function UpdateProfileButton() {
-//     return <UpdateBaseButton label="ō&nbsp;&nbsp;&nbsp;Update Picture with Hellō" updateScope="profile" />
-// }

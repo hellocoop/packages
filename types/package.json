@@ -1,19 +1,15 @@
 {
   "name": "@hellocoop/types",
-  "version": "1.0.4",
-  "description": "React SDK for Hellō https://hello.dev",
+  "version": "1.1.5",
+  "description": "Types for Hellō packages",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hellocoop/packages.git"
   },
   "homepage": "https://www.hello.dev/docs/sdks/types",
-  "exports": {
-    ".": "./types.js"
-  },
-  "types": "./types.d.ts",
+  "types": "./dist/types.d.ts",
   "files": [
-    "types.d.ts",
-    "types.js"
+    "./dist/types.d.ts"
   ],
   "keywords": [
     "hello",
@@ -32,9 +28,13 @@
   },
   "scripts": {
     "watch": "tsc --watch --declaration",
-    "build": "tsc --declaration"
+    "build": "rimraf dist/ && tsc --declaration"
   },
   "engines": {
     "node": ">=18"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.1",
+    "@hellocoop/constants":"~1.1.5"
   }
 }

@@ -2,19 +2,24 @@
 
 import { pkce, uuidv4 } from './pkce';
 import { 
-    VALID_SCOPES,
     Scope,
     AuthResponseMode,
     AuthResponseType,
     ProviderHint,
+} from '@hellocoop/types'
+
+import { 
+    VALID_SCOPES,   
     VALID_RESPONSE_TYPE,
     VALID_RESPONSE_MODE,
+    DEFAULT_PATH,
     DEFAULT_SCOPE,
     DEFAULT_RESPONSE_TYPE,
     DEFAULT_RESPONSE_MODE,
     PRODUCTION_WALLET,
-    DEFAULT_PATH 
-} from '@hellocoop/types'
+} from '@hellocoop/constants';
+
+import { URLSearchParams } from 'url'
 
 export function isValidScope( scope: string ): boolean {
     return VALID_SCOPES.includes(scope as Scope)

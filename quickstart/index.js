@@ -33,6 +33,8 @@ const quickstart = async function (params) {
             paramKeys.forEach( param => {
                 if (!validQuickstartParams.includes(param))
                     throw(new Error(`Invalid param:${param}`))            
+                if (!params[param])
+                    delete params[param]
             })
         }
         
@@ -67,14 +69,14 @@ const quickstart = async function (params) {
         const hellooDomain = process.env.HELLO_DOMAIN || 'hello.coop'
         const quickstartURL = `https://quickstart.${hellooDomain}/?${queryString}`
         server.listen(port, host, () => {
-            console.log('\nObtaining a client_id with Hellō Quickstart\n')
+            console.log('Obtaining a Hellō client_id with:')
             console.log(chalk.blueBright(quickstartURL))
             const rl = readline.createInterface({
                 input: process.stdin,
                 output: process.stdout
               });
               
-              rl.question('\nPress ENTER to open in the browser...', (answer) => {
+              rl.question('Press ENTER to open in the browser...', (answer) => {
                 open(quickstartURL)
                 rl.close();
               });

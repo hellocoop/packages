@@ -1,0 +1,54 @@
+{
+  "name": "@hellocoop/router",
+  "version": "1.10.0",
+  "description": "Generic router for Hellō https://hello.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hellocoop/packages.git"
+  },
+  "homepage": "https://www.hello.dev/docs/sdks/router",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist/"
+  ],
+  "keywords": [
+    "hello",
+    "openid",
+    "oidc",
+    "sso"
+  ],
+  "author": {
+    "name": "Hello Identity Co-op",
+    "email": "contact@hello.coop",
+    "url": "https://hello.coop"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hellocoop/packages/issues"
+  },
+  "scripts": {
+    "watch": "tsc --watch",
+    "build": "npm run build:clean && npm run build:src",
+    "build:clean": "rimraf dist/",
+    "build:src": "tsc"
+  },
+  "devDependencies": {
+    "@hellocoop/types": "~1.1.5",
+    "@tsconfig/node18": "^18.2.2",
+    "@types/cookie": "^0.5.2",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@hellocoop/core": "~1.4.5",
+    "@hellocoop/constants": "~1.1.5",
+    "cookie": "^0.5.0"
+  }
+}

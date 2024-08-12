@@ -1,7 +1,7 @@
 {
   "name": "@hellocoop/express",
-  "version": "1.0.1",
-  "description": "Next.js SDK for Hellō https://hello.dev",
+  "version": "1.12.1",
+  "description": "Express SDK for Hellō https://hello.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hellocoop/packages.git"
@@ -10,8 +10,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js",
-    "./middleware": "./dist/middleware.js"
+    ".": "./dist/index.js"
   },
   "files": [
     "dist/"
@@ -35,15 +34,24 @@
     "url": "https://github.com/hellocoop/packages/issues"
   },
   "scripts": {
+    "test": "npm run build && npx playwright test",
     "watch": "tsc --watch --declaration",
     "build": "npm run build:clean && npm run build:src",
     "build:clean": "rimraf dist/",
     "build:src": "tsc --declaration"
   },
+  "peerDependencies": {
+    "express": "^4"
+  },
   "devDependencies": {
+    "@hellocoop/mockin": "^1.0.4",
+    "@hellocoop/types": "~1.1.5",
+    "@playwright/test": "^1.42.1",
     "@tsconfig/node18": "^18.2.2",
     "@types/cookie": "^0.5.2",
     "@types/express": "^4.17.20",
+    "@types/node": "^20.10.7",
+    "express": "^4.18.2",
     "rimraf": "^5.0.1",
     "typescript": "^5.2.2"
   },
@@ -51,11 +59,11 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@hellocoop/core": "latest",
-    "@hellocoop/types": "latest",
+    "@hellocoop/constants": "~1.1.5",
+    "@hellocoop/core": "~1.4.5",
+    "@hellocoop/router": "~1.10.0",
     "cookie": "^0.5.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2"
+    "dotenv": "^16.3.1"
   }
 }

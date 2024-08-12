@@ -1,7 +1,20 @@
 import { routeConfig } from './provider'
 
-export const getLogOutRoute = () => routeConfig.logout
+const makeLogoutRoute = (params:Record<string, any>):string => {
+    if (!params || !Object.keys(params).length)
+        return routeConfig.logout
+    const logoutRoute = new URL(routeConfig.logout, "https://example.com") // hack so we can use URL()
+    for (let key in params) {
+        logoutRoute.searchParams.set(key,params[key])
+    }
+    return logoutRoute.pathname + logoutRoute.search
 
-export function logOut() {
-    if (typeof window !== 'undefined') window.location.href = routeConfig.logout
+}
+const loginRoute = new URL(routeConfig.login, "https://example.com") // hack so we can use URL()
+
+
+export const getLogOutRoute = (params:Record<string, any>) => makeLogoutRoute(params)
+
+export function logOut(params:Record<string, any>) {
+    if (typeof window !== 'undefined') window.location.href = makeLogoutRoute(params)
 }

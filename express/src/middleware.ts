@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { Auth } from '@hellocoop/types'
-import config from './lib/config'
+import { configuration } from '@hellocoop/router'
+
 
 export const redirect = function ( target:string ) {
     return async ( req: Request, res: Response, next: NextFunction) => {
@@ -17,7 +18,7 @@ export const unauthorized = async ( req: Request, res: Response, next: NextFunct
     if (auth.isLoggedIn)
         next()
     else 
-        res.setHeader('WWW-Authenticate',`Hello ${config.clientId}`).status(401).send()
+        res.setHeader('WWW-Authenticate',`Hello ${configuration.clientId}`).status(401).send()
 }
 
 export const setAuth = async ( req: Request, res: Response, next: NextFunction) => {

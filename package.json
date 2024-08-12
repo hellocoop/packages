@@ -1,14 +1,18 @@
 {
   "name": "packages",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Monorepo package management",
   "workspaces": [
     "client",
+    "constants",
     "core",
     "express",
+    "fastify",
     "nextjs",
     "quickstart",
     "react",
+    "router",
+    "identifier",
     "types",
     "svelte",
     "vue"
@@ -18,14 +22,13 @@
     "url": "git+https://github.com/hellocoop/packages.git"
   },
   "scripts": {
-    "clean": "rimraf client/node_modules core/node_modules express/node_modules nextjs/node_modules quickstart/node_modules react/node_modules types/node_modules",
+    "clean": "rimraf client/node_modules core/node_modules express/node_modules nextjs/node_modules quickstart/node_modules react/node_modules types/node_modules constants/node_modules",
     "build": "npm run clean && npm run build --workspaces",
-    "patch-sample": "npm run build && cp -r nextjs ../hello-nextjs-sample/node_modules/@hellocoop/ && cp -r react ../hello-nextjs-sample/node_modules/@hellocoop/ && cp -r core ../hello-nextjs-sample/node_modules/@hellocoop/ && cp -r types ../hello-nextjs-sample/node_modules/@hellocoop/ && rm -rf ../hello-nextjs-sample/.next",
+    "patch-sample": "npm run build && cp -r quickstart ../hello-nextjs-sample/node_modules/@hellocoop/ && cp -r nextjs ../hello-nextjs-sample/node_modules/@hellocoop/ && cp -r react ../hello-nextjs-sample/node_modules/@hellocoop/ && cp -r core ../hello-nextjs-sample/node_modules/@hellocoop/ && cp -r types ../hello-nextjs-sample/node_modules/@hellocoop/ && rm -rf ../hello-nextjs-sample/.next",
     "watch:client": "npm run watch --workspace client",
     "watch:core": "npm run watch --workspace core",
     "watch:express": "npm run watch --workspace express",
     "watch:nextjs": "npm run watch --workspace nextjs",
-    "watch:quickstart": "npm run watch --workspace quickstart",
     "watch:react": "npm run watch --workspace react",
     "watch:types": "npm run watch --workspace types",
     "watch": "npm-run-all -p watch:*"
@@ -41,6 +44,9 @@
   "homepage": "https://github.com/hellocoop/packages#readme",
   "license": "MIT",
   "dependencies": {
+    "chai": "^5.1.1",
+    "esm": "^3.2.25",
+    "mocha": "^10.6.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^5.0.5"
   }

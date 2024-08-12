@@ -1,0 +1,59 @@
+{
+  "name": "@hellocoop/fastify",
+  "version": "1.12.2",
+  "description": "Fastify SDK for Hellō https://hello.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hellocoop/packages.git"
+  },
+  "homepage": "https://www.hello.dev/docs/sdks/fastify",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist/"
+  ],
+  "keywords": [
+    "fastify",
+    "nodejs",
+    "node.js",
+    "hello",
+    "openid",
+    "oidc",
+    "sso"
+  ],
+  "author": {
+    "name": "Hello Identity Co-op",
+    "email": "contact@hello.coop",
+    "url": "https://hello.coop"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hellocoop/packages/issues"
+  },
+  "scripts": {
+    "watch": "tsc --watch --declaration",
+    "build": "npm run build:clean && npm run build:src",
+    "build:clean": "rimraf dist/",
+    "build:src": "tsc --declaration"
+  },
+  "peerDependencies": {
+    "fastify": "^4"
+  },
+  "devDependencies": {
+    "@tsconfig/node18": "^18.2.2",
+    "fastify": "^4",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@hellocoop/router": "^1.10.0",
+    "dotenv": "^16.3.1",
+    "fastify-plugin": "^4.5.1"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "name": "@hellocoop/constants",
+  "version": "1.1.5",
+  "description": "Constants for Hellō https://hello.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hellocoop/packages.git"
+  },
+  "homepage": "https://www.hello.dev/docs/sdks/types",
+  "exports": {
+    ".": "./dist/constants.js"
+  },
+  "types": "./dist/constants.d.ts",
+  "files": [
+    "./dist/constants.d.ts",
+    "./dist/constants.js"
+  ],
+  "keywords": [
+    "hello",
+    "openid",
+    "oidc",
+    "sso"
+  ],
+  "author": {
+    "name": "Hello Identity Co-op",
+    "email": "contact@hello.coop",
+    "url": "https://hello.coop"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hellocoop/packages/issues"
+  },
+  "scripts": {
+    "watch": "tsc --watch --declaration",
+    "build": "rimraf dist/ && tsc --declaration"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@hellocoop/types": "~1.1.5",
+    "rimraf": "^5.0.1"
+  }
+}

@@ -1,0 +1,153 @@
+import { Config, LoginSyncParams, LoginSyncResponse, LogoutSyncParams, LogoutSyncResponse } from '../types'
+import { Scope, ProviderHint } from '@hellocoop/types'
+import { checkSecret } from '@hellocoop/core'
+
+export interface IConfig {
+    production: boolean,
+    sameSiteStrict?: boolean,
+    error?: string[],
+    scope?: Scope[],
+    provider_hint?: ProviderHint[],
+    routes: {
+        loggedIn?: string,
+        loggedOut?: string,
+        error?: string
+    },
+    cookies: {
+        authName: string,
+        oidcName: string,
+    },
+    loginSync?: (params: LoginSyncParams) => Promise<LoginSyncResponse>,
+    logoutSync?: (params: LogoutSyncParams) => Promise<LogoutSyncResponse>,
+    cookieToken?: boolean, // include encrypted cookie in auth response
+    // built from HELLO_API_ROUTE
+    apiRoute: string,
+    authApiRoute: string,
+    loginApiRoute: string,
+    logoutApiRoute: string,
+    // configured only by process.env or .env
+    clientId?: string,
+    host: string | undefined ,
+    redirectURI: string | undefined,
+    // for internal testing
+    helloDomain: string,
+    helloWallet: string,
+    secret?: string
+}
+
+const HELLO_DOMAIN = process.env.HELLO_DOMAIN as string || 'hello.coop'
+const HOST = process.env.HOST || process.env.HELLO_HOST || undefined
+
+const _configuration: IConfig = {
+    production: process.env.NODE_ENV === 'production',
+    routes: {
+        loggedIn: 'not-configured',
+        loggedOut: 'not-configured',
+    },
+    cookies: {
+        authName: 'hellocoop_auth',
+        oidcName: 'hellocoop_oidc',
+    },
+    apiRoute: 'not-configured',
+    authApiRoute: 'not-configured',
+    loginApiRoute: 'not-configured',
+    logoutApiRoute: 'not-configured',
+    redirectURI: 'not-configured',
+    // configured only by process.env or .env
+    clientId:  '',
+    secret:  process.env.COOKIE_SECRET || process.env.HELLO_COOKIE_SECRET as string,
+    host: HOST,
+    // for internal testing
+    helloDomain: HELLO_DOMAIN,
+    helloWallet
+        :  process.env.HELLO_WALLET as string
+        || 'https://wallet.'+HELLO_DOMAIN,
+}
+
+export let isConfigured: boolean = false
+
+
+const pendingConfigurations: ((config: any) => void)[] = [];
+
+export const configure = function ( config: Config ) {
+    _configuration.clientId = process.env.CLIENT_ID || process.env.HELLO_CLIENT_ID || config.client_id as string
+    if (config.routes) {
+        _configuration.routes = {
+            ..._configuration.routes,
+            ...config.routes
+        }
+    }
+    const apiRoute = process.env.HELLO_API_ROUTE || config.apiRoute || '/api/hellocoop'
+    _configuration.apiRoute = apiRoute
+    _configuration.authApiRoute = apiRoute+'?op=auth'
+    _configuration.loginApiRoute = apiRoute+'?op=login'
+    _configuration.logoutApiRoute = apiRoute+'?op=logout'
+    _configuration.routes = {
+        loggedIn: process.env.HELLO_LOGGED_IN || config.routes?.loggedIn || '/',
+        loggedOut: process.env.HELLO_LOGGED_OUT || config.routes?.loggedOut || '/',
+        error: process.env.HELLO_ERROR || config.routes?.error
+    }
+    _configuration.redirectURI = HOST 
+            ? `https://${HOST}${apiRoute}` 
+            : undefined,
+
+    _configuration.loginSync = config.loginSync
+    _configuration.logoutSync = config.logoutSync
+
+    if (process.env.HELLO_SCOPES)
+        _configuration.scope = process.env.HELLO_SCOPES.split(' ') as Scope[]
+    else
+        _configuration.scope = config.scope
+
+    if (process.env.HELLO_PROVIDER_HINT)
+        _configuration.provider_hint = process.env.HELLO_PROVIDER_HINT.split(' ') as ProviderHint[]
+    else
+        _configuration.provider_hint = config.provider_hint
+
+    _configuration.sameSiteStrict = !!process.env.HELLO_SAME_SITE_STRICT || config.sameSiteStrict
+    _configuration.cookieToken = !!process.env.HELLO_COOKIE_TOKEN || config.cookieToken
+    
+    isConfigured = true
+    if (!_configuration.clientId) {
+        const message = 'No CLIENT_ID or HELLO_CLIENT_ID was in environment or client_id in hello.config'
+        _configuration.error = [message]
+        console.error(message)
+        isConfigured = false
+    } 
+    if (!_configuration.secret) {
+        const message = 'No COOKIE_SECRET or HELLO_COOKIE_SECRET was in environment'
+        _configuration.error = [message]
+        console.error(message)
+        isConfigured = false
+    } 
+    if (_configuration.secret && !checkSecret(_configuration.secret)) {
+        const message = 'HELLO_COOKIE_SECRET is not 32 hex digits'
+        _configuration.error = [message]
+        console.error(message)
+        isConfigured = false
+    }
+    while (pendingConfigurations.length > 0) {
+        const resolve = pendingConfigurations.pop();
+        if (resolve)
+            resolve(_configuration);
+      }
+    if (config.logConfig)
+        console.log({config:_configuration})
+
+}
+
+export const getConfig = function ():Promise<IConfig> {
+    if (!isConfigured) {
+        return new Promise((resolve) => {
+          pendingConfigurations.push(() => resolve(_configuration));
+        });
+      }
+      return Promise.resolve(_configuration);
+}
+
+export const getLoginApiRoute = ():string => {return _configuration.loginApiRoute}
+export const getLogoutApiRoute = ():string => {return _configuration.logoutApiRoute}
+export const getAuthApiRoute = ():string => {return _configuration.authApiRoute}
+export const getApiRoute = ():string => {return _configuration.apiRoute}
+
+export default _configuration
