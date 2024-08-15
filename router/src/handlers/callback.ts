@@ -1,4 +1,4 @@
-import { HelloRequest, HelloResponse, CallbackRequest, CallbackResponse } from '../types'
+import { HelloRequest, HelloResponse } from '../types'
 import config from '../lib/config'
 import { getOidc, clearOidcCookie } from '../lib/oidc'
 import { fetchToken, parseToken, errorPage, ErrorPageParams, sameSiteCallback } from '@hellocoop/core'
@@ -7,19 +7,19 @@ import { Auth } from '@hellocoop/types'
 import { NotLoggedIn, VALID_IDENTITY_CLAIMS } from '@hellocoop/constants'
 
 
-export const getCallbackRequest = (req: HelloRequest): CallbackRequest => {
-    return {
-        getHeaders: () => { return req.headers() }
-    }
-}
+// export const getCallbackRequest = (req: HelloRequest): CallbackRequest => {
+//     return {
+//         getHeaders: () => { return req.headers() }
+//     }
+// }
 
-export const getCallbackResponse = (res: HelloResponse): CallbackResponse => {
-    return {
-        getHeaders: () => { return res.getHeaders() },
-        setHeader: (key: string, value: string | string[]) => { res.setHeader(key, value) },
-        setCookie: (key: string, value: string, options: any) => { res.setCookie(key, value, options) },
-    }
-}
+// export const getCallbackResponse = (res: HelloResponse): CallbackResponse => {
+//     return {
+//         getHeaders: () => { return res.getHeaders() },
+//         setHeader: (key: string, value: string | string[]) => { res.setHeader(key, value) },
+//         setCookie: (key: string, value: string, options: any) => { res.setCookie(key, value, options) },
+//     }
+// }
 
 
 const sendErrorPage = ( error: Record<string, any>, target_uri: string, res:HelloResponse ) => {
@@ -152,9 +152,7 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
         })
         if (config?.loginSync) {
             try {
-                const cbReq = getCallbackRequest(req)
-                const cbRes = getCallbackResponse(res)
-                const cb = await config.loginSync({ token, payload, target_uri, cbReq, cbRes })
+                const cb = await req.loginSyncWrapper( config.loginSync, { token, payload, target_uri} )
                 target_uri = cb?.target_uri || target_uri
                 if (cb?.accessDenied) {
                     return sendErrorPage( {
