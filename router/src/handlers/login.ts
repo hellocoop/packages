@@ -67,7 +67,7 @@ const handleLogin = async (req: HelloRequest, res: HelloResponse) => {
         nonce,
         code_verifier,
         redirect_uri: redirectURI,
-        target_uri: (Array.isArray(target_uri) ? target_uri[0] : target_uri) as string || config.routes.loggedIn || '/'
+        target_uri: (Array.isArray(target_uri) ? target_uri[0] : target_uri) as string
     })
     res.redirect(url)
 }
