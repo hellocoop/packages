@@ -139,16 +139,14 @@ console.log({isConfigured,configuration})
         }
         next()
     })
-
-    r.use(text()); // for parsing text/plain
     
-    r.post(configuration.apiRoute, async (req: Request, res: Response ) => {
+    r.post(configuration.apiRoute, text(), async (req: Request, res: Response ) => {
         const helloReq = convertToHelloRequest(req,res)
         const helloRes = convertToHelloResponse(res)
         await router(helloReq, helloRes)   
     })
 
-    r.get(configuration.apiRoute, async (req: Request, res: Response ) => {
+    r.get(configuration.apiRoute, text(), async (req: Request, res: Response ) => {
         const helloReq = convertToHelloRequest(req,res)
         const helloRes = convertToHelloResponse(res)
         await router(helloReq, helloRes)   
