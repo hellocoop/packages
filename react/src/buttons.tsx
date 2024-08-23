@@ -111,7 +111,8 @@ function BaseButton({
 
     const onClickHandler = (): void => {
         setClicked(true)
-        if (typeof window !== 'undefined') window.location.href = loginRoute.pathname + loginRoute.search
+        if (typeof window !== 'undefined')
+            window.location.href = loginRoute.pathname + loginRoute.search
     }
 
     return (
