@@ -35,9 +35,23 @@ export interface UpdateButtonProps extends CommonButtonProps {
 }
 
 
-function BaseButton({ scope, update = false, targetURI, providerHint, label, style, color = "black", theme = "ignore-light", hover = "pop", showLoader = false, disabled = false, promptLogin = false, promptConsent = false } : BaseButtonProps) {
+function BaseButton({
+    scope,
+    update = false,
+    targetURI,
+    providerHint,
+    label,
+    style,
+    color = "black",
+    theme = "ignore-light",
+    hover = "pop",
+    showLoader = false,
+    disabled = false,
+    promptLogin = false,
+    promptConsent = false
+} : BaseButtonProps) {
     //check if dev has added Hellō stylesheet to pages with Hellō buttons
-    if(typeof window != 'undefined' && !checkedForStylesheet) {
+    if (typeof window != 'undefined' && !checkedForStylesheet) {
         const hasStylesheet = Array.from(document.head.getElementsByTagName('link')).find(
             (element) =>
                 element.getAttribute('rel') === 'stylesheet' &&
@@ -56,7 +70,7 @@ function BaseButton({ scope, update = false, targetURI, providerHint, label, sty
 
     const loginRoute = new URL(routeConfig.login, "https://example.com") // hack so we can use URL()
 
-    if(scope) {
+    if (scope) {
         if(typeof scope == 'string')
             loginRoute.searchParams.set("scope", scope)
         else
@@ -67,10 +81,10 @@ function BaseButton({ scope, update = false, targetURI, providerHint, label, sty
                              //window can be undefined when running server-side
     loginRoute.searchParams.set("target_uri", targetURI)
     
-    if(update)
+    if (update)
         loginRoute.searchParams.set("prompt", "consent")
 
-    if(providerHint) {
+    if (providerHint) {
         if(typeof providerHint == 'string')
             loginRoute.searchParams.set("provider_hint", providerHint)
         else
