@@ -18,7 +18,9 @@ interface CommonButtonProps {
     targetURI?: string
     providerHint?: ProviderHint[] | string,
     promptLogin?: boolean,
-    promptConsent?: boolean
+    promptConsent?: boolean,
+    loginHint?: string,
+    account?: 'personal' | 'managed'
 }
 
 export interface BaseButtonProps extends CommonButtonProps {
@@ -48,7 +50,9 @@ function BaseButton({
     showLoader = false,
     disabled = false,
     promptLogin = false,
-    promptConsent = false
+    promptConsent = false,
+    loginHint,
+    account
 } : BaseButtonProps) {
     //check if dev has added Hellō stylesheet to pages with Hellō buttons
     if (typeof window != 'undefined' && !checkedForStylesheet) {
@@ -98,6 +102,12 @@ function BaseButton({
     } else if (promptConsent) {
         loginRoute.searchParams.set("prompt", "consent")
     }
+
+    if (loginHint)
+        loginRoute.searchParams.set("login_hint", loginHint)
+
+    if (account)
+        loginRoute.searchParams.set("account", account)
 
     const onClickHandler = (): void => {
         setClicked(true)
