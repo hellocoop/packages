@@ -88,6 +88,12 @@ function BaseButton({
     if (update)
         loginRoute.searchParams.set("prompt", "consent")
 
+    if (loginHint)
+        loginRoute.searchParams.set("login_hint", loginHint)
+
+    if (account)
+        loginRoute.searchParams.set("account", account)
+
     if (providerHint) {
         if(typeof providerHint == 'string')
             loginRoute.searchParams.set("provider_hint", providerHint)
@@ -102,12 +108,6 @@ function BaseButton({
     } else if (promptConsent) {
         loginRoute.searchParams.set("prompt", "consent")
     }
-
-    if (loginHint)
-        loginRoute.searchParams.set("login_hint", loginHint)
-
-    if (account)
-        loginRoute.searchParams.set("account", account)
 
     const onClickHandler = (): void => {
         setClicked(true)
