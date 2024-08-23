@@ -96,5 +96,5 @@ export function LoginButton(props: LoginButtonProps) {
 }
 
 export function UpdateProfileButton(props: UpdateButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Profile with Hellō" update={true} style={{width: '275px'}} />
+    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Profile with Hellō" update={true} />
 }
