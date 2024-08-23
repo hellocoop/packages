@@ -16,7 +16,9 @@ interface CommonButtonProps {
     theme?: Button.Theme
     hover?: Button.Hover
     targetURI?: string
-    providerHint?: ProviderHint[] | string
+    providerHint?: ProviderHint[] | string,
+    promptLogin?: boolean,
+    promptConsent?: boolean
 }
 
 export interface BaseButtonProps extends CommonButtonProps {
@@ -33,7 +35,7 @@ export interface UpdateButtonProps extends CommonButtonProps {
 }
 
 
-function BaseButton({ scope, update = false, targetURI, providerHint, label, style, color = "black", theme = "ignore-light", hover = "pop", showLoader = false, disabled = false } : BaseButtonProps) {
+function BaseButton({ scope, update = false, targetURI, providerHint, label, style, color = "black", theme = "ignore-light", hover = "pop", showLoader = false, disabled = false, promptLogin = false, promptConsent = false } : BaseButtonProps) {
     //check if dev has added Hellō stylesheet to pages with Hellō buttons
     if(typeof window != 'undefined' && !checkedForStylesheet) {
         const hasStylesheet = Array.from(document.head.getElementsByTagName('link')).find(
@@ -73,6 +75,14 @@ function BaseButton({ scope, update = false, targetURI, providerHint, label, sty
             loginRoute.searchParams.set("provider_hint", providerHint)
         else
             loginRoute.searchParams.set("provider_hint", providerHint.join(" "))
+    }
+
+    if (promptLogin && promptConsent) {
+        loginRoute.searchParams.set("prompt", "login consent")
+    } else if (promptLogin) {
+        loginRoute.searchParams.set("prompt", "login")
+    } else if (promptConsent) {
+        loginRoute.searchParams.set("prompt", "consent")
     }
 
     const onClickHandler = (): void => {
