@@ -88,13 +88,13 @@ function BaseButton({ scope, update = false, targetURI, providerHint, label, sty
 }
 
 export function ContinueButton(props: LoginButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Continue with Hellō" />
+    return <BaseButton label="ō&nbsp;&nbsp;&nbsp;Continue with Hellō" {...props} />
 }
 
 export function LoginButton(props: LoginButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Log in with Hellō" />
+    return <BaseButton label="ō&nbsp;&nbsp;&nbsp;Log in with Hellō" {...props} />
 }
 
 export function UpdateProfileButton(props: UpdateButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Profile with Hellō" update={true} />
+    return <BaseButton label="ō&nbsp;&nbsp;&nbsp;Update Profile with Hellō" {...props} update={true} />
 }
