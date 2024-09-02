@@ -40,6 +40,8 @@ export interface ICreateAuthRequest {
     state?: string;
     login_hint?: string
     provider_hint?: ProviderHint[];
+    prompt?: string;
+    account?: string;
 }
 
 export interface AuthenticationResponse {
@@ -87,6 +89,12 @@ export async function createAuthRequest(
         response_type: config.response_type || DEFAULT_RESPONSE_TYPE,
         response_mode: config.response_mode || DEFAULT_RESPONSE_MODE,
         nonce,
+    }
+    if (config.prompt) {
+        params.prompt = config.prompt
+    }
+    if (config.account) {
+        params.account = config.account
     }
     if (params.response_type === 'code') {
         const pkceMaterial  = await pkce()

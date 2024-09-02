@@ -1,6 +1,6 @@
 {
     "name": "@hellocoop/client",
-    "version": "1.1.5",
+    "version": "1.1.6",
     "description": "Hellō utility functions for the browser",
     "source": "src/index.ts",
     "main": "dist/index.js",
@@ -37,12 +37,12 @@
     },
     "homepage": "https://www.hello.dev/docs/sdks/core-client",
     "devDependencies": {
-        "@hellocoop/types": "~1.1.5",
+        "@hellocoop/types": "~1.1.6",
         "esbuild": "^0.19.5",
         "rimraf": "^5.0.5",
         "typescript": "^5.2.2"
     },
     "dependencies": {
-        "@hellocoop/constants":"~1.1.5"
+        "@hellocoop/constants": "~1.1.6"
     }
 }

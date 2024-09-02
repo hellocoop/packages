@@ -1,4 +1,4 @@
-import { HelloRequest, HelloResponse, CallbackRequest, CallbackResponse } from '../types'
+import { HelloRequest, HelloResponse } from '../types'
 import config from '../lib/config'
 import { getOidc, clearOidcCookie } from '../lib/oidc'
 import { fetchToken, parseToken, errorPage, ErrorPageParams, sameSiteCallback } from '@hellocoop/core'
@@ -7,19 +7,19 @@ import { Auth } from '@hellocoop/types'
 import { NotLoggedIn, VALID_IDENTITY_CLAIMS } from '@hellocoop/constants'
 
 
-export const getCallbackRequest = (req: HelloRequest): CallbackRequest => {
-    return {
-        getHeaders: () => { return req.headers() }
-    }
-}
+// export const getCallbackRequest = (req: HelloRequest): CallbackRequest => {
+//     return {
+//         getHeaders: () => { return req.headers() }
+//     }
+// }
 
-export const getCallbackResponse = (res: HelloResponse): CallbackResponse => {
-    return {
-        getHeaders: () => { return res.getHeaders() },
-        setHeader: (key: string, value: string | string[]) => { res.setHeader(key, value) },
-        setCookie: (key: string, value: string, options: any) => { res.setCookie(key, value, options) },
-    }
-}
+// export const getCallbackResponse = (res: HelloResponse): CallbackResponse => {
+//     return {
+//         getHeaders: () => { return res.getHeaders() },
+//         setHeader: (key: string, value: string | string[]) => { res.setHeader(key, value) },
+//         setCookie: (key: string, value: string, options: any) => { res.setCookie(key, value, options) },
+//     }
+// }
 
 
 const sendErrorPage = ( error: Record<string, any>, target_uri: string, res:HelloResponse ) => {
@@ -29,14 +29,15 @@ const sendErrorPage = ( error: Record<string, any>, target_uri: string, res:Hell
     // note that we send errors to the target_uri if it was passed in the original request
     const error_uri = target_uri || config.routes.error
     if (error_uri) {
-        const url = new URL(error_uri);
+        const [pathString, queryString] = error_uri.split('?')
+        const searchParams = new URLSearchParams(queryString)
         for (const key in error) {
             if (key.startsWith('error')) {
-                // Append each error query parameter to the URL
-                url.searchParams.append(key, error[key])
+                searchParams.set(key, error[key])
             }
         }
-        return res.redirect(url.toString())
+        const url = pathString + '?' + searchParams.toString()
+        return res.redirect(url)
     }
     const params:ErrorPageParams = { 
         error: error.error,
@@ -86,8 +87,8 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
     if (Array.isArray(code))
         return sendErrorPage( {
             error: 'invalid_request',
-            error_description: 'Received more than one code.',
-            }, target_uri, res)
+            error_description: 'Received more than one code',
+        }, target_uri, res)
 
     if (!code_verifier) {
         sendErrorPage( {
@@ -97,8 +98,6 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
         return
     }
 
-    if (!target_uri)
-        target_uri = config.routes.loggedIn || '/'
 
     try {
         clearOidcCookie(res) // clear cookie so we don't try to use code again
@@ -114,28 +113,28 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
 
         if (payload.aud != config.clientId) {
             return sendErrorPage( {
-            error: 'invalid_client',
-            error_description: 'Wrong ID token audience.',
+                error: 'invalid_client',
+                error_description: 'Wrong ID token audience',
             }, target_uri, res)
         }
         if (payload.nonce != nonce) {
             return sendErrorPage( {
-            error: 'invalid_request',
-            error_description: 'Wrong nonce in ID token.',
+                error: 'invalid_request',
+                error_description: 'Wrong nonce in ID token',
             }, target_uri, res)
         }
         
         const currentTimeInt = Math.floor(Date.now()/1000)
         if (payload.exp < currentTimeInt) {
             return sendErrorPage( {
-            error: 'invalid_request',
-            error_description: 'The ID token has expired.',
+                error: 'invalid_request',
+                error_description: 'The ID token has expired.',
             }, target_uri, res)
         }
         if (payload.iat > currentTimeInt+5) { // 5 seconds of clock skew
             return sendErrorPage( {
-            error: 'invalid_request',
-            error_description: 'The ID token is not yet valid.',
+                error: 'invalid_request',
+                error_description: 'The ID token is not yet valid',
             }, target_uri, res)
         }
 
@@ -152,9 +151,7 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
         })
         if (config?.loginSync) {
             try {
-                const cbReq = getCallbackRequest(req)
-                const cbRes = getCallbackResponse(res)
-                const cb = await config.loginSync({ token, payload, target_uri, cbReq, cbRes })
+                const cb = await req.loginSyncWrapper( config.loginSync, { token, payload, target_uri} )
                 target_uri = cb?.target_uri || target_uri
                 if (cb?.accessDenied) {
                     return sendErrorPage( {
@@ -193,7 +190,7 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
 
             target_uri = config.apiRoute+'?'+queryString
         }
-
+        target_uri = target_uri || config.routes.loggedIn || '/'
         await saveAuthCookie( res, auth)
         if (config.sameSiteStrict)
             res.json({target_uri})

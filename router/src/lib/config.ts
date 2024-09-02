@@ -1,4 +1,4 @@
-import { Config, LoginSyncParams, LoginSyncResponse, LogoutSyncParams, LogoutSyncResponse } from '../types'
+import { Config, GenericSync } from '../types'
 import { Scope, ProviderHint } from '@hellocoop/types'
 import { checkSecret } from '@hellocoop/core'
 
@@ -17,8 +17,8 @@ export interface IConfig {
         authName: string,
         oidcName: string,
     },
-    loginSync?: (params: LoginSyncParams) => Promise<LoginSyncResponse>,
-    logoutSync?: (params: LogoutSyncParams) => Promise<LogoutSyncResponse>,
+    loginSync?: GenericSync,
+    logoutSync?: GenericSync,
     cookieToken?: boolean, // include encrypted cookie in auth response
     // built from HELLO_API_ROUTE
     apiRoute: string,
@@ -69,6 +69,15 @@ export let isConfigured: boolean = false
 
 const pendingConfigurations: ((config: any) => void)[] = [];
 
+const confirmPath = ( label: string, path: string | undefined ) => {
+    if (!path) return undefined
+    if (!path.startsWith('/')) {
+        console.error(`${label}=${path} ignored, must start with /`)
+        return undefined
+    }
+    return path
+}
+
 export const configure = function ( config: Config ) {
     _configuration.clientId = process.env.CLIENT_ID || process.env.HELLO_CLIENT_ID || config.client_id as string
     if (config.routes) {
@@ -83,9 +92,14 @@ export const configure = function ( config: Config ) {
     _configuration.loginApiRoute = apiRoute+'?op=login'
     _configuration.logoutApiRoute = apiRoute+'?op=logout'
     _configuration.routes = {
-        loggedIn: process.env.HELLO_LOGGED_IN || config.routes?.loggedIn || '/',
-        loggedOut: process.env.HELLO_LOGGED_OUT || config.routes?.loggedOut || '/',
-        error: process.env.HELLO_ERROR || config.routes?.error
+        loggedIn: confirmPath( 'process.env.HELLO_LOGGED_IN', process.env.HELLO_LOGGED_IN) 
+            || confirmPath( 'config routes.loggedIn', config.routes?.loggedIn) 
+            || '/',
+        loggedOut: confirmPath( 'process.env.HELLO_LOGGED_OUT',process.env.HELLO_LOGGED_OUT)
+            || confirmPath( 'config routes.loggedOut',config.routes?.loggedOut)
+            || '/',
+        error: confirmPath( 'process.env.HELLO_ERROR' ,process.env.HELLO_ERROR)
+            || confirmPath( 'config routes.error',config.routes?.error)
     }
     _configuration.redirectURI = HOST 
             ? `https://${HOST}${apiRoute}` 

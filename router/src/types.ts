@@ -3,23 +3,24 @@
 import type { Claims, Scope, ProviderHint, Auth } from '@hellocoop/types'
 import type { CookieSerializeOptions } from 'cookie'
 
-export type CallbackRequest = {
-    getHeaders: () => Record<string, string>,
-}
+// export type CallbackRequest = {
+//     getHeaders: () => Record<string, string>,
+// }
 
 
-export type CallbackResponse = {
-    getHeaders: () => Record<string, string>,
-    setHeader: (key: string, value: string | string[]) => void,
-    setCookie: (key: string, value: string, options: CookieSerializeOptions) => void,
-}
+// export type CallbackResponse = {
+//     getHeaders: () => Record<string, string>,
+//     setHeader: (key: string, value: string | string[]) => void,
+//     setCookie: (key: string, value: string, options: CookieSerializeOptions) => void,
+// }
 
-export type LoginSyncParams = {
+export type GenericSync = (params: any) => Promise<any>
+
+
+type LoginSyncParams = {
     token: string,
     payload: Claims,
     target_uri: string,
-    cbReq: CallbackRequest,
-    cbRes: CallbackResponse
 }
 
 export type LoginSyncResponse = {
@@ -28,21 +29,21 @@ export type LoginSyncResponse = {
     updatedAuth?: {[key: string]: any}
 }
 
-
-export type LogoutSyncParams = {
-    cbReq: CallbackRequest,
-    cbRes: CallbackResponse
-}
-
 export type LogoutSyncResponse = null | Error
+
+
+type LoginSyncWrapper = (loginSync: GenericSync, params: LoginSyncParams) => Promise<LoginSyncResponse>
+
+
+type LogoutSyncWrapper = (logoutSync: GenericSync) => Promise<LogoutSyncResponse>
 
 export interface Config {
     client_id?: string,
     scope?: Scope[],
     provider_hint?: ProviderHint[],
     sameSiteStrict?: boolean,
-    loginSync?: (params: LoginSyncParams) => Promise<LoginSyncResponse>,
-    logoutSync?: (params: LogoutSyncParams) => Promise<LogoutSyncResponse>,
+    loginSync?: GenericSync,
+    logoutSync?: GenericSync,
     routes?: {
         loggedIn?: string,
         loggedOut?: string,
@@ -60,7 +61,10 @@ export type HelloRequest = {
     query: { [key: string]: string };
     setAuth: ( auth: Auth) => void,
     method: string,
-    body: any
+    body: any,
+    loginSyncWrapper: LoginSyncWrapper,
+    logoutSyncWrapper: LogoutSyncWrapper,
+    frameWork: string,
 };
   
 export type HelloResponse = {

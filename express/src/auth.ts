@@ -1,10 +1,12 @@
 import { Router, Request, Response, NextFunction, text } from 'express'
 import { serialize } from 'cookie'
-import { Auth } from '@hellocoop/types'
+import { Auth, Claims } from '@hellocoop/types'
 import { 
     router,
     HelloResponse, 
-    HelloRequest, 
+    HelloRequest,
+    LoginSyncResponse, 
+    LogoutSyncResponse,
     clearAuthCookieParams,
     getAuthfromCookies, 
     isConfigured,
@@ -13,9 +15,29 @@ import {
     configuration
 } from '@hellocoop/router'
 
-export type HelloConfig = Config
 
-const convertToHelloRequest = (req: Request): HelloRequest => {
+type ExpressLoginParams = {
+    token: string,
+    payload: Claims,
+    target_uri: string,
+    req: Request,
+    res: Response
+}
+
+type ExpressLogoutParams = {
+    req: Request,
+    res: Response
+}
+
+type ExpressLoginSync = (params: ExpressLoginParams) => Promise<LoginSyncResponse>
+type ExpressLogoutSync = (params: ExpressLogoutParams) => Promise<LogoutSyncResponse>
+
+export type HelloConfig = Omit<Config, 'loginSync' | 'logoutSync'> & {
+    loginSync: ExpressLoginSync;
+    logoutSync: ExpressLogoutSync;
+};
+
+const convertToHelloRequest = (req: Request, res: Response): HelloRequest => {
     return {
         headers: () => req.headers as { [key: string]: string },
         query: req.query as { [key: string]: string } | {},
@@ -23,7 +45,14 @@ const convertToHelloRequest = (req: Request): HelloRequest => {
         getAuth: () => req.auth,
         setAuth: (auth: Auth) => { req.auth = auth },
         method: req.method,
-        body: req.body
+        body: req.body,
+        frameWork: 'express',
+        loginSyncWrapper: (loginSync, params) => { 
+            return loginSync({...params, req, res}) 
+        },
+        logoutSyncWrapper: (logoutSync) => { 
+            return logoutSync({req, res}) 
+        },
     }
 }
 
@@ -99,7 +128,7 @@ console.log({isConfigured,configuration})
 
     const r = Router()
     r.use(async (req: Request, res: Response, next: NextFunction) => {
-        const helloReq = convertToHelloRequest(req)
+        const helloReq = convertToHelloRequest(req,res)
         req.getAuth = async () => { 
             req.auth = await getAuthfromCookies(helloReq) 
             return req.auth
@@ -110,17 +139,15 @@ console.log({isConfigured,configuration})
         }
         next()
     })
-
-    r.use(text()); // for parsing text/plain
     
-    r.post(configuration.apiRoute, async (req: Request, res: Response ) => {
-        const helloReq = convertToHelloRequest(req)
+    r.post(configuration.apiRoute, text(), async (req: Request, res: Response ) => {
+        const helloReq = convertToHelloRequest(req,res)
         const helloRes = convertToHelloResponse(res)
         await router(helloReq, helloRes)   
     })
 
-    r.get(configuration.apiRoute, async (req: Request, res: Response ) => {
-        const helloReq = convertToHelloRequest(req)
+    r.get(configuration.apiRoute, text(), async (req: Request, res: Response ) => {
+        const helloReq = convertToHelloRequest(req,res)
         const helloRes = convertToHelloResponse(res)
         await router(helloReq, helloRes)   
     })

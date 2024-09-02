@@ -16,7 +16,11 @@ interface CommonButtonProps {
     theme?: Button.Theme
     hover?: Button.Hover
     targetURI?: string
-    providerHint?: ProviderHint[] | string
+    providerHint?: ProviderHint[] | string,
+    promptLogin?: boolean,
+    promptConsent?: boolean,
+    loginHint?: string,
+    account?: 'personal' | 'managed'
 }
 
 export interface BaseButtonProps extends CommonButtonProps {
@@ -33,9 +37,25 @@ export interface UpdateButtonProps extends CommonButtonProps {
 }
 
 
-function BaseButton({ scope, update = false, targetURI, providerHint, label, style, color = "black", theme = "ignore-light", hover = "pop", showLoader = false, disabled = false } : BaseButtonProps) {
+function BaseButton({
+    scope,
+    update = false,
+    targetURI,
+    providerHint,
+    label,
+    style,
+    color = "black",
+    theme = "ignore-light",
+    hover = "pop",
+    showLoader = false,
+    disabled = false,
+    promptLogin = false,
+    promptConsent = false,
+    loginHint,
+    account
+} : BaseButtonProps) {
     //check if dev has added Hellō stylesheet to pages with Hellō buttons
-    if(typeof window != 'undefined' && !checkedForStylesheet) {
+    if (typeof window != 'undefined' && !checkedForStylesheet) {
         const hasStylesheet = Array.from(document.head.getElementsByTagName('link')).find(
             (element) =>
                 element.getAttribute('rel') === 'stylesheet' &&
@@ -54,7 +74,7 @@ function BaseButton({ scope, update = false, targetURI, providerHint, label, sty
 
     const loginRoute = new URL(routeConfig.login, "https://example.com") // hack so we can use URL()
 
-    if(scope) {
+    if (scope) {
         if(typeof scope == 'string')
             loginRoute.searchParams.set("scope", scope)
         else
@@ -65,19 +85,34 @@ function BaseButton({ scope, update = false, targetURI, providerHint, label, sty
                              //window can be undefined when running server-side
     loginRoute.searchParams.set("target_uri", targetURI)
     
-    if(update)
+    if (update)
         loginRoute.searchParams.set("prompt", "consent")
 
-    if(providerHint) {
+    if (loginHint)
+        loginRoute.searchParams.set("login_hint", loginHint)
+
+    if (account)
+        loginRoute.searchParams.set("account", account)
+
+    if (providerHint) {
         if(typeof providerHint == 'string')
             loginRoute.searchParams.set("provider_hint", providerHint)
         else
             loginRoute.searchParams.set("provider_hint", providerHint.join(" "))
     }
 
+    if (promptLogin && promptConsent) {
+        loginRoute.searchParams.set("prompt", "login consent")
+    } else if (promptLogin) {
+        loginRoute.searchParams.set("prompt", "login")
+    } else if (promptConsent) {
+        loginRoute.searchParams.set("prompt", "consent")
+    }
+
     const onClickHandler = (): void => {
         setClicked(true)
-        if (typeof window !== 'undefined') window.location.href = loginRoute.pathname + loginRoute.search
+        if (typeof window !== 'undefined')
+            window.location.href = loginRoute.pathname + loginRoute.search
     }
 
     return (
@@ -88,13 +123,13 @@ function BaseButton({ scope, update = false, targetURI, providerHint, label, sty
 }
 
 export function ContinueButton(props: LoginButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Continue with Hellō" />
+    return <BaseButton label="ō&nbsp;&nbsp;&nbsp;Continue with Hellō" {...props} />
 }
 
 export function LoginButton(props: LoginButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Log in with Hellō" />
+    return <BaseButton label="ō&nbsp;&nbsp;&nbsp;Log in with Hellō" {...props} />
 }
 
 export function UpdateProfileButton(props: UpdateButtonProps) {
-    return <BaseButton {...props} label="ō&nbsp;&nbsp;&nbsp;Update Profile with Hellō" update={true} style={{width: '275px'}} />
+    return <BaseButton label="ō&nbsp;&nbsp;&nbsp;Update Profile with Hellō" {...props} update={true} />
 }
