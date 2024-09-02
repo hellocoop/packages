@@ -43,7 +43,7 @@
 		"svelte": "^4.0.0"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^2.0.0",
+		"@sveltejs/adapter-auto": "^2.1.1",
 		"@sveltejs/kit": "^1.20.4",
 		"@sveltejs/package": "^2.0.0",
 		"publint": "^0.1.9",
@@ -57,6 +57,7 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
-		"sswr": "^2.0.0"
+		"sswr": "^2.0.0",
+		"@hellocoop/constants": "^1.1.6"
 	}
 }

@@ -2,7 +2,7 @@
   import { routeConfig } from "../Provider.svelte"
   import type { ProviderHint, Scope } from '@hellocoop/types'
   import { onMount } from "svelte"
-  import { Button } from '../types.js'
+  import { Button } from '@hellocoop/constants'
   
   interface $$Props { 
     label?: string
@@ -16,6 +16,10 @@
     providerHint?: ProviderHint[],
     showLoader?: boolean,
     disabled?: boolean
+    promptLogin?: boolean,
+    promptConsent?: boolean,
+    loginHint?: string,
+    account?: 'personal' | 'managed' | undefined
   }
 
   // All prop exports must still be typed standalone and in the $$Props interface
@@ -31,7 +35,11 @@
   export let providerHint: ProviderHint[] = [];
   export let showLoader: boolean = false
   export let disabled: boolean = false
-
+  export let promptLogin: boolean = false
+  export let promptConsent: boolean = false
+  export let loginHint: string = ""
+  export let account: 'personal' | 'managed' | undefined = undefined;
+  
   let checkedForStylesheet: boolean = false
 
   onMount(() => {
@@ -58,7 +66,21 @@
   loginRoute.searchParams.set("target_uri", targetURI || window.location.pathname)
   
   if(update)
+    loginRoute.searchParams.set("prompt", "consent")
+
+  if (promptLogin && promptConsent) {
+      loginRoute.searchParams.set("prompt", "login consent")
+  } else if (promptLogin) {
+      loginRoute.searchParams.set("prompt", "login")
+  } else if (promptConsent) {
       loginRoute.searchParams.set("prompt", "consent")
+  }
+
+  if (loginHint)
+    loginRoute.searchParams.set("login_hint", loginHint)
+
+  if (account)
+    loginRoute.searchParams.set("account", account)
 
   if(providerHint)
     loginRoute.searchParams.set("provider_hint", providerHint.join(" "))

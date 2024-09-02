@@ -3,6 +3,7 @@
 import { useSWR } from "sswr";
 import type { Readable } from 'svelte/store'
 import type { Claims } from './types.js'
+// @ts-ignore tbd - has no exported member?
 import { getHelloProviderContext, routeConfig } from "./Provider.svelte"
 
 const fetcher = async (url: string): Promise<Auth | undefined> => {

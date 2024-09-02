@@ -2,4 +2,4 @@
     import BaseButton from "./BaseButton.svelte";
 </script>
 
-<BaseButton label="ō&nbsp;&nbsp;&nbsp;Login with Hellō" {...$$props} />
+<BaseButton {...$$props} label="ō&nbsp;&nbsp;&nbsp;Login with Hellō" />

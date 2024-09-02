@@ -2,4 +2,4 @@
     import BaseButton from "./BaseButton.svelte.js";
 </script>
 
-<BaseButton label="ō&nbsp;&nbsp;&nbsp;Update Profile with Hellō" {...$$props} update={true} />
+<BaseButton {...$$props} label="ō&nbsp;&nbsp;&nbsp;Update Profile with Hellō" update={true} />
