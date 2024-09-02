@@ -9,7 +9,7 @@ var redirectURIs: Record<string, any> = {}
 // var callCount = 0 // DEBUG
 
 const handleLogin = async (req: HelloRequest, res: HelloResponse) => {
-    const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri, nonce: providedNonce, prompt, account } = req.query
+    const { provider_hint: providerParam, scope: scopeParam, target_uri, redirect_uri, nonce: providedNonce, prompt, account, login_hint } = req.query
     
     if (!config.clientId) {
         res.status(500)
@@ -57,6 +57,7 @@ const handleLogin = async (req: HelloRequest, res: HelloResponse) => {
         wallet: config.helloWallet,
         scope,
         provider_hint,
+        login_hint,
         prompt,
         account,
     }

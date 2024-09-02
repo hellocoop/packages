@@ -105,6 +105,9 @@ export async function createAuthRequest(
     if (config.provider_hint) {
         params.provider_hint = config.provider_hint.join(' ')
     }
+    if (config.login_hint) {
+        params.login_hint = config.login_hint
+    }
 
     const url = (config.wallet || PRODUCTION_WALLET) 
         + DEFAULT_PATH
