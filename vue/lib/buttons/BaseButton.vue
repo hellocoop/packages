@@ -35,7 +35,11 @@
     targetURI?: string
     providerHint?: ProviderHint[]
     showLoader?: boolean
-    disabled?: boolean
+    disabled?: boolean,
+    promptLogin?: boolean,
+    promptConsent?: boolean,
+    loginHint?: string,
+    account?: 'personal' | 'managed' | undefined
   }
   
   const props = withDefaults(defineProps<Props>(), {
@@ -44,7 +48,11 @@
     theme: "ignore-light",
     hover: "pop",
     showLoader: false,
-    disabled: false
+    disabled: false,
+    promptLogin: false,
+    promptConsent: false,
+    loginHint: "",
+    account: undefined
   })
 
   const loginRoute = new URL(routeConfig.login, window.location.origin)
@@ -55,7 +63,21 @@
   loginRoute.searchParams.set("target_uri", props.targetURI || window.location.pathname)
   
   if(props.update)
-      loginRoute.searchParams.set("prompt", "consent")
+    loginRoute.searchParams.set("prompt", "consent")
+
+  if (props.promptLogin && props.promptConsent) {
+    loginRoute.searchParams.set("prompt", "login consent")
+  } else if (props.promptLogin) {
+    loginRoute.searchParams.set("prompt", "login")
+  } else if (props.promptConsent) {
+    loginRoute.searchParams.set("prompt", "consent")
+  }
+
+  if (props.loginHint)
+    loginRoute.searchParams.set("login_hint", props.loginHint)
+
+  if (props.account)
+    loginRoute.searchParams.set("account", props.account)
 
   if(props.providerHint)
     loginRoute.searchParams.set("provider_hint", props.providerHint.join(" "))
