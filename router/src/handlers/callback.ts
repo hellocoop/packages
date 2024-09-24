@@ -151,7 +151,9 @@ const handleCallback = async (req: HelloRequest, res: HelloResponse) => {
         })
         if (config?.loginSync) {
             try {
+                if (config.logDebug) console.log('loginSync passing:', { payload, target_uri })
                 const cb = await req.loginSyncWrapper( config.loginSync, { token, payload, target_uri} )
+                if (config.logDebug) console.log('loginSync returned:', cb)
                 target_uri = cb?.target_uri || target_uri
                 if (cb?.accessDenied) {
                     return sendErrorPage( {

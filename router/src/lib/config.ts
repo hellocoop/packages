@@ -32,7 +32,8 @@ export interface IConfig {
     // for internal testing
     helloDomain: string,
     helloWallet: string,
-    secret?: string
+    secret?: string,
+    logDebug?: boolean,
 }
 
 const HELLO_DOMAIN = process.env.HELLO_DOMAIN as string || 'hello.coop'
@@ -117,6 +118,9 @@ export const configure = function ( config: Config ) {
         _configuration.provider_hint = process.env.HELLO_PROVIDER_HINT.split(' ') as ProviderHint[]
     else
         _configuration.provider_hint = config.provider_hint
+
+    if (process.env.HELLO_DEBUG)
+        _configuration.logDebug = true
 
     _configuration.sameSiteStrict = !!process.env.HELLO_SAME_SITE_STRICT || config.sameSiteStrict
     _configuration.cookieToken = !!process.env.HELLO_COOKIE_TOKEN || config.cookieToken

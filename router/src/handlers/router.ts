@@ -29,6 +29,8 @@ import { NotLoggedIn } from '@hellocoop/constants'
 const router = (req: HelloRequest, res: HelloResponse ) => {
     const { query, method } = req
 
+    if (config.logDebug) console.log('router:', { method, query })
+
     if (!query || Object.keys(query).length === 0) {
         console.error(new Error('No query parameters'))
         return res.redirect( config.routes.loggedOut || '/')
