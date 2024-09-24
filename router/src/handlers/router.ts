@@ -29,7 +29,7 @@ import { NotLoggedIn } from '@hellocoop/constants'
 const router = (req: HelloRequest, res: HelloResponse ) => {
     const { query, method } = req
 
-    if (config.logDebug) console.log('router:', { method, query })
+    if (config.logDebug) console.log('\n@hellocoop/router:\n', JSON.stringify({ method, query }, null, 2))
 
     if (!query || Object.keys(query).length === 0) {
         console.error(new Error('No query parameters'))
