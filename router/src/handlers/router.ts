@@ -4,27 +4,11 @@ import config from '../lib/config'
 import handleCallback from './callback'
 import handleLogin from './login'
 import handleLogout from './logout'
+import handleInvite from './invite'
 import { handleAuth, handleCookieTokenVerify } from './auth'
 import handleWildcardConsole from './wildcard'
-import { NotLoggedIn } from '@hellocoop/constants'
-
-// const  translateHandlerErrors = (handler: Router): Router =>
-//     async (req: HelloRequest, res: HelloResponse, next: NextFunction) => {
-//         try {
-//             await handler(req, res, next)
-//             next()
-//         } catch (error: any) {
-//             console.error(error)
-//             res.status(error?.status || 500).send(error.message)
-//         }
-//     }     
-
-// // console.log('config\n',JSON.stringify(config,null,4))   
-
-// const router = translateHandlerErrors((req: HelloRequest, res: HelloResponse, next: NextFunction ) => {
-//         const { query } = req
-
-// // console.log({query})     
+import initiateLogin from './initiateLogin'
+import { NotLoggedIn } from '@hellocoop/constants'    
 
 const router = (req: HelloRequest, res: HelloResponse ) => {
     const { query, method } = req
@@ -57,6 +41,9 @@ const router = (req: HelloRequest, res: HelloResponse ) => {
         if (query.op === 'logout') {     // logout user
             return handleLogout(req, res)
         }
+        if (query.op === 'invite') {    // start invite flow, redirect to Hellō
+            return handleInvite(req, res)
+        }
         res.status(500)
         res.send('unknown op parameter:\n'+JSON.stringify(query,null,4))        
         return
@@ -76,8 +63,7 @@ const router = (req: HelloRequest, res: HelloResponse ) => {
     }
 
     if (query.iss) {        // IdP (Hellō) initiated login
-        // https://openid.net/specs/openid-connect-core-1_0.html#ThirdPartyInitiatedLogin
-        throw new Error('unimplemented')
+        return initiateLogin(req, res)
     }
 
     res.status(500)

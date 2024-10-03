@@ -4,7 +4,8 @@ import { Scope, ProviderHint } from '@hellocoop/types'
 
 import config from '../lib/config'
 import { saveOidc } from '../lib/oidc'
-var redirectURIs: Record<string, any> = {}
+
+export const redirectURIs: Record<string, any> = {}
 
 // var callCount = 0 // DEBUG
 
