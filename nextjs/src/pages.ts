@@ -21,7 +21,7 @@ import {
     isConfigured,
     configure,
     Config,
-} from '@hellocoop/router'
+} from '@hellocoop/api'
 
 import { parse } from 'url';
 

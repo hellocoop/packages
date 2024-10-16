@@ -24,7 +24,7 @@ import {
     configure,
     configuration,
     Config,
-}  from '@hellocoop/router'
+}  from '@hellocoop/api'
 
 const convertToHelloRequest = ( req: FastifyRequest ): HelloRequest => {
     return {

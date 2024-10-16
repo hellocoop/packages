@@ -1,6 +1,6 @@
 
 import { Auth } from '@hellocoop/types'
-import { configuration } from '@hellocoop/router'
+import { configuration } from '@hellocoop/api'
 import { cookies } from 'next/headers'
 import { decryptObj } from '@hellocoop/core'
 import { NotLoggedIn} from '@hellocoop/constants'

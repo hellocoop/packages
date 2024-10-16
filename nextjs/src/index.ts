@@ -4,7 +4,7 @@ export type {
     LoginSyncResponse, 
     CallbackRequest, 
     CallbackResponse 
-} from '@hellocoop/router'
+} from '@hellocoop/api'
 export type { Auth } from '@hellocoop/types'
 
 // pageAuth is synonym for pagesAuth

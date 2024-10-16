@@ -13,7 +13,7 @@ import {
     isConfigured,
     configure,
     Config,
-} from '@hellocoop/router'
+} from '@hellocoop/api'
 
 declare module 'next/server' {
     interface NextRequest {

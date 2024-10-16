@@ -150,7 +150,7 @@ export const configure = function ( config: Config ) {
             resolve(_configuration);
       }
     if (config.logConfig)
-        console.log('\n@hellocoop/router config:\n',JSON.stringify({config:_configuration},null,2))
+        console.log('\n@hellocoop/api config:\n',JSON.stringify({config:_configuration},null,2))
 
 }
 

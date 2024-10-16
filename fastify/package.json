@@ -52,7 +52,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@hellocoop/router": "~1.11.1",
+    "@hellocoop/api": "~2.0.0",
     "dotenv": "^16.3.1",
     "fastify-plugin": "^4.5.1"
   }

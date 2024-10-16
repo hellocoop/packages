@@ -17,7 +17,7 @@ const router = (req: HelloRequest, res: HelloResponse ) => {
         ? query
         : Object.keys(req.body).length ? req.body : null
 
-    if (config.logDebug) console.log('\n@hellocoop/router:\n', JSON.stringify({ method, params }, null, 2))
+    if (config.logDebug) console.log('\n@hellocoop/api:\n', JSON.stringify({ method, params }, null, 2))
 
     if (!params) {
         // Q: repurpose as returning configuration if content-type is application/json

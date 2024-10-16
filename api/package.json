@@ -1,12 +1,12 @@
 {
-  "name": "@hellocoop/router",
-  "version": "1.14.4",
-  "description": "Generic router for Hellō https://hello.dev",
+  "name": "@hellocoop/api",
+  "version": "2.0.0",
+  "description": "Client API for Hellō https://hello.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hellocoop/packages.git"
   },
-  "homepage": "https://www.hello.dev/docs/sdks/router",
+  "homepage": "https://www.hello.dev/docs/apis/web-client/",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
