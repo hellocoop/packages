@@ -5,8 +5,14 @@ import { HelloRequest, HelloResponse } from '../types'
 import handleLogin from './login'
 import config from '../lib/config'
 
-const initiateLogin = async (req: HelloRequest, res: HelloResponse) => {
-    const { iss, login_hint, target_link_uri } = req.query
+type InitiateLoginParams = {
+    iss: string,
+    login_hint: string,
+    target_link_uri: string,
+}
+
+const initiateLogin = async (req: HelloRequest, res: HelloResponse, params: InitiateLoginParams  ) => {
+    const { iss, login_hint, target_link_uri } = params
 
     const issuer = `https://issuer.${config.helloDomain}`
     if (iss !== issuer) {

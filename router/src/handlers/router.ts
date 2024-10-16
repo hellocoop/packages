@@ -13,9 +13,14 @@ import { NotLoggedIn } from '@hellocoop/constants'
 const router = (req: HelloRequest, res: HelloResponse ) => {
     const { query, method } = req
 
-    if (config.logDebug) console.log('\n@hellocoop/router:\n', JSON.stringify({ method, query }, null, 2))
+    const params = Object.keys(query).length 
+        ? query
+        : Object.keys(req.body).length ? req.body : null
 
-    if (!query || Object.keys(query).length === 0) {
+    if (config.logDebug) console.log('\n@hellocoop/router:\n', JSON.stringify({ method, params }, null, 2))
+
+    if (!params) {
+        // Q: repurpose as returning configuration if content-type is application/json
         console.error(new Error('No query parameters'))
         return res.redirect( config.routes.loggedOut || '/')
     }
@@ -23,6 +28,12 @@ const router = (req: HelloRequest, res: HelloResponse ) => {
         if (query.op === 'verifyCookieToken') {
             return handleCookieTokenVerify(req, res)
         }
+        if (params.iss) {
+            return initiateLogin(req, res, params)
+        }
+
+        // FUTURE - add support for POST of invite event and provisioning events
+
         return res.status(400).send('Invalid op parameter')
     }
     if (method !== 'GET')
@@ -62,9 +73,10 @@ const router = (req: HelloRequest, res: HelloResponse ) => {
         return handleWildcardConsole(req, res)
     }
 
-    if (query.iss) {        // IdP (Hellō) initiated login
-        return initiateLogin(req, res)
+    if (params.iss) {        // IdP (Hellō) initiated login
+        return initiateLogin(req, res, params)
     }
+
 
     res.status(500)
     res.send('unknown query:\n'+JSON.stringify(query,null,4))
