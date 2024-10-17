@@ -4,7 +4,7 @@
 import { HelloRequest, HelloResponse } from '../types'
 import { getAuthfromCookies} from '../lib/auth'
 import { redirectURIs } from './login'
-import { redirectURIBounce } from '@hellocoop/core'
+import { redirectURIBounce } from '@hellocoop/helper-server'
 
 import config from '../lib/config'
 

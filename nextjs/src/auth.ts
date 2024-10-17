@@ -2,7 +2,7 @@
 import { Auth } from '@hellocoop/types'
 import { configuration } from '@hellocoop/api'
 import { cookies } from 'next/headers'
-import { decryptObj } from '@hellocoop/core'
+import { decryptObj } from '@hellocoop/helper-server'
 import { NotLoggedIn} from '@hellocoop/constants'
 
 // TODO cache decryption

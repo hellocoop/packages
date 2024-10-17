@@ -1,5 +1,5 @@
 import { HelloRequest, HelloResponse } from '../types'
-import { createAuthRequest, redirectURIBounce, ICreateAuthRequest } from '@hellocoop/core'
+import { createAuthRequest, redirectURIBounce, ICreateAuthRequest } from '@hellocoop/helper-server'
 import { Scope, ProviderHint } from '@hellocoop/types'
 
 import config from '../lib/config'

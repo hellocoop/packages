@@ -1,4 +1,4 @@
-import { decryptObj, encryptObj } from '@hellocoop/core'
+import { decryptObj, encryptObj } from '@hellocoop/helper-server'
 import { Auth } from '@hellocoop/types'
 import { NotLoggedIn } from '@hellocoop/constants'
 
