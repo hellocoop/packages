@@ -80,5 +80,21 @@ test.describe(`Testing ${APP_HOME}`, () => {
         delete json.iat
         expect(json).toEqual(loggedIn)
     })
+    test('login_hint', async ({ page }) => {
+        await page.goto(APP_API+'?op=login')
+        const loginHintParam = 'mailto:john.smith@me.com'
+        const response = await page.request.get(APP_API+'?op=login&login_hint=' + loginHintParam, {
+            maxRedirects: 0 //verify whether login_hint is included in authz request to mockin server
+        })
+        const authzReqUrl = new URL(response.headers().location) 
+        const authzReqUrlParams = new URLSearchParams(authzReqUrl.search)
+        console.log(authzReqUrlParams.get('login_hint'))
+        expect(authzReqUrlParams.get('login_hint')).toEqual(loginHintParam)
+    })
+    test('provider inititated login', async ({ page }) => {
 
+    })
+    test('invite', async ({ page }) => {
+        
+    })
 });
