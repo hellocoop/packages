@@ -1,21 +1,23 @@
-// const { expect } = require('chai')
-// const Fastify = require('./fastify')
+const { expect } = require('chai')
+const app = require('./app-setup')
 
-// describe('Invite', async () => {
-//     let fastify = null
+//tbd: seperate test if no redirect uri is set - auto discovery
 
-//     before( async () => {
-//         fastify = await Fastify().ready()
-//     })
+describe('Invite', async () => {
+    let fastify = null
 
-//     it('Login', async () => {
-//         const response = await fastify.inject({
-//             method: 'GET',
-//             url: '/api/hellocoop?op=login'
-//         })
-//         expect(response.statusCode).to.eql(200)
-//         console.log(response.body)
-//     })
+    before( async () => {
+        fastify = await app().ready()
+    })
+
+    it('Login', async () => {
+        const response = await fastify.inject({
+            method: 'GET',
+            url: '/api/hellocoop?op=login'
+        })
+        expect(response.statusCode).to.eql(200)
+        console.log(response.body)
+    })
 
     // it('Call ?op=invite', async () => {
     //     const response = await fastify.inject({
@@ -26,5 +28,5 @@
     // })
 
     
-    // it('Redirect to authorize app with correct params', async () => {})
-// })
+    // it('Redirect to invite app with correct invite params', async () => {})
+})

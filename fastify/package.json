@@ -38,7 +38,7 @@
     "build": "npm run build:clean && npm run build:src",
     "build:clean": "rimraf dist/",
     "build:src": "tsc --declaration",
-    "test": "HELLO_COOKIE_SECRET='c4b2f923b747c9fc9906cb34ff304de1c6bef158dda8e6126e3cf27849e78954' mocha spec"
+    "test": "mocha spec"
   },
   "peerDependencies": {
     "fastify": "^4"
