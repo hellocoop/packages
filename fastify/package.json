@@ -37,7 +37,8 @@
     "watch": "tsc --watch --declaration",
     "build": "npm run build:clean && npm run build:src",
     "build:clean": "rimraf dist/",
-    "build:src": "tsc --declaration"
+    "build:src": "tsc --declaration",
+    "test": "HELLO_COOKIE_SECRET='c4b2f923b747c9fc9906cb34ff304de1c6bef158dda8e6126e3cf27849e78954' mocha spec"
   },
   "peerDependencies": {
     "fastify": "^4"
@@ -45,6 +46,7 @@
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",
     "chai": "^4.4.1",
+    "mocha": "^10.4.0",
     "fastify": "^4",
     "rimraf": "^5.0.1",
     "typescript": "^5.2.2"
