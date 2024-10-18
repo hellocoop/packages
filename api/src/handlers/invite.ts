@@ -36,9 +36,11 @@ const handleInvite = async (req: HelloRequest, res: HelloResponse) => {
             }
         }
     }
+    const parsedRedirectURI = new URL(redirectURI)
+    const defaultTargetURI = parsedRedirectURI.origin + '/'
     const defaultPrompt = `${auth.name} has invited you to join ${app_name}`
+    
     const request = {
-        target_uri: target_uri as string,
         app_name: app_name as string,
         prompt: prompt || defaultPrompt,
         role: role as string,
@@ -47,7 +49,7 @@ const handleInvite = async (req: HelloRequest, res: HelloResponse) => {
         inviter: auth.sub,
         client_id: config.clientId,
         initiate_login_uri: redirectURI,
-        return_uri: target_uri as string,
+        return_uri: target_uri || defaultTargetURI,
     }
     const url = `https://hello.${config.helloDomain}/invite?${new URLSearchParams(request as any)}`
     res.redirect(url)
