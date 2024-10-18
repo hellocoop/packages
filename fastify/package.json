@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",
+    "chai": "^4.4.1",
     "fastify": "^4",
     "rimraf": "^5.0.1",
     "typescript": "^5.2.2"
